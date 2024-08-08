@@ -508,6 +508,12 @@ class ComposerStaticInit7e8c3c14ff33b199b4a0838993eb8423
     );
 
     public static $classMap = array (
+        'App\\Http\\Controllers\\Client\\CartController' => __DIR__ . '/../..' . '/app/Http/Controllers/Client/CartController.php',
+        'App\\Http\\Controllers\\Client\\CheckoutController' => __DIR__ . '/../..' . '/app/Http/Controllers/Client/CheckoutController.php',
+        'App\\Http\\Controllers\\Client\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/Client/HomeController.php',
+        'App\\Http\\Controllers\\Client\\MyAccountController' => __DIR__ . '/../..' . '/app/Http/Controllers/Client/MyAccountController.php',
+        'App\\Http\\Controllers\\Client\\ProductsController' => __DIR__ . '/../..' . '/app/Http/Controllers/Client/ProductsController.php',
+        'App\\Http\\Controllers\\Client\\ThankYouController' => __DIR__ . '/../..' . '/app/Http/Controllers/Client/ThankYouController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
