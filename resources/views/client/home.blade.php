@@ -95,7 +95,7 @@
                                             <div class="border border-1 border-translucent rounded-3 position-relative mb-3">
                                             <button class="btn btn-wish btn-wish-primary z-2 d-toggle-container" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"><span class="fas fa-heart d-block-hover" data-fa-transform="down-1"></span><span class="far fa-heart d-none-hover" data-fa-transform="down-1"></span>
                                             </button><img class="img-fluid" src="{{ url('img/products/5.png') }}" alt="" />
-                                            </div><a class="stretched-link" href="../../../apps/e-commerce/landing/product-details.html">
+                                            </div><a class="stretched-link" href="{{ url('product') }}">
                                             <h6 class="mb-2 lh-sm line-clamp-3 product-name">Razer Kraken v3 x Wired 7.1 Surroung Sound Gaming headset</h6>
                                             </a>
                                             <p class="fs-9"><span class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span class="text-body-quaternary fw-semibold ms-1">(59 people rated)</span>
@@ -115,7 +115,7 @@
                                             <div class="border border-1 border-translucent rounded-3 position-relative mb-3">
                                             <button class="btn btn-wish btn-wish-primary z-2 d-toggle-container" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"><span class="fas fa-heart d-block-hover" data-fa-transform="down-1"></span><span class="far fa-heart d-none-hover" data-fa-transform="down-1"></span>
                                             </button><img class="img-fluid" src="{{ url('img/products/7.png') }}" alt="" />
-                                            </div><a class="stretched-link" href="../../../apps/e-commerce/landing/product-details.html">
+                                            </div><a class="stretched-link" href="{{ url('product') }}">
                                             <h6 class="mb-2 lh-sm line-clamp-3 product-name">2021 Apple 12.9-inch iPad Pro (Wi‑Fi, 128GB) - Space Gray</h6>
                                             </a>
                                             <p class="fs-9"><span class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span class="text-body-quaternary fw-semibold ms-1">(13 people rated)</span>
@@ -135,7 +135,7 @@
                                             <div class="border border-1 border-translucent rounded-3 position-relative mb-3">
                                             <button class="btn btn-wish btn-wish-primary z-2 d-toggle-container" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"><span class="fas fa-heart d-block-hover" data-fa-transform="down-1"></span><span class="far fa-heart d-none-hover" data-fa-transform="down-1"></span>
                                             </button><img class="img-fluid" src="{{ url('img/products/12.png') }}" alt="" />
-                                            </div><a class="stretched-link" href="../../../apps/e-commerce/landing/product-details.html">
+                                            </div><a class="stretched-link" href="{{ url('product') }}">
                                             <h6 class="mb-2 lh-sm line-clamp-3 product-name">HORI Racing Wheel Apex for PlayStation 4/3, and PC</h6>
                                             </a>
                                             <p class="fs-9"><span class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span class="text-body-quaternary fw-semibold ms-1">(64 people rated)</span>
@@ -157,7 +157,7 @@
                                             <div class="border border-1 border-translucent rounded-3 position-relative mb-3">
                                             <button class="btn btn-wish btn-wish-primary z-2 d-toggle-container active" data-bs-toggle="tooltip" data-bs-placement="top" title="Remove from wishlist"><span class="fas fa-heart" data-fa-transform="down-1"></span>
                                             </button><img class="img-fluid" src="{{ url('img/products/1.png') }}" alt="" /><span class="badge text-bg-success fs-10 product-verified-badge">Verified<span class="fas fa-check ms-1"></span></span>
-                                            </div><a class="stretched-link" href="../../../apps/e-commerce/landing/product-details.html">
+                                            </div><a class="stretched-link" href="{{ url('product') }}">
                                             <h6 class="mb-2 lh-sm line-clamp-3 product-name">Amazfit T-Rex Pro Smart Watch with GPS, Outdoor Fitness Watch for Men, Military Standard Certified</h6>
                                             </a>
                                             <p class="fs-9"><span class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span class="text-body-quaternary fw-semibold ms-1">(32 people rated)</span>
@@ -177,7 +177,7 @@
                                             <div class="border border-1 border-translucent rounded-3 position-relative mb-3">
                                             <button class="btn btn-wish btn-wish-primary z-2 d-toggle-container" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"><span class="fas fa-heart d-block-hover" data-fa-transform="down-1"></span><span class="far fa-heart d-none-hover" data-fa-transform="down-1"></span>
                                             </button><img class="img-fluid" src="{{ url('img/products/16.png') }}" alt="" />
-                                            </div><a class="stretched-link" href="../../../apps/e-commerce/landing/product-details.html">
+                                            </div><a class="stretched-link" href="{{ url('product') }}">
                                             <h6 class="mb-2 lh-sm line-clamp-3 product-name">Apple AirPods Pro</h6>
                                             </a>
                                             <p class="fs-9"><span class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span class="text-body-quaternary fw-semibold ms-1">(39 people rated)</span>
@@ -199,7 +199,7 @@
                                             <div class="border border-1 border-translucent rounded-3 position-relative mb-3">
                                             <button class="btn btn-wish btn-wish-primary z-2 d-toggle-container" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"><span class="fas fa-heart d-block-hover" data-fa-transform="down-1"></span><span class="far fa-heart d-none-hover" data-fa-transform="down-1"></span>
                                             </button><img class="img-fluid" src="{{ url('img/products/10.png') }}" alt="" />
-                                            </div><a class="stretched-link" href="../../../apps/e-commerce/landing/product-details.html">
+                                            </div><a class="stretched-link" href="{{ url('product') }}">
                                             <h6 class="mb-2 lh-sm line-clamp-3 product-name">Apple Magic Mouse (Wireless, Rechargable) - Silver</h6>
                                             </a>
                                             <p class="fs-9"><span class="fa fa-star text-warning"></span><span class="fa-regular fa-star text-warning-light" data-bs-theme="light"></span><span class="fa-regular fa-star text-warning-light" data-bs-theme="light"></span><span class="fa-regular fa-star text-warning-light" data-bs-theme="light"></span><span class="fa-regular fa-star text-warning-light" data-bs-theme="light"></span><span class="text-body-quaternary fw-semibold ms-1">(6 people rated)</span>
@@ -221,7 +221,7 @@
                                             <div class="border border-1 border-translucent rounded-3 position-relative mb-3">
                                             <button class="btn btn-wish btn-wish-primary z-2 d-toggle-container" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"><span class="fas fa-heart d-block-hover" data-fa-transform="down-1"></span><span class="far fa-heart d-none-hover" data-fa-transform="down-1"></span>
                                             </button><img class="img-fluid" src="{{ url('img/products/8.png') }}" alt="" />
-                                            </div><a class="stretched-link" href="../../../apps/e-commerce/landing/product-details.html">
+                                            </div><a class="stretched-link" href="{{ url('product') }}">
                                             <h6 class="mb-2 lh-sm line-clamp-3 product-name">Amazon Basics Matte Black Wired Keyboard - US Layout (QWERTY)</h6>
                                             </a>
                                             <p class="fs-9"><span class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span class="fa-regular fa-star text-warning-light" data-bs-theme="light"></span><span class="fa-regular fa-star text-warning-light" data-bs-theme="light"></span><span class="text-body-quaternary fw-semibold ms-1">(7 people rated)</span>
@@ -277,7 +277,7 @@
                                                     </button>
                                                     <img class="img-fluid" src="{{ url('img/products/5.png') }}" alt="" />
                                                 </div>
-                                                <a class="stretched-link" href="../../../apps/e-commerce/landing/product-details.html">
+                                                <a class="stretched-link" href="{{ url('product') }}">
                                                     <h6 class="mb-2 lh-sm line-clamp-3 product-name">Razer Kraken v3 x Wired 7.1 Surround Sound Gaming headset</h6>
                                                 </a>
                                                 <p class="fs-9">
@@ -307,7 +307,7 @@
                                                     </button>
                                                     <img class="img-fluid" src="{{ url('img/products/7.png') }}" alt="" />
                                                 </div>
-                                                <a class="stretched-link" href="../../../apps/e-commerce/landing/product-details.html">
+                                                <a class="stretched-link" href="{{ url('product') }}">
                                                     <h6 class="mb-2 lh-sm line-clamp-3 product-name">2021 Apple 12.9-inch iPad Pro (Wi‑Fi, 128GB) - Space Gray</h6>
                                                 </a>
                                                 <p class="fs-9">
@@ -337,7 +337,7 @@
                                                     </button>
                                                     <img class="img-fluid" src="{{ url('img/products/12.png') }}" alt="" />
                                                 </div>
-                                                <a class="stretched-link" href="../../../apps/e-commerce/landing/product-details.html">
+                                                <a class="stretched-link" href="{{ url('product') }}">
                                                     <h6 class="mb-2 lh-sm line-clamp-3 product-name">HORI Racing Wheel Apex for PlayStation 4/3, and PC</h6>
                                                 </a>
                                                 <p class="fs-9">
@@ -369,7 +369,7 @@
                                                     <img class="img-fluid" src="{{ url('img/products/1.png') }}" alt="" />
                                                     <span class="badge text-bg-success fs-10 product-verified-badge">Verified<span class="fas fa-check ms-1"></span></span>
                                                 </div>
-                                                <a class="stretched-link" href="../../../apps/e-commerce/landing/product-details.html">
+                                                <a class="stretched-link" href="{{ url('product') }}">
                                                     <h6 class="mb-2 lh-sm line-clamp-3 product-name">Amazfit T-Rex Pro Smart Watch with GPS, Outdoor Fitness Watch for Men, Military Standard Certified</h6>
                                                 </a>
                                                 <p class="fs-9">
@@ -399,7 +399,7 @@
                                                     </button>
                                                     <img class="img-fluid" src="{{ url('img/products/16.png') }}" alt="" />
                                                 </div>
-                                                <a class="stretched-link" href="../../../apps/e-commerce/landing/product-details.html">
+                                                <a class="stretched-link" href="{{ url('product') }}">
                                                     <h6 class="mb-2 lh-sm line-clamp-3 product-name">Apple AirPods Pro</h6>
                                                 </a>
                                                 <p class="fs-9">
@@ -431,7 +431,7 @@
                                                     </button>
                                                     <img class="img-fluid" src="{{ url('img/products/10.png') }}" alt="" />
                                                 </div>
-                                                <a class="stretched-link" href="../../../apps/e-commerce/landing/product-details.html">
+                                                <a class="stretched-link" href="{{ url('product') }}">
                                                     <h6 class="mb-2 lh-sm line-clamp-3 product-name">Apple Magic Mouse (Wireless, Rechargeable) - Silver</h6>
                                                 </a>
                                                 <p class="fs-9">
@@ -463,7 +463,7 @@
                                                     </button>
                                                     <img class="img-fluid" src="{{ url('img/products/8.png') }}" alt="" />
                                                 </div>
-                                                <a class="stretched-link" href="../../../apps/e-commerce/landing/product-details.html">
+                                                <a class="stretched-link" href="{{ url('product') }}">
                                                     <h6 class="mb-2 lh-sm line-clamp-3 product-name">Amazon Basics Matte Black Wired Keyboard - US Layout (QWERTY)</h6>
                                                 </a>
                                                 <p class="fs-9">
@@ -514,7 +514,7 @@
                                                     </button>
                                                     <img class="img-fluid" src="{{ url('img/products/25.png') }}" alt="" />
                                                 </div>
-                                                <a class="stretched-link" href="../../../apps/e-commerce/landing/product-details.html">
+                                                <a class="stretched-link" href="{{ url('product') }}">
                                                     <h6 class="mb-2 lh-sm line-clamp-3 product-name">RESPAWN 200 Racing Style Gaming Chair, in Gray RSP 200 GRY</h6>
                                                 </a>
                                                 <p class="fs-9">
@@ -542,7 +542,7 @@
                                                     </button>
                                                     <img class="img-fluid" src="{{ url('img/products/27.png') }}" alt="" />
                                                 </div>
-                                                <a class="stretched-link" href="../../../apps/e-commerce/landing/product-details.html">
+                                                <a class="stretched-link" href="{{ url('product') }}">
                                                     <h6 class="mb-2 lh-sm line-clamp-3 product-name">LEVOIT Humidifiers for Bedroom Large Room 6L Warm and Cool Mist for...</h6>
                                                 </a>
                                                 <p class="fs-9">
@@ -570,7 +570,7 @@
                                                     </button>
                                                     <img class="img-fluid" src="{{ url('img/products/26.png') }}" alt="" />
                                                 </div>
-                                                <a class="stretched-link" href="../../../apps/e-commerce/landing/product-details.html">
+                                                <a class="stretched-link" href="{{ url('product') }}">
                                                     <h6 class="mb-2 lh-sm line-clamp-3 product-name">NETGEAR Nighthawk Pro Gaming XR500 Wi-Fi Router with 4 Ethernet Ports...</h6>
                                                 </a>
                                                 <p class="fs-9">
@@ -598,7 +598,7 @@
                                                     </button>
                                                     <img class="img-fluid" src="{{ url('img/products/18.png') }}" alt="" />
                                                 </div>
-                                                <a class="stretched-link" href="../../../apps/e-commerce/landing/product-details.html">
+                                                <a class="stretched-link" href="{{ url('product') }}">
                                                     <h6 class="mb-2 lh-sm line-clamp-3 product-name">Rachael Ray Cucina Bakeware Set Includes Nonstick Bread Baking Cookie Sheet...</h6>
                                                 </a>
                                                 <p class="fs-9">
@@ -626,7 +626,7 @@
                                                     </button>
                                                     <img class="img-fluid" src="{{ url('img/products/17.png') }}" alt="" />
                                                 </div>
-                                                <a class="stretched-link" href="../../../apps/e-commerce/landing/product-details.html">
+                                                <a class="stretched-link" href="{{ url('product') }}">
                                                     <h6 class="mb-2 lh-sm line-clamp-3 product-name">Xbox Series S</h6>
                                                 </a>
                                                 <p class="fs-9">
@@ -654,7 +654,7 @@
                                                     </button>
                                                     <img class="img-fluid" src="{{ url('img/products/24.png') }}" alt="" />
                                                 </div>
-                                                <a class="stretched-link" href="../../../apps/e-commerce/landing/product-details.html">
+                                                <a class="stretched-link" href="{{ url('product') }}">
                                                     <h6 class="mb-2 lh-sm line-clamp-3 product-name">FURINNO Computer Writing Desk, Walnut</h6>
                                                 </a>
                                                 <p class="fs-9">
@@ -682,7 +682,7 @@
                                                     </button>
                                                     <img class="img-fluid" src="{{ url('img/products/18.png') }}" alt="" />
                                                 </div>
-                                                <a class="stretched-link" href="../../../apps/e-commerce/landing/product-details.html">
+                                                <a class="stretched-link" href="{{ url('product') }}">
                                                     <h6 class="mb-2 lh-sm line-clamp-3 product-name">Seagate Portable 2TB External Hard Drive Portable HDD</h6>
                                                 </a>
                                                 <p class="fs-9">

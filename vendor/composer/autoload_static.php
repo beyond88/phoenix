@@ -508,6 +508,8 @@ class ComposerStaticInit7e8c3c14ff33b199b4a0838993eb8423
     );
 
     public static $classMap = array (
+        'App\\Http\\Controllers\\Client\\Auth\\SignInController' => __DIR__ . '/../..' . '/app/Http/Controllers/Client/Auth/SignInController.php',
+        'App\\Http\\Controllers\\Client\\Auth\\SignUpController' => __DIR__ . '/../..' . '/app/Http/Controllers/Client/Auth/SignUpController.php',
         'App\\Http\\Controllers\\Client\\CartController' => __DIR__ . '/../..' . '/app/Http/Controllers/Client/CartController.php',
         'App\\Http\\Controllers\\Client\\CheckoutController' => __DIR__ . '/../..' . '/app/Http/Controllers/Client/CheckoutController.php',
         'App\\Http\\Controllers\\Client\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/Client/HomeController.php',

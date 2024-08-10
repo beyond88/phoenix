@@ -7,7 +7,7 @@
             <nav class="navbar navbar-expand-lg navbar-light px-0">
                 <div class="row gx-0 gy-2 w-100 flex-between-center">
                     <div class="col-auto">
-                        <a class="text-decoration-none" href="../../../index.html">
+                        <a class="text-decoration-none" href="{{ url('/')}}">
                             <div class="d-flex align-items-center">
                                 <img src="{{ url('img/icons/logo.png') }}" alt="phoenix" width="27" />
                                 <p class="logo-text ms-2">phoenix</p>
@@ -23,7 +23,7 @@
                                 <label class="mb-0 theme-control-toggle-label theme-control-toggle-dark" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Switch theme" style="height:32px;width:32px;"><span class="icon" data-feather="sun"></span></label>
                             </div>
                             </li>
-                            <li class="nav-item"><a class="nav-link px-2 icon-indicator icon-indicator-primary" href="../../../apps/e-commerce/landing/cart.html" role="button"><span class="text-body-tertiary" data-feather="shopping-cart" style="height:20px;width:20px;"></span><span class="icon-indicator-number">3</span></a></li>
+                            <li class="nav-item"><a class="nav-link px-2 icon-indicator icon-indicator-primary" href="{{ url('cart')}}" role="button"><span class="text-body-tertiary" data-feather="shopping-cart" style="height:20px;width:20px;"></span><span class="icon-indicator-number">3</span></a></li>
                             <li class="nav-item dropdown"><a class="nav-link px-2 icon-indicator icon-indicator-sm icon-indicator-danger" id="navbarTopDropdownNotification" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false"><span class="text-body-tertiary" data-feather="bell" style="height:20px;width:20px;"></span></a>
                             <div class="dropdown-menu dropdown-menu-end notification-dropdown-menu py-0 shadow border navbar-dropdown-caret mt-2" id="navbarDropdownNotfication" aria-labelledby="navbarDropdownNotfication">
                                 <div class="card position-relative border-0">
