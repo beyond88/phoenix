@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-// require __DIR__.'/backend/dashboard.php';
+require __DIR__.'/backend/dashboard.php';
 // require __DIR__.'/backend/categories.php';
 // require __DIR__.'/backend/products.php';
 // require __DIR__.'/backend/orders.php';
