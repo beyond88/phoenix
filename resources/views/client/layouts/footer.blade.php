@@ -13,6 +13,19 @@
     <script src="{{ url('js/phoenix.js') }}"></script>
     <script src="{{ url('js/swiper-bundle.min.js') }}"></script>
 
+    <style>
+      .search-box .search-box-icon {
+        width: 12px !important;
+      }
+
+      .fa-icon-wait {
+          opacity: 1 !important;
+      }
+      button.btn.text-body.ps-0.pe-5.text-nowrap.dropdown-toggle.dropdown-caret-none svg {
+          width: 12px;
+      }
+    </style>
+
   </body>
 
 </html>
