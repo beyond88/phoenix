@@ -36,7 +36,7 @@
                   </div>
                   <div class="col mx-auto">
                     <div class="auth-form-box">
-                      <div class="text-center mb-7"><a class="d-flex flex-center text-decoration-none mb-4" href="../../../index.html">
+                      <div class="text-center mb-7"><a class="d-flex flex-center text-decoration-none mb-4" href="{{ url('/') }}">
                           <div class="d-flex align-items-center fw-bolder fs-3 d-inline-block"><img src="{{ url('img/icons/logo.png') }}" alt="phoenix" width="58" />
                           </div>
                         </a>

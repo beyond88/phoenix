@@ -76,14 +76,10 @@
         </div>
       </div>
       <ul class="navbar-nav justify-content-end align-items-center">
-        <li class="nav-item" data-nav-item="data-nav-item"><a class="nav-link ps-0" href="../../../apps/e-commerce/landing/homepage.html">Home</a></li>
-        <li class="nav-item" data-nav-item="data-nav-item"><a class="nav-link" href="../../../apps/e-commerce/landing/favourite-stores.html">My Favourite Stores</a></li>
-        <li class="nav-item" data-nav-item="data-nav-item"><a class="nav-link" href="../../../apps/e-commerce/landing/products-filter.html">Products</a></li>
-        <li class="nav-item" data-nav-item="data-nav-item"><a class="nav-link" href="../../../apps/e-commerce/landing/wishlist.html">Wishlist</a></li>
-        <li class="nav-item" data-nav-item="data-nav-item"><a class="nav-link" href="../../../apps/e-commerce/landing/shipping-info.html">Shipping Info</a></li>
-        <li class="nav-item" data-nav-item="data-nav-item"><a class="nav-link" href="../../../apps/e-commerce/admin/add-product.html">Be a vendor</a></li>
-        <li class="nav-item" data-nav-item="data-nav-item"><a class="nav-link" href="../../../apps/e-commerce/landing/order-tracking.html">Track order</a></li>
-        <li class="nav-item" data-nav-item="data-nav-item"><a class="nav-link pe-0" href="../../../apps/e-commerce/landing/checkout.html">Checkout</a></li>
+        <li class="nav-item" data-nav-item="data-nav-item"><a class="nav-link" href="{{ url('products') }}">Products</a></li>
+        <li class="nav-item" data-nav-item="data-nav-item"><a class="nav-link" href="{{ url('my-account/wishlist') }}">Wishlist</a></li>
+        <li class="nav-item" data-nav-item="data-nav-item"><a class="nav-link" href="{{ url('track-order') }}">Track order</a></li>
+        <li class="nav-item" data-nav-item="data-nav-item"><a class="nav-link pe-0" href="{{ url('checkout') }}">Checkout</a></li>
         <li class="nav-item dropdown" data-nav-item="data-nav-item" data-more-item="data-more-item" style="display: none;"><a class="nav-link dropdown-toggle dropdown-caret-none fw-bold pe-0" href="javascript: void(0)" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-boundary="window" data-bs-reference="parent">
             More<svg class="svg-inline--fa fa-angle-down ms-2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-down" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M201.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 306.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"></path></svg><!-- <span class="fas fa-angle-down ms-2"></span> Font Awesome fontawesome.com --></a>
           <div class="dropdown-menu dropdown-menu-end category-list" aria-labelledby="navbarDropdown" data-category-list="data-category-list"></div>

@@ -36,7 +36,7 @@
                   </div>
                   <div class="col mx-auto">
                     <div class="auth-form-box">
-                      <div class="text-center mb-7"><a class="d-flex flex-center text-decoration-none mb-4" href="../../../index.html">
+                      <div class="text-center mb-7"><a class="d-flex flex-center text-decoration-none mb-4" href="{{ url('/') }}">
                           <div class="d-flex align-items-center fw-bolder fs-3 d-inline-block"><img src="{{ url('img/icons/logo.png') }}" alt="phoenix" width="58" />
                           </div>
                         </a>
@@ -73,7 +73,7 @@
                           <label class="form-label fs-9 text-transform-none" for="termsService">I accept the <a href="#!">terms </a>and <a href="#!">privacy policy</a></label>
                         </div>
                         <button class="btn btn-primary w-100 mb-3">Sign up</button>
-                        <div class="text-center"><a class="fs-9 fw-bold" href="../../../pages/authentication/card/sign-in.html">Sign in to an existing account</a></div>
+                        <div class="text-center"><a class="fs-9 fw-bold" href="{{ url('login') }}">Sign in to an existing account</a></div>
                       </form>
                     </div>
                   </div>

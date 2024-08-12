@@ -36,7 +36,7 @@
                   </div>
                   <div class="col mx-auto">
                     <div class="auth-form-box">
-                      <div class="text-center mb-7"><a class="d-flex flex-center text-decoration-none mb-4" href="../../../index.html">
+                      <div class="text-center mb-7"><a class="d-flex flex-center text-decoration-none mb-4" href="{{ url('/') }}">
                           <div class="d-flex align-items-center fw-bolder fs-3 d-inline-block"><img src="{{ url('img/icons/logo.png') }}" alt="phoenix" width="58" />
                           </div>
                         </a>
@@ -68,10 +68,10 @@
                             <label class="form-check-label mb-0" for="basic-checkbox">Remember me</label>
                           </div>
                         </div>
-                        <div class="col-auto"><a class="fs-9 fw-semibold" href="../../../pages/authentication/card/forgot-password.html">Forgot Password?</a></div>
+                        <div class="col-auto"><a class="fs-9 fw-semibold" href="{{ url('forgot-password') }}">Forgot Password?</a></div>
                       </div>
                       <button class="btn btn-primary w-100 mb-3">Sign In</button>
-                      <div class="text-center"><a class="fs-9 fw-bold" href="../../../pages/authentication/card/sign-up.html">Create an account</a></div>
+                      <div class="text-center"><a class="fs-9 fw-bold" href="{{ url('register') }}">Create an account</a></div>
                     </div>
                   </div>
                 </div>
