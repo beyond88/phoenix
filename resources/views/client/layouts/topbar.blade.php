@@ -20,7 +20,7 @@
                         <label class="mb-0 theme-control-toggle-label theme-control-toggle-dark" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Switch theme" style="height:32px;width:32px;"><svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun icon"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg></label>
                         </div>
                     </li>
-                    <li class="nav-item"><a class="nav-link px-2 icon-indicator icon-indicator-primary" href="../../../apps/e-commerce/landing/cart.html" role="button"><svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart text-body-tertiary" style="height:20px;width:20px;"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg><span class="icon-indicator-number">3</span></a></li>
+                    <li class="nav-item"><a class="nav-link px-2 icon-indicator icon-indicator-primary" href="{{ url('cart')}}" role="button"><svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart text-body-tertiary" style="height:20px;width:20px;"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg><span class="icon-indicator-number">3</span></a></li>
                     <li class="nav-item dropdown"><a class="nav-link px-2 icon-indicator icon-indicator-sm icon-indicator-danger" id="navbarTopDropdownNotification" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell text-body-tertiary" style="height:20px;width:20px;"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg></a>
                         <div class="dropdown-menu dropdown-menu-end notification-dropdown-menu py-0 shadow border navbar-dropdown-caret mt-2" id="navbarDropdownNotfication" aria-labelledby="navbarDropdownNotfication">
                         <div class="card position-relative border-0">
@@ -35,7 +35,7 @@
                                 <div class="px-2 px-sm-3 py-3 notification-card position-relative read border-bottom">
                                 <div class="d-flex align-items-center justify-content-between position-relative">
                                     <div class="d-flex">
-                                    <div class="avatar avatar-m status-online me-3"><img class="rounded-circle" src="../../../assets/img/team/40x40/30.webp" alt="">
+                                    <div class="avatar avatar-m status-online me-3"><img class="rounded-circle" src="{{ url('img/team/40x40/30.webp') }}" alt="">
                                     </div>
                                     <div class="flex-1 me-sm-3">
                                         <h4 class="fs-9 text-body-emphasis">Jessie Samson</h4>
@@ -70,7 +70,7 @@
                                 <div class="px-2 px-sm-3 py-3 notification-card position-relative unread border-bottom">
                                 <div class="d-flex align-items-center justify-content-between position-relative">
                                     <div class="d-flex">
-                                    <div class="avatar avatar-m status-online me-3"><img class="rounded-circle avatar-placeholder" src="../../../assets/img/team/40x40/avatar.webp" alt="">
+                                    <div class="avatar avatar-m status-online me-3"><img class="rounded-circle avatar-placeholder" src="{{ url('img/team/40x40/avatar.webp') }}" alt="">
                                     </div>
                                     <div class="flex-1 me-sm-3">
                                         <h4 class="fs-9 text-body-emphasis">Jessie Samson</h4>
@@ -87,7 +87,7 @@
                                 <div class="px-2 px-sm-3 py-3 notification-card position-relative unread border-bottom">
                                 <div class="d-flex align-items-center justify-content-between position-relative">
                                     <div class="d-flex">
-                                    <div class="avatar avatar-m status-online me-3"><img class="rounded-circle" src="../../../assets/img/team/40x40/57.webp" alt="">
+                                    <div class="avatar avatar-m status-online me-3"><img class="rounded-circle" src="{{ url('img/team/40x40/57.webp') }}" alt="">
                                     </div>
                                     <div class="flex-1 me-sm-3">
                                         <h4 class="fs-9 text-body-emphasis">Kiera Anderson</h4>
@@ -104,7 +104,7 @@
                                 <div class="px-2 px-sm-3 py-3 notification-card position-relative unread border-bottom">
                                 <div class="d-flex align-items-center justify-content-between position-relative">
                                     <div class="d-flex">
-                                    <div class="avatar avatar-m status-online me-3"><img class="rounded-circle" src="../../../assets/img/team/40x40/59.webp" alt="">
+                                    <div class="avatar avatar-m status-online me-3"><img class="rounded-circle" src="{{ url('img/team/40x40/58.webp') }}" alt="">
                                     </div>
                                     <div class="flex-1 me-sm-3">
                                         <h4 class="fs-9 text-body-emphasis">Herman Carter</h4>
@@ -149,7 +149,7 @@
                             <div class="card-body p-0">
                             <div class="text-center pt-4 pb-3">
                                 <div class="avatar avatar-xl ">
-                                <img class="rounded-circle " src="../../../assets/img/team/72x72/57.webp" alt="">
+                                <img class="rounded-circle " src="{{ url('img/team/72x72/57.webp') }}" alt="">
 
                                 </div>
                                 <h6 class="mt-2 text-body-emphasis">Jerry Seinfield</h6>
