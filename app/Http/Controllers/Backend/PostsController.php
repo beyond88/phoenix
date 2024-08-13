@@ -13,12 +13,12 @@ class PostsController extends Controller
         return view('backend.posts.orders');
     }
 
-    public function orderDetails()
+    public function postDetails()
     {
         return view('backend.posts.details');
     }
 
-    public function addNewOrder()
+    public function addNewPost()
     {
         return view('backend.posts.add-new');
     }
