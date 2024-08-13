@@ -9,6 +9,16 @@ class PagesController extends Controller
 {
     public function index()
     {
-        return view('backend.pages');
+        return view('backend.pages.orders');
+    }
+
+    public function orderDetails()
+    {
+        return view('backend.pages.details');
+    }
+
+    public function addNewOrder()
+    {
+        return view('backend.pages.add-new');
     }
 }
