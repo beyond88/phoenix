@@ -9,6 +9,7 @@ require __DIR__.'/backend/products.php';
 require __DIR__.'/backend/customers.php';
 require __DIR__.'/backend/reviews.php';
 require __DIR__.'/backend/reports.php';
+require __DIR__.'/backend/users.php';
 require __DIR__.'/backend/settings.php';
 
 require __DIR__.'/client/home.php';

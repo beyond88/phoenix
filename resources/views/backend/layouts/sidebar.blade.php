@@ -63,14 +63,14 @@
                             <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-posts">
                                 <li class="collapsed-nav-item-title d-none">Posts </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="{{ url('admin/posts') }}">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">All Posts</span>
                                         </div>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="{{ url('admin/posts/add') }}">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">Add New Post</span>
                                         </div>
@@ -111,14 +111,14 @@
                             <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-pages">
                                 <li class="collapsed-nav-item-title d-none">Pages </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="{{ url('admin/pages') }}">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">All Pages</span>
                                         </div>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="{{ url('admin/pages/add') }}">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">Add New Page</span>
                                         </div>
