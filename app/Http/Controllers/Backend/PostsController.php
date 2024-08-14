@@ -10,7 +10,7 @@ class PostsController extends Controller
 
     public function index()
     {
-        return view('backend.posts.orders');
+        return view('backend.posts.posts');
     }
 
     public function postDetails()
@@ -21,5 +21,15 @@ class PostsController extends Controller
     public function addNewPost()
     {
         return view('backend.posts.add-new');
+    }
+
+    public function categories()
+    {
+        return view('backend.posts.categories');
+    }
+
+    public function tags()
+    {
+        return view('backend.posts.tags');
     }
 }
