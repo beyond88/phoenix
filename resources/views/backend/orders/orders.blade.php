@@ -14,8 +14,8 @@
         <div class="content">
             <nav class="mb-2" aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="#!">Page 1</a></li>
-                <li class="breadcrumb-item"><a href="#!">Page 2</a></li>
+                <li class="breadcrumb-item"><a href="{{ url('admin/orders/1') }}">Page 1</a></li>
+                <li class="breadcrumb-item"><a href="{{ url('admin/orders/1') }}">Page 2</a></li>
                 <li class="breadcrumb-item active">Default</li>
             </ol>
             </nav>
@@ -108,9 +108,9 @@
                             <input class="form-check-input" type="checkbox" data-bulk-select-row='{"order":2453,"total":87,"customer":{"avatar":"/team/32.webp","name":"Carry Anna"},"payment_status":{"label":"Complete","type":"badge-phoenix-success","icon":"check"},"fulfilment_status":{"label":"Cancelled","type":"badge-phoenix-secondary","icon":"x"},"delivery_type":"Cash on delivery","date":"Dec 12, 12:56 PM"}' />
                             </div>
                         </td>
-                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold" href="#!">#2453</a></td>
+                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold" href="{{ url('admin/orders/1') }}">#2453</a></td>
                         <td class="total align-middle text-end fw-semibold text-body-highlight">$87</td>
-                        <td class="customer align-middle white-space-nowrap ps-8"><a class="d-flex align-items-center text-body" href="../../../apps/e-commerce/landing/profile.html">
+                        <td class="customer align-middle white-space-nowrap ps-8"><a class="d-flex align-items-center text-body" href="{{ url('admin/customers/1') }}">
                             <div class="avatar avatar-m"><img class="rounded-circle" src="{{ url('img/team/32.webp') }}" alt="" />
                             </div>
                             <h6 class="mb-0 ms-3 text-body">Carry Anna</h6>
@@ -126,9 +126,9 @@
                             <input class="form-check-input" type="checkbox" data-bulk-select-row='{"order":2452,"total":7264,"customer":{"avatar":"","name":"Milind Mikuja"},"fulfilment_status":{"label":"Ready to pickup","type":"badge-phoenix-info","icon":"info"},"payment_status":{"label":"Cancelled","type":"badge-phoenix-secondary","icon":"x"},"delivery_type":"Free shipping","date":"Dec 9, 2:28PM"}' />
                             </div>
                         </td>
-                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold" href="#!">#2452</a></td>
+                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold" href="{{ url('admin/orders/1') }}">#2452</a></td>
                         <td class="total align-middle text-end fw-semibold text-body-highlight">$7264</td>
-                        <td class="customer align-middle white-space-nowrap ps-8"><a class="d-flex align-items-center text-body" href="../../../apps/e-commerce/landing/profile.html">
+                        <td class="customer align-middle white-space-nowrap ps-8"><a class="d-flex align-items-center text-body" href="{{ url('admin/customers/1') }}">
                             <div class="avatar avatar-m">
                                 <div class="avatar-name rounded-circle"><span>M</span></div>
                             </div>
@@ -145,9 +145,9 @@
                             <input class="form-check-input" type="checkbox" data-bulk-select-row='{"order":2451,"total":375,"customer":{"avatar":"/team/35.webp","name":"Stanly Drinkwater"},"payment_status":{"label":"Pending","type":"badge-phoenix-warning","icon":"clock"},"fulfilment_status":{"label":"Completed","type":"badge-phoenix-success","icon":"check"},"delivery_type":"Local pickup","date":"Dec 4, 12:56 PM"}' />
                             </div>
                         </td>
-                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold" href="#!">#2451</a></td>
+                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold" href="{{ url('admin/orders/1') }}">#2451</a></td>
                         <td class="total align-middle text-end fw-semibold text-body-highlight">$375</td>
-                        <td class="customer align-middle white-space-nowrap ps-8"><a class="d-flex align-items-center text-body" href="../../../apps/e-commerce/landing/profile.html">
+                        <td class="customer align-middle white-space-nowrap ps-8"><a class="d-flex align-items-center text-body" href="{{ url('admin/customers/1') }}">
                             <div class="avatar avatar-m"><img class="rounded-circle" src="{{ url('img/team/35.webp') }}" alt="" />
                             </div>
                             <h6 class="mb-0 ms-3 text-body">Stanly Drinkwater</h6>
@@ -163,9 +163,9 @@
                             <input class="form-check-input" type="checkbox" data-bulk-select-row='{"order":2450,"total":657,"customer":{"avatar":"/team/57.webp","name":"Josef Stravinsky"},"payment_status":{"label":"Cancelled","type":"badge-phoenix-secondary","icon":"x"},"fulfilment_status":{"label":"Partially Fulfiled","type":"badge-phoenix-warning","icon":"clock"},"delivery_type":"Standard shipping","date":"Dec 1, 4:07 AM"}' />
                             </div>
                         </td>
-                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold" href="#!">#2450</a></td>
+                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold" href="{{ url('admin/orders/1') }}">#2450</a></td>
                         <td class="total align-middle text-end fw-semibold text-body-highlight">$657</td>
-                        <td class="customer align-middle white-space-nowrap ps-8"><a class="d-flex align-items-center text-body" href="../../../apps/e-commerce/landing/profile.html">
+                        <td class="customer align-middle white-space-nowrap ps-8"><a class="d-flex align-items-center text-body" href="{{ url('admin/customers/1') }}">
                             <div class="avatar avatar-m"><img class="rounded-circle" src="{{ url('img/team/57.webp') }}" alt="" />
                             </div>
                             <h6 class="mb-0 ms-3 text-body">Josef Stravinsky</h6>
@@ -181,9 +181,9 @@
                             <input class="form-check-input" type="checkbox" data-bulk-select-row='{"order":2449,"total":9562,"customer":{"avatar":"/team/58.webp","name":"Igor Borvibson"},"payment_status":{"label":"Failed","type":"badge-phoenix-danger","icon":"x"},"fulfilment_status":{"label":"Partially Fulfiled","type":"badge-phoenix-success","icon":"check"},"delivery_type":"Express","date":"Nov 28, 7:28 PM"}' />
                             </div>
                         </td>
-                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold" href="#!">#2449</a></td>
+                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold" href="{{ url('admin/orders/1') }}">#2449</a></td>
                         <td class="total align-middle text-end fw-semibold text-body-highlight">$9562</td>
-                        <td class="customer align-middle white-space-nowrap ps-8"><a class="d-flex align-items-center text-body" href="../../../apps/e-commerce/landing/profile.html">
+                        <td class="customer align-middle white-space-nowrap ps-8"><a class="d-flex align-items-center text-body" href="{{ url('admin/customers/1') }}">
                             <div class="avatar avatar-m"><img class="rounded-circle" src="{{ url('img/team/58.webp') }}" alt="" />
                             </div>
                             <h6 class="mb-0 ms-3 text-body">Igor Borvibson</h6>
@@ -199,9 +199,9 @@
                             <input class="form-check-input" type="checkbox" data-bulk-select-row='{"order":2448,"total":46,"customer":{"avatar":"/team/59.webp","name":"Katerina Karenin"},"payment_status":{"label":"Paid","type":"badge-phoenix-success","icon":"check"},"fulfilment_status":{"label":"Unfulfiled","type":"badge-phoenix-danger","icon":"x"},"delivery_type":"Local delivery","date":"Nov 24, 10:16 AM"}' />
                             </div>
                         </td>
-                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold" href="#!">#2448</a></td>
+                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold" href="{{ url('admin/orders/1') }}">#2448</a></td>
                         <td class="total align-middle text-end fw-semibold text-body-highlight">$46</td>
-                        <td class="customer align-middle white-space-nowrap ps-8"><a class="d-flex align-items-center text-body" href="../../../apps/e-commerce/landing/profile.html">
+                        <td class="customer align-middle white-space-nowrap ps-8"><a class="d-flex align-items-center text-body" href="{{ url('admin/customers/1') }}">
                             <div class="avatar avatar-m"><img class="rounded-circle" src="{{ url('img/team/59.webp') }}" alt="" />
                             </div>
                             <h6 class="mb-0 ms-3 text-body">Katerina Karenin</h6>
@@ -217,9 +217,9 @@
                             <input class="form-check-input" type="checkbox" data-bulk-select-row='{"order":2447,"total":953,"customer":{"avatar":"","name":"Roy Anderson"},"payment_status":{"label":"Pending","type":"badge-phoenix-warning","icon":"clock"},"fulfilment_status":{"label":"Fulfiled","type":"badge-phoenix-success","icon":"check"},"delivery_type":"Cash on delivery","date":"Nov 18, 5:43 PM"}' />
                             </div>
                         </td>
-                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold" href="#!">#2447</a></td>
+                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold" href="{{ url('admin/orders/1') }}">#2447</a></td>
                         <td class="total align-middle text-end fw-semibold text-body-highlight">$953</td>
-                        <td class="customer align-middle white-space-nowrap ps-8"><a class="d-flex align-items-center text-body" href="../../../apps/e-commerce/landing/profile.html">
+                        <td class="customer align-middle white-space-nowrap ps-8"><a class="d-flex align-items-center text-body" href="{{ url('admin/customers/1') }}">
                             <div class="avatar avatar-m">
                                 <div class="avatar-name rounded-circle"><span>R</span></div>
                             </div>
@@ -236,9 +236,9 @@
                             <input class="form-check-input" type="checkbox" data-bulk-select-row='{"order":2446,"total":12,"customer":{"avatar":"/team/31.webp","name":"Martina scorcese"},"payment_status":{"label":"Pending","type":"badge-phoenix-warning","icon":"clock"},"fulfilment_status":{"label":"Fulfiled","type":"badge-phoenix-success","icon":"check"},"delivery_type":"Standard shipping","date":"Nov 18, 2:09 AM"}' />
                             </div>
                         </td>
-                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold" href="#!">#2446</a></td>
+                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold" href="{{ url('admin/orders/1') }}">#2446</a></td>
                         <td class="total align-middle text-end fw-semibold text-body-highlight">$12</td>
-                        <td class="customer align-middle white-space-nowrap ps-8"><a class="d-flex align-items-center text-body" href="../../../apps/e-commerce/landing/profile.html">
+                        <td class="customer align-middle white-space-nowrap ps-8"><a class="d-flex align-items-center text-body" href="{{ url('admin/customers/1') }}">
                             <div class="avatar avatar-m"><img class="rounded-circle" src="{{ url('img/team/31.webp') }}" alt="" />
                             </div>
                             <h6 class="mb-0 ms-3 text-body">Martina scorcese</h6>
@@ -254,9 +254,9 @@
                             <input class="form-check-input" type="checkbox" data-bulk-select-row='{"order":2445,"total":3927,"customer":{"avatar":"/team/33.webp","name":"Luis Bunuel"},"payment_status":{"label":"Paid","type":"badge-phoenix-success","icon":"check"},"fulfilment_status":{"label":"Canceled","type":"badge-phoenix-secondary","icon":"x"},"delivery_type":"Cash on delivery","date":"Nov 16, 3:22 PM"}' />
                             </div>
                         </td>
-                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold" href="#!">#2445</a></td>
+                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold" href="{{ url('admin/orders/1') }}">#2445</a></td>
                         <td class="total align-middle text-end fw-semibold text-body-highlight">$3927</td>
-                        <td class="customer align-middle white-space-nowrap ps-8"><a class="d-flex align-items-center text-body" href="../../../apps/e-commerce/landing/profile.html">
+                        <td class="customer align-middle white-space-nowrap ps-8"><a class="d-flex align-items-center text-body" href="{{ url('admin/customers/1') }}">
                             <div class="avatar avatar-m"><img class="rounded-circle" src="{{ url('img/team/33.webp') }}" alt="" />
                             </div>
                             <h6 class="mb-0 ms-3 text-body">Luis Bunuel</h6>
@@ -272,9 +272,9 @@
                             <input class="form-check-input" type="checkbox" data-bulk-select-row='{"order":2444,"total":5937,"customer":{"avatar":"/team/34.webp","name":"Jean Renoir"},"payment_status":{"label":"Paid","type":"badge-phoenix-success","icon":"check"},"fulfilment_status":{"label":"Ready to pickup","type":"badge-phoenix-secondary","icon":"info"},"delivery_type":"Local pickup","date":"Nov 09, 8:49 AM"}' />
                             </div>
                         </td>
-                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold" href="#!">#2444</a></td>
+                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold" href="{{ url('admin/orders/1') }}">#2444</a></td>
                         <td class="total align-middle text-end fw-semibold text-body-highlight">$5937</td>
-                        <td class="customer align-middle white-space-nowrap ps-8"><a class="d-flex align-items-center text-body" href="../../../apps/e-commerce/landing/profile.html">
+                        <td class="customer align-middle white-space-nowrap ps-8"><a class="d-flex align-items-center text-body" href="{{ url('admin/customers/1') }}">
                             <div class="avatar avatar-m"><img class="rounded-circle" src="{{ url('img/team/34.webp') }}" alt="" />
                             </div>
                             <h6 class="mb-0 ms-3 text-body">Jean Renoir</h6>
@@ -290,9 +290,9 @@
                             <input class="form-check-input" type="checkbox" data-bulk-select-row='{"order":2443,"total":124,"customer":{"avatar":"/team/29.webp","name":"Ricky Antony"},"payment_status":{"label":"Failed","type":"badge-phoenix-danger","icon":"x"},"fulfilment_status":{"label":"Unfulfiled","type":"badge-phoenix-danger","icon":"x"},"delivery_type":"Cash on delivery","date":"Nov 05, 4:35 PM"}' />
                             </div>
                         </td>
-                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold" href="#!">#2443</a></td>
+                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold" href="{{ url('admin/orders/1') }}">#2443</a></td>
                         <td class="total align-middle text-end fw-semibold text-body-highlight">$124</td>
-                        <td class="customer align-middle white-space-nowrap ps-8"><a class="d-flex align-items-center text-body" href="../../../apps/e-commerce/landing/profile.html">
+                        <td class="customer align-middle white-space-nowrap ps-8"><a class="d-flex align-items-center text-body" href="{{ url('admin/customers/1') }}">
                             <div class="avatar avatar-m"><img class="rounded-circle" src="{{ url('img/team/29.webp') }}" alt="" />
                             </div>
                             <h6 class="mb-0 ms-3 text-body">Ricky Antony</h6>
@@ -308,9 +308,9 @@
                             <input class="form-check-input" type="checkbox" data-bulk-select-row='{"order":2442,"total":542,"customer":{"avatar":"/team/3.webp","name":"Emma Watson"},"payment_status":{"label":"Pending","type":"badge-phoenix-warning","icon":"clock"},"fulfilment_status":{"label":"Fulfiled","type":"badge-phoenix-success","icon":"check"},"delivery_type":"Standard shipping","date":"Nov 05, 12:00 PM"}' />
                             </div>
                         </td>
-                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold" href="#!">#2442</a></td>
+                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold" href="{{ url('admin/orders/1') }}">#2442</a></td>
                         <td class="total align-middle text-end fw-semibold text-body-highlight">$542</td>
-                        <td class="customer align-middle white-space-nowrap ps-8"><a class="d-flex align-items-center text-body" href="../../../apps/e-commerce/landing/profile.html">
+                        <td class="customer align-middle white-space-nowrap ps-8"><a class="d-flex align-items-center text-body" href="{{ url('admin/customers/1') }}">
                             <div class="avatar avatar-m"><img class="rounded-circle" src="{{ url('img/team/3.webp') }}" alt="" />
                             </div>
                             <h6 class="mb-0 ms-3 text-body">Emma Watson</h6>
@@ -326,9 +326,9 @@
                             <input class="form-check-input" type="checkbox" data-bulk-select-row='{"order":2441,"total":1480,"customer":{"avatar":"/team/avatar.webp","name":"Jennifer Schramm","placeholder":true},"payment_status":{"label":"Paid","type":"badge-phoenix-success","icon":"check"},"fulfilment_status":{"label":"Ready to pickup","type":"badge-phoenix-info","icon":"info"},"delivery_type":"Local delivery","date":"Nov 02, 2:00 AM"}' />
                             </div>
                         </td>
-                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold" href="#!">#2441</a></td>
+                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold" href="{{ url('admin/orders/1') }}">#2441</a></td>
                         <td class="total align-middle text-end fw-semibold text-body-highlight">$1480</td>
-                        <td class="customer align-middle white-space-nowrap ps-8"><a class="d-flex align-items-center text-body" href="../../../apps/e-commerce/landing/profile.html">
+                        <td class="customer align-middle white-space-nowrap ps-8"><a class="d-flex align-items-center text-body" href="{{ url('admin/customers/1') }}">
                             <div class="avatar avatar-m"><img class="rounded-circle avatar-placeholder" src="{{ url('img/team/avatar.webp') }}" alt="" />
                             </div>
                             <h6 class="mb-0 ms-3 text-body">Jennifer Schramm</h6>
@@ -344,9 +344,9 @@
                             <input class="form-check-input" type="checkbox" data-bulk-select-row='{"order":2440,"total":80,"customer":{"avatar":"/team/25.webp","name":"Michael Jenkins"},"payment_status":{"label":"Cancelled","type":"badge-phoenix-secondary","icon":"x"},"fulfilment_status":{"label":"Unfulfiled","type":"badge-phoenix-danger","icon":"x"},"delivery_type":"Free shipping","date":"Oct 30, 4:25 PM"}' />
                             </div>
                         </td>
-                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold" href="#!">#2440</a></td>
+                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold" href="{{ url('admin/orders/1') }}">#2440</a></td>
                         <td class="total align-middle text-end fw-semibold text-body-highlight">$80</td>
-                        <td class="customer align-middle white-space-nowrap ps-8"><a class="d-flex align-items-center text-body" href="../../../apps/e-commerce/landing/profile.html">
+                        <td class="customer align-middle white-space-nowrap ps-8"><a class="d-flex align-items-center text-body" href="{{ url('admin/customers/1') }}">
                             <div class="avatar avatar-m"><img class="rounded-circle" src="{{ url('img/team/25.webp') }}" alt="" />
                             </div>
                             <h6 class="mb-0 ms-3 text-body">Michael Jenkins</h6>
@@ -362,9 +362,9 @@
                             <input class="form-check-input" type="checkbox" data-bulk-select-row='{"order":2439,"total":999,"customer":{"avatar":"/team/32.webp","name":"Raymond Mims"},"payment_status":{"label":"Pending","type":"badge-phoenix-warning","icon":"clock"},"fulfilment_status":{"label":"Fulfiled","type":"badge-phoenix-success","icon":"check"},"delivery_type":"Cash on delivery","date":"Oct 28, 3:00 PM"}' />
                             </div>
                         </td>
-                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold" href="#!">#2439</a></td>
+                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold" href="{{ url('admin/orders/1') }}">#2439</a></td>
                         <td class="total align-middle text-end fw-semibold text-body-highlight">$999</td>
-                        <td class="customer align-middle white-space-nowrap ps-8"><a class="d-flex align-items-center text-body" href="../../../apps/e-commerce/landing/profile.html">
+                        <td class="customer align-middle white-space-nowrap ps-8"><a class="d-flex align-items-center text-body" href="{{ url('admin/customers/1') }}">
                             <div class="avatar avatar-m"><img class="rounded-circle" src="{{ url('img/team/32.webp') }}" alt="" />
                             </div>
                             <h6 class="mb-0 ms-3 text-body">Raymond Mims</h6>
@@ -379,7 +379,7 @@
                 </div>
                 <div class="row align-items-center justify-content-between py-2 pe-0 fs-9">
                     <div class="col-auto d-flex">
-                    <p class="mb-0 d-none d-sm-block me-3 fw-semibold text-body" data-list-info="data-list-info"></p><a class="fw-semibold" href="#!" data-list-view="*">View all<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a class="fw-semibold d-none" href="#!" data-list-view="less">View Less<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
+                    <p class="mb-0 d-none d-sm-block me-3 fw-semibold text-body" data-list-info="data-list-info"></p><a class="fw-semibold" href="{{ url('admin/orders/1') }}" data-list-view="*">View all<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a class="fw-semibold d-none" href="{{ url('admin/orders/1') }}" data-list-view="less">View Less<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
                     </div>
                     <div class="col-auto d-flex">
                     <button class="page-link" data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>

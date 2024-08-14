@@ -23,7 +23,7 @@
             <div class="col-auto">
                <button class="btn btn-phoenix-secondary me-2 mb-2 mb-sm-0" type="button">Discard</button>
                <button class="btn btn-phoenix-primary me-2 mb-2 mb-sm-0" type="button">Save Draft</button>
-               <button class="btn btn-primary mb-2 mb-sm-0" type="submit">Publish Post</button>
+               <button class="btn btn-primary mb-2 mb-sm-0" type="submit">Publish</button>
             </div>
          </div>
          <div class="row g-5">
