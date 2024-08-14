@@ -1,6 +1,6 @@
 @extends("backend.layouts.layout")
 
-@section("title", "Pages | Phoenix")
+@section("title", "Add New Page | Phoenix")
 
 @section("content")    
     
