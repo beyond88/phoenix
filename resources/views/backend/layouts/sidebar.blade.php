@@ -77,14 +77,14 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="{{ url('admin/posts/categories') }}">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">Categories</span>
                                         </div>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="{{ url('admin/posts/tags') }}">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">Tags</span>
                                         </div>
@@ -325,7 +325,7 @@
                    <span class="toggle-line"></span>
                </span>
            </button>
-           <a class="navbar-brand me-1 me-sm-3" href="#">
+           <a class="navbar-brand me-1 me-sm-3" href="{{ url('admin') }}">
                <div class="d-flex align-items-center">
                    <div class="d-flex align-items-center">
                        <img src="{{ url('img/icons/logo.png') }}" alt="phoenix" width="27" />
