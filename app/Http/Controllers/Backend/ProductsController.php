@@ -21,4 +21,15 @@ class ProductsController extends Controller
     {
         return view('backend.products.add-new');
     }
+
+    public function categories()
+    {
+        return view('backend.products.categories');
+    }
+
+    public function tags()
+    {
+        return view('backend.products.tags');
+    }
+
 }
