@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MediaController;
 
 require __DIR__.'/backend/dashboard.php';
 require __DIR__.'/backend/customers.php';
@@ -16,3 +17,9 @@ require __DIR__.'/client/cart.php';
 require __DIR__.'/client/my-account.php';
 require __DIR__.'/client/auth.php';
 
+
+Route::prefix('media')->group(function () {
+    Route::get('library', [MediaController::class, 'index'])->name('media.library');
+    Route::get('create', [MediaController::class, 'create'])->name('media.create');
+    Route::post('store', [MediaController::class, 'store'])->name('media.store');
+});

@@ -94,6 +94,40 @@
                         </div>
                     </div>
 
+                    <!-- Media: parent pages-->
+                    <div class="nav-item-wrapper">
+                        <a class="nav-link dropdown-indicator label-1" href="#nv-media" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="nv-media">
+                            <div class="d-flex align-items-center">
+                                <div class="dropdown-indicator-icon-wrapper">
+                                    <span class="fas fa-caret-right dropdown-indicator-icon"></span>
+                                </div>
+                                <span class="nav-link-icon">
+                                    <span data-feather="phone"></span>
+                                </span>
+                                <span class="nav-link-text">Media</span>
+                            </div>
+                        </a>
+                        <div class="parent-wrapper label-1">
+                            <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-media">
+                                <li class="collapsed-nav-item-title d-none">Media </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('media.library') }}">
+                                        <div class="d-flex align-items-center">
+                                            <span class="nav-link-text">Library</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('media.create') }}">
+                                        <div class="d-flex align-items-center">
+                                            <span class="nav-link-text">Add New Media File</span>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
                     <!-- Pages: parent pages-->
                     <div class="nav-item-wrapper">
                         <a class="nav-link dropdown-indicator label-1" href="#nv-pages" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="nv-pages">
