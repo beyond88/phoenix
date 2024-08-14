@@ -54,7 +54,7 @@
                                     <span class="fas fa-caret-right dropdown-indicator-icon"></span>
                                 </div>
                                 <span class="nav-link-icon">
-                                    <span data-feather="phone"></span>
+                                    <span data-feather="activity"></span>
                                 </span>
                                 <span class="nav-link-text">Posts</span>
                             </div>
@@ -63,14 +63,14 @@
                             <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-posts">
                                 <li class="collapsed-nav-item-title d-none">Posts </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="{{ url('admin/posts') }}">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">All Posts</span>
                                         </div>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="{{ url('admin/posts/add') }}">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">Add New Post</span>
                                         </div>
@@ -102,7 +102,7 @@
                                     <span class="fas fa-caret-right dropdown-indicator-icon"></span>
                                 </div>
                                 <span class="nav-link-icon">
-                                    <span data-feather="phone"></span>
+                                    <span data-feather="align-right"></span>
                                 </span>
                                 <span class="nav-link-text">Pages</span>
                             </div>
@@ -111,14 +111,14 @@
                             <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-pages">
                                 <li class="collapsed-nav-item-title d-none">Pages </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="{{ url('admin/pages') }}">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">All Pages</span>
                                         </div>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="{{ url('admin/pages/add') }}">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">Add New Page</span>
                                         </div>
@@ -145,29 +145,22 @@
                            <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-e-commerce">
                                <li class="collapsed-nav-item-title d-none">E commerce </li>
 
-                               <li class="nav-item">
-                                    <a class="nav-link" href="#">
-                                        <div class="d-flex align-items-center">
-                                            <span class="nav-link-text">Home</span>
-                                        </div>
-                                    </a>
-                                </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="{{ url('admin/orders') }}">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">Orders</span>
                                         </div>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="{{ url('admin/customers') }}">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">Customers</span>
                                         </div>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="{{ url('admin/reports') }}">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">Reports</span>
                                         </div>
@@ -176,21 +169,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">
                                         <div class="d-flex align-items-center">
-                                            <span class="nav-link-text">Order details</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">
-                                        <div class="d-flex align-items-center">
                                             <span class="nav-link-text">Settings</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">
-                                        <div class="d-flex align-items-center">
-                                            <span class="nav-link-text">Status</span>
                                         </div>
                                     </a>
                                 </li>
@@ -206,7 +185,7 @@
                                    <span class="fas fa-caret-right dropdown-indicator-icon"></span>
                                </div>
                                <span class="nav-link-icon">
-                                   <span data-feather="phone"></span>
+                                   <span data-feather="disc"></span>
                                </span>
                                <span class="nav-link-text">Products</span>
                            </div>
@@ -215,7 +194,7 @@
                            <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-CRM">
                                <li class="collapsed-nav-item-title d-none">Products </li>
                                <li class="nav-item">
-                                   <a class="nav-link" href="#">
+                                   <a class="nav-link" href="{{ url('admin/products') }}">
                                        <div class="d-flex align-items-center">
                                            <span class="nav-link-text">All Products</span>
                                        </div>
@@ -223,7 +202,7 @@
                                    <!-- more inner pages-->
                                </li>
                                <li class="nav-item">
-                                   <a class="nav-link" href="#">
+                                   <a class="nav-link" href="{{ url('admin/products/add') }}">
                                        <div class="d-flex align-items-center">
                                            <span class="nav-link-text">Add New</span>
                                        </div>
@@ -255,7 +234,7 @@
                                    <!-- more inner pages-->
                                 </li>
                                 <li class="nav-item">
-                                   <a class="nav-link" href="#">
+                                   <a class="nav-link" href="{{ url('admin/reviews') }}">
                                        <div class="d-flex align-items-center">
                                            <span class="nav-link-text">Reviews</span>
                                        </div>
@@ -267,16 +246,36 @@
                    </div>
 
                     <div class="nav-item-wrapper">
-                        <a class="nav-link label-1" href="#" role="button" data-bs-toggle="" aria-expanded="false">
+                        <a class="nav-link dropdown-indicator label-1" href="#nv-users" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="nv-users">
                             <div class="d-flex align-items-center">
+                                <div class="dropdown-indicator-icon-wrapper">
+                                    <span class="fas fa-caret-right dropdown-indicator-icon"></span>
+                                </div>
                                 <span class="nav-link-icon">
-                                    <span data-feather="life-buoy"></span>
+                                    <span data-feather="users"></span>
                                 </span>
-                                <span class="nav-link-text-wrapper">
-                                    <span class="nav-link-text">Accounts</span>
-                                </span>
+                                <span class="nav-link-text">Users</span>
                             </div>
                         </a>
+                        <div class="parent-wrapper label-1">
+                            <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-users">
+                                <li class="collapsed-nav-item-title d-none">Users </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('admin/users') }}">
+                                        <div class="d-flex align-items-center">
+                                            <span class="nav-link-text">All Users</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('admin/users/add') }}">
+                                        <div class="d-flex align-items-center">
+                                            <span class="nav-link-text">Add New User</span>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
 
                     <!-- Settings: parent pages-->

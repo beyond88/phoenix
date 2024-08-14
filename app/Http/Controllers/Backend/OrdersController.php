@@ -9,6 +9,16 @@ class OrdersController extends Controller
 {
     public function index()
     {
-        return view('backend.orders');
+        return view('backend.orders.orders');
+    }
+
+    public function orderDetails()
+    {
+        return view('backend.orders.details');
+    }
+
+    public function addNewOrder()
+    {
+        return view('backend.orders.add-new');
     }
 }

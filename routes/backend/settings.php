@@ -2,4 +2,4 @@
 
 use App\Http\Controllers\Backend\SettinsController;
 
-Route::get('settings', [SettinsController::class, 'index']);
+Route::get('admin/settings', [SettinsController::class, 'index']);

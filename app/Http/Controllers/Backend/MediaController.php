@@ -9,6 +9,16 @@ class MediaController extends Controller
 {
     public function index()
     {
-        return view('backend.media');
+        return view('backend.media.media');
+    }
+
+    public function mediaDetails()
+    {
+        return view('backend.media.details');
+    }
+
+    public function addNewMedia()
+    {
+        return view('backend.media.add-new');
     }
 }
