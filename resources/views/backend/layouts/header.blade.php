@@ -42,6 +42,7 @@
     <link href="{{ url('css/theme.min.css') }}" type="text/css" rel="stylesheet" id="style-default">
     <link href="{{ url('css/user-rtl.min.css') }}" type="text/css" rel="stylesheet" id="user-style-rtl">
     <link href="{{ url('css/user.min.css') }}" type="text/css" rel="stylesheet" id="user-style-default">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.10.2/dropzone.min.css">
     <script>
       var phoenixIsRTL = window.config.config.phoenixIsRTL;
       if (phoenixIsRTL) {

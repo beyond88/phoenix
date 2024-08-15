@@ -111,14 +111,14 @@
                             <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-media">
                                 <li class="collapsed-nav-item-title d-none">Media </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('media.library') }}">
+                                    <a class="nav-link" href="{{ url('admin/library') }}">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">Library</span>
                                         </div>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('media.create') }}">
+                                    <a class="nav-link" href="{{ url('admin/create') }}">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">Add New Media File</span>
                                         </div>
