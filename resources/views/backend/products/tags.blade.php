@@ -18,7 +18,7 @@
          <div class="row g-3 flex-between-end mb-5">
             <div class="col-auto">
                <h2 class="mb-2">Tags</h2>
-               <h5 class="text-body-tertiary fw-semibold">Create post tags across your store</h5>
+               <h5 class="text-body-tertiary fw-semibold">Create product tags across your store</h5>
             </div>
             <div class="col-auto">
                <button class="btn btn-phoenix-secondary me-2 mb-2 mb-sm-0" type="button">Discard</button>

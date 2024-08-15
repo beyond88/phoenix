@@ -1,5 +1,5 @@
 @extends("backend.layouts.layout")
-@section("title", "Tags | Phoenix")
+@section("title", "Categories | Phoenix")
 @section("content")    
 <!-- ===============================================-->
 <!--    Main Content-->
@@ -17,8 +17,8 @@
       <form class="mb-9">
          <div class="row g-3 flex-between-end mb-5">
             <div class="col-auto">
-               <h2 class="mb-2">Tags</h2>
-               <h5 class="text-body-tertiary fw-semibold">Create post tags across your store</h5>
+               <h2 class="mb-2">Categories</h2>
+               <h5 class="text-body-tertiary fw-semibold">Create product categories across your store</h5>
             </div>
             <div class="col-auto">
                <button class="btn btn-phoenix-secondary me-2 mb-2 mb-sm-0" type="button">Discard</button>
@@ -38,16 +38,18 @@
                   <div class="col-12 col-xl-12">
                      <div class="card mb-3">
                         <div class="card-body">
-                           <h4 class="card-title mb-4">Tags</h4>
+                           <h4 class="card-title mb-4">Categories</h4>
                            <div class="row gx-3">
                               <div class="col-12 col-sm-6 col-xl-12">
                                  <div class="mb-4">
+                                    
                                  </div>
                               </div>
                            </div>
                         </div>
                      </div>
                   </div>
+                  
                </div>
             </div>
          </div>

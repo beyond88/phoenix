@@ -244,7 +244,7 @@
                                    <!-- more inner pages-->
                                </li>
                                <li class="nav-item">
-                                   <a class="nav-link" href="#">
+                                   <a class="nav-link" href="{{ url('admin/products/categories') }}">
                                        <div class="d-flex align-items-center">
                                            <span class="nav-link-text">Categories</span>
                                        </div>
@@ -252,7 +252,7 @@
                                    <!-- more inner pages-->
                                 </li>
                                 <li class="nav-item">
-                                   <a class="nav-link" href="#">
+                                   <a class="nav-link" href="{{ url('admin/products/tags') }}">
                                        <div class="d-flex align-items-center">
                                            <span class="nav-link-text">Tags</span>
                                        </div>

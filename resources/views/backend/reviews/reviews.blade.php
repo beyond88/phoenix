@@ -11,7 +11,6 @@
 
         @include("backend.layouts.sidebar")
 
-
     </main>
     <!-- ===============================================-->
     <!--    End of Main Content-->
