@@ -801,7 +801,7 @@
                        <div class="card-body p-0">
                            <div class="text-center pt-4 pb-3">
                                <div class="avatar avatar-xl ">
-                                   <img class="rounded-circle " src="assets/img/team/72x72/57.webp" alt="" />
+                                   <img class="rounded-circle " src="{{ url('img/team/72x72/57.webp') }}" alt="" />
                                </div>
                                <h6 class="mt-2 text-body-emphasis">Jerry Seinfield</h6>
                            </div>
