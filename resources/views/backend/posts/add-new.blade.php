@@ -1,6 +1,6 @@
 @extends("backend.layouts.layout")
 @section("title", "Add New Post | Phoenix")
-@section("content")    
+@section("content")
 <!-- ===============================================-->
 <!--    Main Content-->
 <!-- ===============================================-->
@@ -31,9 +31,10 @@
                <h4 class="mb-3">Title</h4>
                <input class="form-control mb-5" type="text" placeholder="Write title here..." />
                <div class="mb-6">
-                  <h4 class="mb-3"> Description</h4>
-                  <textarea class="tinymce" name="content" data-tinymce='{"height":"15rem","placeholder":"Write a description here..."}'></textarea>
+                  <h4 class="mb-3">Description</h4>
+                  <textarea class="tinymce" name="content"></textarea>
                </div>
+
                <h4 class="mb-3">Feature Images</h4>
                <div class="dropzone dropzone-multiple p-0 mb-5" id="my-awesome-dropzone" data-dropzone="data-dropzone">
                   <div class="fallback">
@@ -94,7 +95,7 @@
                         </div>
                      </div>
                   </div>
-                  
+
                </div>
             </div>
          </div>
