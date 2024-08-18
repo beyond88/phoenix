@@ -60,14 +60,40 @@
                                         <!-- Tabs -->
                                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                                             <li class="nav-item" role="presentation">
-                                                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Upload Files</button>
+                                                <button class="btn btn-phoenix-primary me-2 mb-2 mb-sm-0 nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Upload Files</button>
                                             </li>
                                             <li class="nav-item" role="presentation">
-                                                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Media Library</button>
+                                                <button class="btn btn-phoenix-primary me-2 mb-2 mb-sm-0 nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Media Library</button>
                                             </li>
                                         </ul>
 
 
+                                        <div class="media-toolbar">
+                                            <div class="media-toolbar-secondary">
+                                                <h2 class="media-attachments-filter-heading">Filter media</h2>
+                                                <label for="media-attachment-filters" class="screen-reader-text">Filter by type</label>
+                                                <select id="media-attachment-filters" class="attachment-filters">
+                                                    <option value="all">Images</option>
+                                                    <option value="uploaded">Uploaded to this post</option>
+                                                    <option value="unattached">Unattached</option>
+                                                    <option value="mine">Mine</option>
+                                                </select>
+                                                <label for="media-attachment-date-filters" class="screen-reader-text">Filter by date</label>
+                                                <select id="media-attachment-date-filters" class="attachment-filters">
+                                                    <option value="all">All dates</option>
+                                                    <option value="0">August 2024</option>
+                                                </select>
+                                                <span class="spinner"></span>
+                                            </div>
+
+                                            <div class="media-toolbar-primary search-form">
+                                                <label for="media-search-input" class="media-search-input-label">Search media</label>
+                                                <input type="search" id="media-search-input" class="search">
+                                            </div>
+                                        </div>
+
+
+                                        {{-- Upload Feature Image --}}
                                         <div class="tab-content mt-3" id="myTabContent">
                                             <div class="tab-content-wrap">
                                                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -241,7 +267,7 @@
     justify-content: center;
 }
 div#myTabContent {
-    height: 100%;
+    height: 85%;
 }
 .dropzone.dropzone-multiple {
     border: 0;
@@ -388,6 +414,56 @@ div#home {
     position: absolute;
     width: 1px;
     word-wrap: normal !important;
+}
+.media-toolbar {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+.media-toolbar h2 {
+    font-size: 14px;
+    color: #1d2327;
+}
+.media-toolbar #media-attachment-filters,
+.media-toolbar .attachment-filters {
+    font-size: 14px;
+    line-height: 2;
+    color: #2c3338;
+    border-color: #8c8f94;
+    box-shadow: none;
+    border-radius: 3px;
+    padding: 0 24px 0 8px;
+    min-height: 30px;
+    max-width: 25rem;
+    -webkit-appearance: none;
+    background: #fff url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E) no-repeat right 5px top 55%;
+    background-size: 16px 16px;
+    cursor: pointer;
+}
+
+.media-toolbar-primary.search-form .media-search-input-label {
+    display: block;
+}
+.media-toolbar-primary.search-form #media-search-input {
+    box-shadow: 0 0 0 transparent;
+    border-radius: 4px;
+    border: 1px solid #8c8f94;
+    background-color: #fff;
+    color: #2c3338;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    font-size: 13px;
+    line-height: 1.38461538;
+    padding: 6px;
+}
+.modal-dialog button.nav-link {
+    border: 1px solid #cbd0dd;
+    border-radius: 5px;
+    padding: 8px 30px;
+    color: #2c3338;
+}
+.modal-dialog button.nav-link.active {
+    color: #3874ff;
 }
 </style>
 <!-- ===============================================-->
