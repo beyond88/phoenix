@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Backend;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\MediaItem;
 use Illuminate\Http\Request;
+use App\Models\MediaItem;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Support\Facades\Storage;
 
@@ -13,12 +12,12 @@ class MediaController extends Controller
     public function index()
     {
         $mediaItems = MediaItem::all();
-        return view('backend.media.library', compact('mediaItems'));
+        return view('media.index', compact('mediaItems'));
     }
 
-    public function mediaCreate()
+    public function create()
     {
-        return view('backend.media.create');
+        return view('media.create');
     }
 
     public function store(Request $request)

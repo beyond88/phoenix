@@ -19,4 +19,3 @@ require __DIR__.'/client/product.php';
 require __DIR__.'/client/cart.php';
 require __DIR__.'/client/my-account.php';
 require __DIR__.'/client/auth.php';
-
