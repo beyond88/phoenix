@@ -75,8 +75,6 @@
                                             <span class="screen-reader-text">Deselect</span>
                                         </button>
                                     </div>
-
-                                    {{-- Add another div --}}
                                 </div>
                             </div>
                         </div>

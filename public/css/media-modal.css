@@ -233,3 +233,13 @@ div#home {
     background: #3456b1;
     border-color: #3456b1 !important;
 }
+
+.upload-cls {
+    margin-bottom: 30px;
+}
+
+.modal-content.library .media-toolbar {
+    margin-top: 0px;
+    border-top: none;
+    padding-top: 0;
+}
