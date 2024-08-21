@@ -59,5 +59,6 @@
                 userLinkRTL.setAttribute('disabled', true);
             }
         </script>
+        @livewireStyles
     </head>
 <body>

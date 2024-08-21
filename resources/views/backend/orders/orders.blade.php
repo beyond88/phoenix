@@ -12,13 +12,8 @@
         @include("backend.layouts.sidebar")
 
         <div class="content">
-            <nav class="mb-2" aria-label="breadcrumb">
-            <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="{{ url('admin/orders/1') }}">Page 1</a></li>
-                <li class="breadcrumb-item"><a href="{{ url('admin/orders/1') }}">Page 2</a></li>
-                <li class="breadcrumb-item active">Default</li>
-            </ol>
-            </nav>
+            @include("backend.layouts.breadcrumb")
+            
             <div class="mb-9">
             <div class="row g-3 mb-4">
                 <div class="col-auto">
@@ -390,18 +385,9 @@
                 </div>
             </div>
             </div>
-            <footer class="footer position-absolute">
-            <div class="row g-0 justify-content-between align-items-center h-100">
-                <div class="col-12 col-sm-auto text-center">
-                <p class="mb-0 mt-2 mt-sm-0 text-body">Thank you for creating with Phoenix<span class="d-none d-sm-inline-block"></span><span class="d-none d-sm-inline-block mx-1">|</span><br class="d-sm-none" />2024 &copy;<a class="mx-1" href="#">Themewagon</a></p>
-                </div>
-                <div class="col-12 col-sm-auto text-center">
-                <p class="mb-0 text-body-tertiary text-opacity-85">v1.17.0</p>
-                </div>
-            </div>
-            </footer>
-        </div>
 
+            @include("backend.layouts.copyright")
+        </div>
 
     </main>
     <!-- ===============================================-->
