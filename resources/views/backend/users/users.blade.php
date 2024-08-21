@@ -7,13 +7,9 @@
 <main class="main" id="top">
    @include("backend.layouts.sidebar")
    <div class="content">
-      <nav class="mb-2" aria-label="breadcrumb">
-         <ol class="breadcrumb mb-0">
-            <li class="breadcrumb-item"><a href="#!">Page 1</a></li>
-            <li class="breadcrumb-item"><a href="#!">Page 2</a></li>
-            <li class="breadcrumb-item active">Default</li>
-         </ol>
-      </nav>
+      
+      @include("backend.layouts.breadcrumb")
+
       <div class="mb-9">
          <div class="row g-2 mb-4">
             <div class="col-auto">

@@ -12,13 +12,8 @@
         @include("backend.layouts.sidebar")
 
         <div class="content">
-            <nav class="mb-2" aria-label="breadcrumb">
-            <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="#!">Page 1</a></li>
-                <li class="breadcrumb-item"><a href="#!">Page 2</a></li>
-                <li class="breadcrumb-item active">Default</li>
-            </ol>
-            </nav>
+            @include("backend.layouts.breadcrumb")
+            
             <div class="mb-9">
             <h2 class="mb-0">Order <span>#349</span></h2>
             <div class="d-sm-flex flex-between-center mb-3">
@@ -266,7 +261,7 @@
                 </div>
             </div>
             </div>
-            
+
             @include("backend.layouts.copyright")
         </div>
 
