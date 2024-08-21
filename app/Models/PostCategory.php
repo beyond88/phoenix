@@ -13,13 +13,17 @@ class PostCategory extends Model
     protected $table = 'post_categories';
 
     // Specify the primary key
-    protected $primaryKey = 'term_id';
+    protected $primaryKey = 'term_id';   
 
     // The primary key is non-incrementing or non-numeric if you have a custom primary key
     public $incrementing = true;
     
     // The data type of the primary key
     protected $keyType = 'unsignedBigInteger';
+
+    protected $casts = [
+        'term_id' => 'integer',  // or simply remove this line if not needed
+    ];
 
     // The attributes that are mass assignable
     protected $fillable = [
