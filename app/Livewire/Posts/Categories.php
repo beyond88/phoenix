@@ -5,11 +5,9 @@ namespace App\Livewire\Posts;
 use Livewire\Component;
 use App\Models\PostCategory;
 
-
 class Categories extends Component
 {
-
-    public $name, $slug, $termId, $updateCat = false, $addCat = false;
+    public $cats, $name, $slug, $termId, $updateCat = false, $addCat = false;
 
     public function render()
     {
@@ -18,12 +16,12 @@ class Categories extends Component
     }
 
     /**
-     * delete action listener
+     * Delete action listener
      */
     protected $listeners = [
-        'deleteCatListner'=>'deleteCat'
+        'deleteCatListner' => 'deleteCat'
     ];
- 
+
     /**
      * List of add/edit form rules
      */
@@ -31,92 +29,94 @@ class Categories extends Component
         'name' => 'required',
         'slug' => 'required'
     ];
- 
+
     /**
-     * Reseting all inputted fields
+     * Resetting all inputted fields
      * @return void
      */
-    public function resetFields(){
+    public function resetFields()
+    {
         $this->name = '';
         $this->slug = '';
+        $this->termId = null;
     }
- 
+
     /**
-     * Open Add Post form
+     * Open Add Category form
      * @return void
      */
-    public function addPost()
+    public function addCategory()
     {
         $this->resetFields();
         $this->addCat = true;
         $this->updateCat = false;
     }
-     /**
-      * store the user inputted post data in the posts table
-      * @return void
-      */
+
+    /**
+     * Store the user inputted category data in the categories table
+     * @return void
+     */
     public function storeCat()
     {
         $this->validate();
         try {
-            Posts::create([
+            PostCategory::create([
                 'name' => $this->name,
                 'slug' => $this->slug
             ]);
-            session()->flash('success','Category Created Successfully!!');
+            session()->flash('success', 'Category Created Successfully!!');
             $this->resetFields();
             $this->addCat = false;
         } catch (\Exception $ex) {
-            session()->flash('error','Something goes wrong!!');
+            session()->flash('error', 'Something went wrong!!');
         }
     }
- 
+
     /**
-     * show existing post data in edit post form
+     * Show existing category data in edit category form
      * @param mixed $id
      * @return void
      */
-    public function editCat($id) 
+    public function editCat($id)
     {
         try {
-            $post = PostCategory::findOrFail($id);
-            if( !$post) {
-                session()->flash('error','Post not found');
+            $category = PostCategory::findOrFail($id);
+            if (!$category) {
+                session()->flash('error', 'Category not found');
             } else {
-                $this->name = $post->name;
-                $this->slug = $post->slug;
-                $this->termId = $post->term_id;
+                $this->name = $category->name;
+                $this->slug = $category->slug;
+                $this->termId = $category->term_id;
                 $this->updateCat = true;
                 $this->addCat = false;
             }
         } catch (\Exception $ex) {
-            session()->flash('error','Something goes wrong!!');
+            session()->flash('error', 'Something went wrong!!');
         }
- 
     }
- 
+
     /**
-     * update the post data
+     * Update the category data
      * @return void
      */
     public function updateCat()
     {
         $this->validate();
         try {
-            Posts::whereId($this->termId)->update([
+            PostCategory::where('term_id', $this->termId)->update([
                 'name' => $this->name,
                 'slug' => $this->slug
             ]);
-            session()->flash('success','Category Updated Successfully!!');
+            session()->flash('success', 'Category Updated Successfully!!');
             $this->resetFields();
             $this->updateCat = false;
         } catch (\Exception $ex) {
-            session()->flash('success','Something goes wrong!!');
+            session()->flash('error', 'Something went wrong!!');
         }
     }
- 
+
     /**
-     * Cancel Add/Edit form and redirect to post listing page
+     * Cancel Add/Edit form and reset fields
      * @return void
      */
     public function cancelCat()
@@ -125,20 +125,19 @@ class Categories extends Component
         $this->updateCat = false;
         $this->resetFields();
     }
- 
+
     /**
-     * delete specific post data from the categories table
+     * Delete specific category data from the categories table
      * @param mixed $id
      * @return void
      */
     public function deleteCat($id)
     {
-        try{
+        try {
             PostCategory::find($id)->delete();
-            session()->flash('success',"Category Deleted Successfully!!");
-        }catch(\Exception $e){
-            session()->flash('error',"Something goes wrong!!");
+            session()->flash('success', "Category Deleted Successfully!!");
+        } catch (\Exception $e) {
+            session()->flash('error', "Something went wrong!!");
         }
     }
-
 }
