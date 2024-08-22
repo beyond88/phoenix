@@ -4,6 +4,7 @@ namespace App\Livewire\Posts;
 
 use Livewire\Component;
 use App\Models\PostCategory;
+use Illuminate\Support\Str;
 
 class Categories extends Component
 {
@@ -15,25 +16,14 @@ class Categories extends Component
         return view('livewire.posts.categories');
     }
 
-    /**
-     * Delete action listener
-     */
     protected $listeners = [
         'deleteCatListner' => 'deleteCat'
     ];
 
-    /**
-     * List of add/edit form rules
-     */
     protected $rules = [
         'name' => 'required',
-        'slug' => 'required'
     ];
 
-    /**
-     * Resetting all inputted fields
-     * @return void
-     */
     public function resetFields()
     {
         $this->name = '';
@@ -41,10 +31,6 @@ class Categories extends Component
         $this->termId = null;
     }
 
-    /**
-     * Open Add Category form
-     * @return void
-     */
     public function addCategory()
     {
         $this->resetFields();
@@ -52,19 +38,24 @@ class Categories extends Component
         $this->updateCat = false;
     }
 
-    /**
-     * Store the user inputted category data in the categories table
-     * @return void
-     */
-    public function storeCat()
+    public function storeCategory()
     {
         $this->validate();
+
+        if (empty($this->slug)) {
+            $this->slug = Str::slug($this->name);
+        } else {
+            $this->slug = Str::slug($this->slug);
+        }
+
+        $this->slug = $this->generateUniqueSlug($this->slug);
+
         try {
             PostCategory::create([
                 'name' => $this->name,
                 'slug' => $this->slug
             ]);
-            session()->flash('success', 'Category Created Successfully!!');
+            session()->flash('success', 'Category Created Successfully!');
             $this->resetFields();
             $this->addCat = false;
         } catch (\Exception $ex) {
@@ -72,12 +63,20 @@ class Categories extends Component
         }
     }
 
-    /**
-     * Show existing category data in edit category form
-     * @param mixed $id
-     * @return void
-     */
-    public function editCat($id)
+    public function generateUniqueSlug($slug)
+    {
+        $originalSlug = $slug;
+        $count = 1;
+
+        while (PostCategory::where('slug', $slug)->exists()) {
+            $slug = $originalSlug . '-' . $count;
+            $count++;
+        }
+
+        return $slug;
+    }
+
+    public function editCategory($id)
     {
         try {
             $category = PostCategory::findOrFail($id);
@@ -95,47 +94,52 @@ class Categories extends Component
         }
     }
 
-    /**
-     * Update the category data
-     * @return void
-     */
-    public function updateCat()
+    public function updateCategory()
     {
         $this->validate();
+    
+        // Fetch the current category from the database
+        $currentCategory = PostCategory::find($this->termId);
+    
+        // Check if the slug field is empty
+        if (empty($this->slug)) {
+            $this->slug = Str::slug($this->name);
+        } else {
+            $this->slug = Str::slug($this->slug);
+        }
+    
+        // If the slug has changed, generate a unique slug
+        if ($this->slug !== $currentCategory->slug) {
+            $this->slug = $this->generateUniqueSlug($this->slug, $this->termId);
+        }
+    
         try {
+            // Update the category with the new name and slug
             PostCategory::where('term_id', $this->termId)->update([
                 'name' => $this->name,
                 'slug' => $this->slug
             ]);
-            session()->flash('success', 'Category Updated Successfully!!');
+    
+            session()->flash('success', 'Category Updated Successfully!');
             $this->resetFields();
             $this->updateCat = false;
         } catch (\Exception $ex) {
-            session()->flash('error', 'Something went wrong!!');
+            session()->flash('error', 'Something went wrong!');
         }
-    }
+    }    
 
-    /**
-     * Cancel Add/Edit form and reset fields
-     * @return void
-     */
-    public function cancelCat()
+    public function cancelCategory()
     {
         $this->addCat = false;
         $this->updateCat = false;
         $this->resetFields();
     }
 
-    /**
-     * Delete specific category data from the categories table
-     * @param mixed $id
-     * @return void
-     */
-    public function deleteCat($id)
+    public function deleteCategory($id)
     {
         try {
             PostCategory::find($id)->delete();
-            session()->flash('success', "Category Deleted Successfully!!");
+            session()->flash('success', "Category Deleted Successfully!");
         } catch (\Exception $e) {
             session()->flash('error', "Something went wrong!!");
         }
