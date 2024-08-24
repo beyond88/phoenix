@@ -1,0 +1,29 @@
+:root{
+    --phoenix-blue: #3874ff;
+}
+.dropzone.dropzone-multiple .dz-image{
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.dropzone .dz-preview.dz-image-preview{
+    margin-top: 20px !important;
+    margin-right: 20px !important;
+    background-color: transparent !important;
+}
+
+.dropzone .dz-preview.dz-image-preview:last-child{
+    margin-right: 0px !important;
+}
+.dropzone .dz-preview{
+    min-height: 100% !important;
+    margin-bottom: 20px !important;
+}
+
+.dropzone .dz-preview .dz-progress{
+    border: 3px solid var(--phoenix-blue);
+}
+
+.dropzone.dropzone-multiple .dz-progress{
+    width: 7.25rem !important;
+}

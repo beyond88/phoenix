@@ -1,3 +1,5 @@
+        @livewireScripts
+
         <!-- ===============================================-->
         <!--    JavaScripts -->
         <!-- ===============================================-->
@@ -56,8 +58,8 @@
                     notificationElement.style.display = 'none';
                 }
             });
+
         </script>
         
-        @livewireScripts
     </body>
 </html>

@@ -1,15 +1,9 @@
 <?php
 
 use App\Http\Controllers\Backend\MediaController;
+use App\Livewire\Media\AddNew;
 
-Route::get('admin/library', [MediaController::class, 'index']);
-Route::get('admin/create', [MediaController::class, 'mediaCreate']);
-Route::get('admin/store', [MediaController::class, 'store']);
-
-// Route::prefix('media')->name('media.')->group(function () {
-    // Route::get('/', [MediaController::class, 'index'])->name('index');
-    // Route::get('create', [MediaController::class, 'create'])->name('create');
-    // Route::post('store', [MediaController::class, 'store'])->name('store');
-    // Route::get('{id}', [MediaController::class, 'show'])->name('show');
-    // Route::delete('{id}', [MediaController::class, 'destroy'])->name('destroy');
-// });
+Route::get('admin/media', [MediaController::class, 'index']);
+Route::get('admin/media/add', [MediaController::class, 'addNew']);
+Route::post('admin/media/upload', [MediaController::class, 'uploadNewMedia']);
+// Route::post('admin/media/upload', AddNew::class);

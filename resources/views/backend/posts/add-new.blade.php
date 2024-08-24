@@ -11,7 +11,7 @@
         
         @include("backend.layouts.breadcrumb")
 
-        @livewire('posts.posts')
+        @livewire('posts.add-new')
 
         @include("backend.layouts.copyright")
    </div>
