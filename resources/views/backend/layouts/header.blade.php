@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <!-- ===============================================-->
         <!--    Document Title-->
@@ -43,6 +43,7 @@
         <link href="{{ url('css/user.min.css') }}" type="text/css" rel="stylesheet" id="user-style-default">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.10.2/dropzone.min.css">
         <link href="{{ url('css/media-modal.css') }}" type="text/css" rel="stylesheet" id="user-style-default">
+        <link href="{{ url('css/custom.css') }}" type="text/css" rel="stylesheet" id="custom-css">
 
         <script>
             var phoenixIsRTL = window.config.config.phoenixIsRTL;

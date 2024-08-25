@@ -14,7 +14,7 @@ class Categories extends Component
     {
         $this->cats = PostCategory::select('term_id', 'name', 'slug')->get();
         return view('livewire.posts.categories');
-    }
+    }    
 
     protected $listeners = [
         'deleteCatListner' => 'deleteCat'

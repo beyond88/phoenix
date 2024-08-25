@@ -1859,7 +1859,27 @@
         // eslint-disable-next-line
         item.querySelector(Selector.DZ_PREVIEW).innerHTML = '';
 
-        const dropzone = new window.Dropzone(item, options);
+        const baseUrl = `${window.location.protocol}//${window.location.host}`;
+
+        const dropzone = new window.Dropzone(item, {
+          url: baseUrl+"/admin/media/upload",
+          headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+          },
+          maxFiles: 1000, // Maximum number of files allowed
+          maxFilesize: 500, // Maximum file size in MB
+          acceptedFiles: "image/*", // Accepted file types (for example, images only)
+          dictDefaultMessage: "Drop files here or click to upload", // Default message
+          init: function() {
+              this.on("error", function(file, response) {
+                  console.error("Upload error:", response);
+              });
+              this.on("addedfile", function(file) {
+              });
+              this.on("success", function(file, response) {
+              });
+          }
+      });
 
         dropzone.on(Events.ADDED_FILE, () => {
           if (item.querySelector(Selector.DZ_PREVIEW_COVER)) {

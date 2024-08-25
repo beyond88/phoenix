@@ -102,7 +102,7 @@
                                     <span class="fas fa-caret-right dropdown-indicator-icon"></span>
                                 </div>
                                 <span class="nav-link-icon">
-                                    <span data-feather="phone"></span>
+                                    <span data-feather="folder"></span>
                                 </span>
                                 <span class="nav-link-text">Media</span>
                             </div>
@@ -111,14 +111,14 @@
                             <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-media">
                                 <li class="collapsed-nav-item-title d-none">Media </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('admin/library') }}">
+                                    <a class="nav-link" href="{{ url('admin/media') }}">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">Library</span>
                                         </div>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('admin/create') }}">
+                                    <a class="nav-link" href="{{ url('admin/media/add') }}">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">Add New Media File</span>
                                         </div>

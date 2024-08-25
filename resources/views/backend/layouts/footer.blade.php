@@ -1,3 +1,5 @@
+        @livewireScripts
+
         <!-- ===============================================-->
         <!--    JavaScripts -->
         <!-- ===============================================-->
@@ -49,15 +51,8 @@
                         }
                     });
                 });
-
-                // Hide the .tox-notifications-container element after the DOM is fully loaded
-                const notificationElement = document.querySelector('.tox-notification--warning');
-                if (notificationElement) {
-                    notificationElement.style.display = 'none';
-                }
             });
+
         </script>
-        
-        @livewireScripts
     </body>
 </html>

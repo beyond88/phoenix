@@ -24927,8 +24927,8 @@ pre[class*=language-] {
   padding: 1rem;
 }
 .dropzone.dropzone-multiple .dz-image {
-  height: 2rem;
-  width: 2rem;
+  height: 100%;
+  width: 100%;
   -o-object-fit: cover;
   object-fit: cover;
   border-radius: 0;
