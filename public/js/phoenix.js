@@ -1866,8 +1866,8 @@
           headers: {
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
           },
-          maxFiles: 5, // Maximum number of files allowed
-          maxFilesize: 2, // Maximum file size in MB
+          maxFiles: 1000, // Maximum number of files allowed
+          maxFilesize: 500, // Maximum file size in MB
           acceptedFiles: "image/*", // Accepted file types (for example, images only)
           dictDefaultMessage: "Drop files here or click to upload", // Default message
           init: function() {

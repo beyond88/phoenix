@@ -27,7 +27,7 @@
             <div class="tab-content mt-3" id="myTabContent">
                 <div class="tab-content-wrap">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                        <div class="container">
+                        <div class="container" style="max-height: 600px; overflow-y: auto;" wire:scroll.debounce.200ms="loadMore">
                             <div class="row">
                                 @foreach($mediaItems as $item)
                                 <div class="col-md-6 col-lg-2 item attachment details">
@@ -38,10 +38,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <button type="button" class="check" tabindex="0">
-                                        <span class="media-modal-icon ms-1" data-feather="check" style="height:16px;width:15px;"></span>
-                                        <span class="screen-reader-text">Deselect</span>
-                                    </button>
                                 </div>
                                 @endforeach
                             </div>
