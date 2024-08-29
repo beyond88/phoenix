@@ -14,7 +14,8 @@ class MediaModal extends Component
     public function loadMore()
     {
         $media = MediaModel::select('id', 'media_name', 'created_at', 'updated_at')
-                           ->paginate(12, ['*'], 'page', $this->page);
+                                        ->orderBy('created_at', 'desc')
+                                        ->paginate(12, ['*'], 'page', $this->page);
 
         $this->mediaItems = array_merge($this->mediaItems, $media->items());
         $this->hasMorePages = $media->hasMorePages();

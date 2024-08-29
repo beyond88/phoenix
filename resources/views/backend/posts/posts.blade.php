@@ -57,7 +57,7 @@
                   </div>
                   <div class="ms-xxl-auto">
                      <button class="btn btn-link text-body me-4 px-0"><span class="fa-solid fa-file-export fs-9 me-2"></span>Export</button>
-                     <button class="btn btn-primary" id="addBtn"><span class="fas fa-plus me-2"></span>Add Post</button>
+                     <button class="btn btn-primary" id="addBtn" onClick="window.location.href='{{ url('admin/posts/add')}}'"><span class="fas fa-plus me-2"></span>Add Post</button>
                   </div>
                </div>
             </div>

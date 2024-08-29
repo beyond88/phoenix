@@ -23,7 +23,8 @@ class Media extends Component
         }
 
         $media = MediaModel::select('id', 'media_name', 'created_at', 'updated_at')
-                           ->paginate(24, ['*'], 'page', $this->page);
+                                        ->orderBy('created_at', 'desc')
+                                        ->paginate(24, ['*'], 'page', $this->page);
 
         $this->mediaItems = array_merge($this->mediaItems, $media->items());
         $this->hasMorePages = $media->hasMorePages();
