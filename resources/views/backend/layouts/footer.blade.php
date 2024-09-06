@@ -22,6 +22,8 @@
         <script src="{{ url('js/echarts.min.js') }}"></script>
         <script src="{{ url('js/ecommerce-dashboard.js') }}"></script>
 
+        @livewireScripts
+
         <script>
             tinymce.init({
                 selector: 'textarea',
@@ -34,6 +36,22 @@
                     { value: 'Email', title: 'Email' },
                 ],
                 ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
+            });
+
+            // Media popup modal
+            document.addEventListener('DOMContentLoaded', function() {
+                const attachmentPreviews = document.querySelectorAll('#media-container .attachment-preview .thumbnail');
+                
+                attachmentPreviews.forEach(preview => {
+                    preview.addEventListener('click', function(event) {
+                        event.stopPropagation();
+                        attachmentPreviews.forEach(item => item.closest('.attachment.details').classList.remove('selected'));
+                        const attachment = this.closest('.attachment.details');
+                        if (attachment) {
+                            attachment.classList.add('selected');
+                        }
+                    });
+                });
             });
         </script>
     </body>

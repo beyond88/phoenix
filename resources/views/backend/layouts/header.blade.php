@@ -61,6 +61,5 @@
             }
         </script>
         @livewireStyles
-        @livewireScripts
     </head>
 <body>

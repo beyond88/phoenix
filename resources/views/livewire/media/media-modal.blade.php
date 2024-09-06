@@ -2,7 +2,7 @@
     <div class="container" id="media-container" style="max-height: 400px; overflow-y: auto !important;" wire:scroll.debounce.200ms="loadMore">
         <div class="row">
             @foreach($mediaItems as $item)
-                <div class="col-md-6 col-lg-2 item attachment details">
+                <div class="col-md-6 col-lg-2 item attachment details" aria-label="{{ $item->media_name }}" data-id="{{ $item->id }}">
                     <div class="attachment-preview js--select-attachment type-image subtype-png landscape">
                         <div class="thumbnail">
                             <div class="centered">
