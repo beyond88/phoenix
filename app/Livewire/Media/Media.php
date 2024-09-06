@@ -10,6 +10,7 @@ class Media extends Component
     public $mediaItems = [];
     public $page = 1;
     public $hasMorePages = true;
+    public $selectedMedia;
 
     public function mount()
     {
@@ -31,8 +32,14 @@ class Media extends Component
         $this->page++;
     }
 
+    public function loadMediaDetails($mediaId)
+    {
+        $this->selectedMedia = MediaModel::find($mediaId);
+    }
+
     public function render()
     {
         return view('livewire.media.media');
     }
+
 }
