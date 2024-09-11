@@ -75,23 +75,97 @@ class MediaUploader extends Controller
      */
     public function deleteMedia($id)
     {
+        // try {
+        //     $media = Media::findOrFail($id);
+        //     $mediaName = $media->media_name;
+        //     $filePath = "media/$mediaName";
+
+        //     if (Storage::disk('public')->exists($filePath)) {
+        //         Storage::disk('public')->delete($filePath);
+        //     }
+
+        //     $media->delete();
+
+        //     $message = Storage::disk('public')->exists($filePath) ? 'Media deleted successfully!' : 'Media record deleted successfully, but the file was not found in storage.';
+        //     $type = 'success';
+
+        //     return redirect()->route('media.media')->with('message', $message)->with('type', $type);
+        // } catch (\Exception $e) {
+        //     return redirect()->route('media.media')->with('message', 'Deletion failed: '.$e->getMessage())->with('type', 'error');
+        // }
+
         try {
             $media = Media::findOrFail($id);
             $mediaName = $media->media_name;
             $filePath = "media/$mediaName";
-
+    
             if (Storage::disk('public')->exists($filePath)) {
                 Storage::disk('public')->delete($filePath);
             }
-
+    
             $media->delete();
-
-            $message = Storage::disk('public')->exists($filePath) ? 'Media deleted successfully!' : 'Media record deleted successfully, but the file was not found in storage.';
+    
+            $message = Storage::disk('public')->exists($filePath) ? 
+                       'Media deleted successfully!' : 
+                       'Media record deleted successfully, but the file was not found in storage.';
             $type = 'success';
-
-            return redirect()->route('media.media')->with('message', $message)->with('type', $type);
+    
+            return response()->json([
+                'message' => $message,
+                'type' => $type
+            ]);
         } catch (\Exception $e) {
-            return redirect()->route('media.media')->with('message', 'Deletion failed: '.$e->getMessage())->with('type', 'error');
+            return response()->json([
+                'message' => 'Deletion failed: ' . $e->getMessage(),
+                'type' => 'error'
+            ]);
         }
     }
+
+    public function getMediaPlaceholderIcon($mediaFileName)
+    {
+        // Define supported file types and their corresponding icons
+        $mediaTypes = [
+            'pdf' => 'document.svg',
+            'doc' => 'document.svg',
+            'docx' => 'document.svg',
+            'ppt' => 'document.svg',
+            'pptx' => 'document.svg',
+            'ods' => 'document.svg',
+            'xls' => 'document.svg',
+            'xlsx' => 'document.svg',
+            'psd' => 'document.svg',
+            'xml' => 'code.svg',
+            'mp3' => 'audio.svg',
+            'm4a' => 'audio.svg',
+            'ogg' => 'audio.svg',
+            'wav' => 'audio.svg',
+            'mp4' => 'video.svg',
+            'm4v' => 'video.svg',
+            'mov' => 'video.svg',
+            'wmv' => 'video.svg',
+            'avi' => 'video.svg',
+            'mpg' => 'video.svg',
+            'mpeg' => 'video.svg',
+            'ogv' => 'video.svg',
+            '3gp' => 'video.svg',
+            '3g2' => 'video.svg',
+            'zip' => 'archive.svg',
+            'rar' => 'archive.svg',
+            '7z' => 'archive.svg',
+        ];
+
+        // Get the file extension
+        $extension = strtolower(pathinfo($mediaFileName, PATHINFO_EXTENSION));
+
+        // If the media type is an image (jpg, jpeg, png, gif), return the original media path
+        $imageTypes = ['jpg', 'jpeg', 'png', 'gif'];
+        if (in_array($extension, $imageTypes)) {
+            return $mediaFileName;
+        }
+
+        // Otherwise, return the corresponding placeholder icon
+        return asset('img/placeholders/' . ($mediaTypes[$extension] ?? 'default.svg'));
+    }
+
 }

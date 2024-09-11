@@ -3,19 +3,36 @@
 namespace App\Livewire\Media;
 
 use Livewire\Component;
+use App\Services\MediaUploader;
 use App\Models\Media as MediaModel;
 
 class Media extends Component
 {
+    /**
+     * The media uploader service instance.
+     *
+     * @var MediaUploader
+     */
+    protected $mediaUploader;
+
     public $mediaItems = [];
     public $page = 1;
     public $hasMorePages = true;
     public $selectedMedia;
     public $mode = 'list'; // Default mode
 
+    protected function getMediaUploader(): MediaUploader
+    {
+        return app(MediaUploader::class);
+    }
+
+    public function getMediaPlaceholderIcon($mediaFileName)
+    {
+        return $this->getMediaUploader()->getMediaPlaceholderIcon($mediaFileName);
+    }
+
     public function mount()
     {
-        // Get the 'mode' query parameter from the URL, default to 'list' if not set
         $this->mode = request()->query('mode', 'list');
         
         $this->loadMore();
@@ -47,5 +64,23 @@ class Media extends Component
             'mediaItems' => $this->mediaItems,
             'mode' => $this->mode, // Pass the mode to the view
         ]);
+    }
+
+    public function deleteMedia($mediaId)
+    {
+        try {
+            $result = $this->getMediaUploader()->deleteMedia($mediaFileName);
+
+            if ($result['success']) {
+                session()->flash('message', 'Media deleted successfully!');
+                session()->flash('type', 'success');
+            } else {
+                session()->flash('message', 'Media record deleted successfully, but the file was not found in storage.');
+                session()->flash('type', 'warning');
+            }
+        } catch (\Exception $e) {
+            session()->flash('message', 'Deletion failed: ' . $e->getMessage());
+            session()->flash('type', 'error');
+        }
     }
 }

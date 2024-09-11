@@ -9,19 +9,39 @@ use Illuminate\Support\Facades\Storage;
 
 class MediaController extends Controller
 {
-
+    /**
+     * The media uploader service instance.
+     *
+     * @var MediaUploader
+     */
     protected $mediaUploader;
 
+    /**
+     * Create a new controller instance.
+     *
+     * @param  MediaUploader  $mediaUploader
+     * @return void
+     */
     public function __construct(MediaUploader $mediaUploader)
     {
         $this->mediaUploader = $mediaUploader;
     }
 
+    /**
+     * Display the media index page.
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         return view('backend.media.media');
     }
 
+    /**
+     * Display the add new media page.
+     *
+     * @return \Illuminate\View\View
+     */
     public function addNew()
     {
         return view('backend.media.add-new');
@@ -30,6 +50,7 @@ class MediaController extends Controller
     /**
      * Handle the upload of a new media item.
      *
+     * @param  Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function uploadNewMedia(Request $request)
@@ -41,6 +62,5 @@ class MediaController extends Controller
         }
 
         return session()->flash('success', 'Media uploaded successfully!');
-
     }
 }
