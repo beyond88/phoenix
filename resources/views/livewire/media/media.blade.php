@@ -1,5 +1,26 @@
 <div class="content">
-    <h3 class="upload-cls">Media Library</h3>
+    <div class="add-new-media-file-heading" style="">
+        <h3 class="upload-cls">Media Library</h3>
+        <a href="{{ url('admin/media/add') }}" class="btn btn-outline-primary me-1 mb-1">Add New Media File</a>
+    </div>
+
+    <div class="row g-5">
+        <div class="col-12 col-xl-8">
+            @if(session()->has('success'))
+                <div class="alert alert-outline-success d-flex align-items-center" role="alert">
+                    <span class="fas fa-check-circle text-success fs-5 me-3"></span>
+                    <p class="mb-0 flex-1">{{ session()->get('success') }}</p>
+                    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+            @if(session()->has('error'))
+                <div class="alert alert-outline-danger d-flex align-items-center" role="alert">
+                    <span class="fas fa-times-circle text-danger fs-5 me-3"></span>
+                    <p class="mb-0 flex-1">{{ session()->get('error') }}</p>
+                    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+        </div>
     <div class="modal-content library">
         <div class="modal-body">
             <div class="media-toolbar">
@@ -57,12 +78,12 @@
                                             @if(empty($mediaItems))
                                             <tr>
                                                 <td class="align-middle">
-                                                    Media Not Available
+                                                    No media files found.
                                                 </td>
                                             </tr>
                                             @else
                                                 @foreach($mediaItems as $item)
-                                                <tr>
+                                                <tr wire:key="media-{{ $item->id }}">
                                                     <td class="align-middle">
                                                         <input type="checkbox">
                                                     </td>
@@ -75,10 +96,11 @@
                                                             width="60px" 
                                                             height="60px"
                                                         >
+                                                        &nbsp; <a href="#!" data-bs-toggle="modal" data-bs-target="#verticallyCentered" wire:click="loadMediaDetails({{ $item->id }})"><strong>{{ $item->media_name }}</strong></a>
                                                         </div>
                                                     </td>
                                                     <td class="align-middle">
-                                                        2024/09/09
+                                                        {{ $this->getFormattedDate( $item->created_at ) }}
                                                     </td>
                                                     <td class="align-middle white-space-nowrap text-end pe-0">
                                                         <div class="btn-reveal-trigger position-static">
@@ -89,9 +111,9 @@
                                                             </button>
                                                             <div class="dropdown-menu dropdown-menu-end py-2">
                                                                 <a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#verticallyCentered" wire:click="loadMediaDetails({{ $item->id }})">View</a>
-                                                                <a class="dropdown-item" href="#!">Download</a>
+                                                                <a class="dropdown-item" href="{{ route('media.download', $item->id) }}" download>Download</a>
                                                                 <div class="dropdown-divider"></div>
-                                                                <a class="dropdown-item text-danger" href="#!" wire:click="deleteMedia({{ $item->id }})">Delete</a>
+                                                                <button type="button" class="dropdown-item text-danger" wire:click="deleteMedia({{ $item->id }})">Delete</button>
                                                             </div>
                                                         </div>
                                                     </td>
@@ -109,7 +131,7 @@
                             <div class="row">
                                 @if(empty($mediaItems))
                                     <div class="col-12">
-                                        <p class="text-center">No media items available.</p>
+                                        <p class="text-center">No media files found.</p>
                                     </div>
                                 @else
                                     @foreach($mediaItems as $item)
@@ -135,6 +157,19 @@
                 </div>
             </div>
 
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    Livewire.on('media-deleted', function () {
+                    var modal = new bootstrap.Modal(document.getElementById('verticallyCentered'));
+                    modal.hide();
+                });
+
+                Livewire.on('error', function (event) {
+                        alert(event.message); // Show error message if needed
+                    });
+                });
+            </script>
+
             <div class="modal fade" id="verticallyCentered" tabindex="-1" aria-labelledby="verticallyCenteredModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -147,21 +182,24 @@
                         <div class="modal-body">
                             @if($selectedMedia)
                                 @php
-                                    $mimeType = mime_content_type(storage_path('app/public/media/' . $selectedMedia->media_name));
-                                    $extension = pathinfo($selectedMedia->media_name, PATHINFO_EXTENSION);
+                                    $filePath = storage_path('app/public/media/' . $selectedMedia->media_name);
+                                    $mimeType = mime_content_type($filePath) ?? 'unknown';
+                                    $extension = strtolower(pathinfo($selectedMedia->media_name, PATHINFO_EXTENSION));
                                 @endphp
 
                                 @switch($mimeType)
+                                    {{-- Images --}}
                                     @case('image/jpg')
                                     @case('image/jpeg')
                                     @case('image/png')
                                     @case('image/gif')
                                     @case('image/webp')
-                                    @case('image/svg')
+                                    @case('image/svg+xml')  {{-- Ensure correct MIME for SVG --}}
                                         <img src="{{ asset('storage/media/' . $selectedMedia->media_name) }}" class="img-fluid" alt="{{ $selectedMedia->media_name }}">
                                         @break
 
-                                    @case('audio/mp3')
+                                    {{-- Audio --}}
+                                    @case('audio/mpeg')
                                     @case('audio/wav')
                                     @case('audio/ogg')
                                     @case('audio/x-m4a')
@@ -170,61 +208,45 @@
                                             Your browser does not support the audio element.
                                         </audio>
                                         @break
+
+                                    {{-- Video --}}
                                     @case('video/mp4')
-                                    @case('video/m4v')
-                                    @case('video/mov')
-                                    @case('video/avi')
-                                    @case('video/mpg')
-                                    @case('video/mpeg')
                                     @case('video/quicktime')
-                                    @case('video/x-ms-wmv')
                                     @case('video/x-msvideo')
-                                    @case('video/3gp')
-                                    @case('video/3gpp2')
-                                    @case('video/ogv')
+                                    @case('video/x-ms-wmv')
+                                    @case('video/3gpp')
+                                    @case('video/ogg')
                                         <video controls width="100%">
                                             <source src="{{ asset('storage/media/' . $selectedMedia->media_name) }}" type="{{ $mimeType }}">
                                             Your browser does not support the video tag.
                                         </video>
                                         @break
 
+                                    {{-- PDF --}}
                                     @case('application/pdf')
                                         <embed src="{{ asset('storage/media/' . $selectedMedia->media_name) }}" type="application/pdf" width="100%" height="500px" />
                                         @break
-                                    @case('application/doc')
-                                        <embed src="{{ asset('storage/media/' . $selectedMedia->media_name) }}" type="application/doc" width="100%" height="500px" />
-                                        @break
-                                    @case('application/docx')
-                                        <embed src="{{ asset('storage/media/' . $selectedMedia->media_name) }}" type="application/docx" width="100%" height="500px" />
-                                        @break
-                                    @case('application/ppt')
-                                        <embed src="{{ asset('storage/media/' . $selectedMedia->media_name) }}" type="application/ppt" width="100%" height="500px" />
-                                        @break
-                                    @case('application/pptx')
-                                        <embed src="{{ asset('storage/media/' . $selectedMedia->media_name) }}" type="application/pptx" width="100%" height="500px" />
-                                        @break
-                                    @case('application/ods')
-                                        <embed src="{{ asset('storage/media/' . $selectedMedia->media_name) }}" type="application/ods" width="100%" height="500px" />
-                                        @break
-                                    @case('application/xls')
-                                        <embed src="{{ asset('storage/media/' . $selectedMedia->media_name) }}" type="application/xls" width="100%" height="500px" />
-                                        @break
-                                    @case('application/xlsx')
-                                        <embed src="{{ asset('storage/media/' . $selectedMedia->media_name) }}" type="application/xlsx" width="100%" height="500px" />
-                                        @break
-                                    @case('application/psd')
-                                        <embed src="{{ asset('storage/media/' . $selectedMedia->media_name) }}" type="application/psd" width="100%" height="500px" />
-                                        @break
-                                    @case('application/xml')
-                                        <embed src="{{ asset('storage/media/' . $selectedMedia->media_name) }}" type="application/xml" width="100%" height="500px" />
+
+                                    {{-- Office Documents (Group similar MIME types) --}}
+                                    @case('application/msword')
+                                    @case('application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+                                    @case('application/vnd.ms-powerpoint')
+                                    @case('application/vnd.openxmlformats-officedocument.presentationml.presentation')
+                                    @case('application/vnd.ms-excel')
+                                    @case('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+                                        <embed src="{{ asset('storage/media/' . $selectedMedia->media_name) }}" type="{{ $mimeType }}" width="100%" height="500px" />
                                         @break
 
+                                    {{-- Default for unknown or unhandled file types --}}
                                     @default
                                         @php
                                             $iconMap = [
                                                 'zip' => 'archive.svg',
                                                 'rar' => 'archive.svg',
-                                                '7z' => 'archive.svg',
+                                                '7z'  => 'archive.svg',
+                                                'psd' => 'psd.svg',
+                                                'xml' => 'xml.svg',
+                                                'default' => 'default.svg'
                                             ];
                                             $icon = $iconMap[$extension] ?? 'default.svg';
                                         @endphp
@@ -233,7 +255,8 @@
                                             <p>{{ $selectedMedia->media_name }}</p>
                                         </div>
                                 @endswitch
-                                
+
+                                {{-- Additional media details --}}
                                 <div class="media-item-details" style="margin-top: 20px;">
                                     <h5>{{ $selectedMedia->media_name }}</h5>
                                     <p>File type: {{ $mimeType }}</p>
@@ -242,9 +265,15 @@
                                 <p>No media selected.</p>
                             @endif
                         </div>
+
                         <div class="modal-footer">
-                            <!-- <button class="btn btn-primary" type="button">Okay</button> -->
-                            <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Close</button>
+                            <!-- @if($selectedMedia)
+                                <button class="btn btn-outline-danger me-1 mb-1" type="button" wire:click="deleteMedia({{ $selectedMedia->id }})">Delete</button>
+                            @endif -->
+                            @if($selectedMedia)
+                                <a href="{{ route('media.download', $selectedMedia->id) }}" class="btn btn-outline-success me-1 mb-1" type="button" download>Download</a>
+                            @endif
+                            <button class="btn btn-outline-primary me-1 mb-1" type="button" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>

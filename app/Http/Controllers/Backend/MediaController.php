@@ -63,4 +63,8 @@ class MediaController extends Controller
 
         return session()->flash('success', 'Media uploaded successfully!');
     }
+
+    public function downloadMedia($mediaId) {
+        return $this->mediaUploader->downloadMedia($mediaId);
+    }
 }

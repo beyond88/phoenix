@@ -8,6 +8,7 @@ use App\Http\Controllers\Exception;
 use App\Models\Media;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class MediaUploader extends Controller
 {
@@ -75,50 +76,53 @@ class MediaUploader extends Controller
      */
     public function deleteMedia($id)
     {
-        // try {
-        //     $media = Media::findOrFail($id);
-        //     $mediaName = $media->media_name;
-        //     $filePath = "media/$mediaName";
-
-        //     if (Storage::disk('public')->exists($filePath)) {
-        //         Storage::disk('public')->delete($filePath);
-        //     }
-
-        //     $media->delete();
-
-        //     $message = Storage::disk('public')->exists($filePath) ? 'Media deleted successfully!' : 'Media record deleted successfully, but the file was not found in storage.';
-        //     $type = 'success';
-
-        //     return redirect()->route('media.media')->with('message', $message)->with('type', $type);
-        // } catch (\Exception $e) {
-        //     return redirect()->route('media.media')->with('message', 'Deletion failed: '.$e->getMessage())->with('type', 'error');
-        // }
-
         try {
             $media = Media::findOrFail($id);
             $mediaName = $media->media_name;
             $filePath = "media/$mediaName";
-    
+
             if (Storage::disk('public')->exists($filePath)) {
                 Storage::disk('public')->delete($filePath);
             }
-    
-            $media->delete();
-    
+
             $message = Storage::disk('public')->exists($filePath) ? 
-                       'Media deleted successfully!' : 
-                       'Media record deleted successfully, but the file was not found in storage.';
+                    'Media deleted successfully!' : 
+                    'Media record deleted, but the file was not found in storage.';
             $type = 'success';
-    
-            return response()->json([
+
+            $media->delete();
+
+            return [
+                'success' => true,
                 'message' => $message,
                 'type' => $type
-            ]);
+            ];
         } catch (\Exception $e) {
-            return response()->json([
+            return [
+                'success' => false,
                 'message' => 'Deletion failed: ' . $e->getMessage(),
                 'type' => 'error'
-            ]);
+            ];
+        }
+    }
+
+    public function downloadMedia($mediaId)
+    {
+        try {
+            $media = Media::findOrFail($mediaId);
+            $filePath = "media/{$media->media_name}";
+    
+            // Verify if the file exists
+            if (Storage::disk('public')->exists($filePath)) {
+                // Return file for download
+                return response()->download(storage_path("app/public/{$filePath}"));
+            } else {
+                // Handle the case where file does not exist
+                return response()->json(['error' => 'File not found.'], 404);
+            }
+        } catch (\Exception $e) {
+            // Handle other exceptions
+            return response()->json(['error' => 'Download failed: ' . $e->getMessage()], 500);
         }
     }
 
@@ -166,6 +170,64 @@ class MediaUploader extends Controller
 
         // Otherwise, return the corresponding placeholder icon
         return asset('img/placeholders/' . ($mediaTypes[$extension] ?? 'default.svg'));
+    }
+
+    public function getFormattedDate($date)
+    {
+
+        if ($date === '0000-00-00 00:00:00' || !$date) {
+            return __('Unpublished');
+        }
+
+        $date = Carbon::parse($date);
+        $now = Carbon::now();
+        $timeDiff = $now->diffInSeconds($date);
+        
+        if ($timeDiff > 0 && $timeDiff < 86400) {
+            return sprintf(__(' %s ago'), $this->humanTimeDiff($now));
+        } else {
+            return $date->format('Y/m/d');
+        }
+    }
+
+    public function humanTimeDiff($from, $to = null)
+    {
+        // Set the default value of $to to the current time if it's not provided
+        if (is_null($to)) {
+            $to = Carbon::now();
+        } else {
+            $to = Carbon::parse($to);
+        }
+        
+        // Parse the $from value into a Carbon instance
+        $from = Carbon::parse($from);
+        
+        // Calculate the difference between the two dates
+        $diffInSeconds = $to->diffInSeconds($from);
+        
+        // Determine the appropriate unit of time and format the output
+        if ($diffInSeconds < 60) {
+            $secs = max($diffInSeconds, 1);
+            return sprintf(__('%s second|%s seconds'), $secs, $secs);
+        } elseif ($diffInSeconds < 3600) {
+            $mins = max(round($diffInSeconds / 60), 1);
+            return sprintf(__('%s min|%s mins'), $mins, $mins);
+        } elseif ($diffInSeconds < 86400) {
+            $hours = max(round($diffInSeconds / 3600), 1);
+            return sprintf(__('%s hour|%s hours'), $hours, $hours);
+        } elseif ($diffInSeconds < 604800) {
+            $days = max(round($diffInSeconds / 86400), 1);
+            return sprintf(__('%s day|%s days'), $days, $days);
+        } elseif ($diffInSeconds < 2592000) {
+            $weeks = max(round($diffInSeconds / 604800), 1);
+            return sprintf(__('%s week|%s weeks'), $weeks, $weeks);
+        } elseif ($diffInSeconds < 31536000) {
+            $months = max(round($diffInSeconds / 2592000), 1);
+            return sprintf(__('%s month|%s months'), $months, $months);
+        } else {
+            $years = max(round($diffInSeconds / 31536000), 1);
+            return sprintf(__('%s year|%s years'), $years, $years);
+        }
     }
 
 }

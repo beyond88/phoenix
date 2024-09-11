@@ -69,18 +69,35 @@ class Media extends Component
     public function deleteMedia($mediaId)
     {
         try {
-            $result = $this->getMediaUploader()->deleteMedia($mediaFileName);
+            // Call the media deletion service
+            $result = $this->getMediaUploader()->deleteMedia($mediaId);
 
-            if ($result['success']) {
-                session()->flash('message', 'Media deleted successfully!');
-                session()->flash('type', 'success');
+            // Check if deletion was successful
+            if (isset($result['success']) && $result['success']) {
+                // Remove the deleted media from the mediaItems array
+                $this->mediaItems = array_filter($this->mediaItems, function($item) use ($mediaId) {
+                    return $item['id'] != $mediaId;
+                });
+
+                // Flash success message
+                session()->flash('success', $result['message']);
             } else {
-                session()->flash('message', 'Media record deleted successfully, but the file was not found in storage.');
-                session()->flash('type', 'warning');
+                // Flash warning/error message
+                session()->flash('error', $result['message']);
             }
+
+            // Re-render the component to reflect changes in the UI
+            $this->render();
+
         } catch (\Exception $e) {
-            session()->flash('message', 'Deletion failed: ' . $e->getMessage());
-            session()->flash('type', 'error');
+            session()->flash('error', 'Deletion failed: ' . $e->getMessage());
         }
     }
+
+    public function getFormattedDate($date) {
+        return $this->getMediaUploader()->getFormattedDate($date);
+    }
+
+
+
 }

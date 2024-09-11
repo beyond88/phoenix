@@ -3,4 +3,5 @@
 return [
     App\Providers\AppServiceProvider::class,
     App\Providers\MediaServiceProvider::class,
+    App\Providers\TelescopeServiceProvider::class,
 ];

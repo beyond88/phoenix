@@ -42,3 +42,14 @@
     width: 22px;
     height: 22px;
 }
+
+.add-new-media-file-heading{
+    display: flex;
+    column-gap: normal;
+    justify-content: left;
+    align-items: start;
+}
+
+.add-new-media-file-heading h3{
+    margin-right: 20px;
+}
