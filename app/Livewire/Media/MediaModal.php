@@ -7,6 +7,7 @@ use App\Models\Media as MediaModel;
 
 class MediaModal extends Component
 {
+    
     public $mediaItems = [];
     public $hasMorePages = true;
     public $page = 1;

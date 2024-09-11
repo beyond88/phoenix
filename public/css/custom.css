@@ -27,3 +27,18 @@
 .dropzone.dropzone-multiple .dz-progress{
     width: 7.25rem !important;
 }
+
+.media-toolbar-secondary a{
+    color: #2c3338;
+}
+
+.media-toolbar-secondary a:hover,
+.media-toolbar-secondary a:active,
+.media-toolbar-secondary a.active{
+    color: var(--phoenix-blue);
+}
+
+.media-toolbar-secondary svg{
+    width: 22px;
+    height: 22px;
+}

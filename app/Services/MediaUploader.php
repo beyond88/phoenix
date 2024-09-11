@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Common;
+namespace App\Services;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -9,7 +9,7 @@ use App\Models\Media;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-class MediaUploadController extends Controller
+class MediaUploader extends Controller
 {
 
     /**
@@ -19,10 +19,7 @@ class MediaUploadController extends Controller
      */
     public function uploadMedia(Request $request)
     {
-        // $request->validate($request, [
-        //     'file' => 'required|file|mimes:jpg,jpeg,png,gif,ico,webp,pdf,doc,docx,ppt,pptx,ods,xls,xlsx,psd,xml,mp3,m4a,ogg,wav,mp4,m4v,mov,wmv,avi,mpg,ogv,3gp,3g2,zip,rar,7z',
-        // ]);
-
+       
         try {
             $file = $request->file('file');
             $originalName = $file->getClientOriginalName();

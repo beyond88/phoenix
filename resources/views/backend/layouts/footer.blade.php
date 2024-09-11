@@ -1,3 +1,5 @@
+        @livewireScripts
+        
         <!-- ===============================================-->
         <!--    JavaScripts -->
         <!-- ===============================================-->
@@ -21,9 +23,6 @@
         <script src="{{ url('js/leaflet-tilelayer-colorfilter.min.js') }}"></script>
         <script src="{{ url('js/echarts.min.js') }}"></script>
         <script src="{{ url('js/ecommerce-dashboard.js') }}"></script>
-
-        @livewireScripts
-
         <script>
             tinymce.init({
                 selector: 'textarea',

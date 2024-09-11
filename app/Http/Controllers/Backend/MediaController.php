@@ -2,13 +2,21 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Services\MediaUploader;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Controllers\Common\MediaUploadController;
 
 class MediaController extends Controller
 {
+
+    protected $mediaUploader;
+
+    public function __construct(MediaUploader $mediaUploader)
+    {
+        $this->mediaUploader = $mediaUploader;
+    }
+
     public function index()
     {
         return view('backend.media.media');
@@ -27,8 +35,7 @@ class MediaController extends Controller
     public function uploadNewMedia(Request $request)
     {
         if ($request->hasFile('file')) {
-            $mediaUploader = app()->make(MediaUploadController::class);
-            $mediaResponse = $mediaUploader->uploadMedia($request);
+            $mediaResponse = $this->mediaUploader->uploadMedia($request);
             $content = $mediaResponse->getContent();
             $data = json_decode($content, true);
         }

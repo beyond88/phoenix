@@ -11,9 +11,13 @@ class Media extends Component
     public $page = 1;
     public $hasMorePages = true;
     public $selectedMedia;
+    public $mode = 'list'; // Default mode
 
     public function mount()
     {
+        // Get the 'mode' query parameter from the URL, default to 'list' if not set
+        $this->mode = request()->query('mode', 'list');
+        
         $this->loadMore();
     }
 
@@ -39,7 +43,9 @@ class Media extends Component
 
     public function render()
     {
-        return view('livewire.media.media');
+        return view('livewire.media.media', [
+            'mediaItems' => $this->mediaItems,
+            'mode' => $this->mode, // Pass the mode to the view
+        ]);
     }
-
 }
