@@ -52,6 +52,18 @@
                     });
                 });
             });
+
+            // document.addEventListener('DOMContentLoaded', function () {
+            //     const selectAllCheckbox = document.getElementById('select-all-media');
+            //     const mediaCheckboxes = document.querySelectorAll('tbody.media-list input[name="media[]"]');
+
+            //     selectAllCheckbox.addEventListener('change', function () {
+            //         const isChecked = this.checked;
+            //         mediaCheckboxes.forEach(checkbox => {
+            //             checkbox.checked = isChecked;
+            //         });
+            //     });
+            // });
         </script>
     </body>
 </html>

@@ -54,10 +54,36 @@
     margin-right: 20px;
 }
 
-.button-load-area{
+.margin-top-20{
     margin-top: 20px;
 }
 
 .attachment-list img{
     cursor: pointer;
+}
+
+.padding-20{
+    padding: 20px !important;
+}
+
+.padding-right-0{
+    padding-right: 0px !important;
+}
+
+.bg-white{
+    background-color: #fff !important;
+}
+
+.margin-top-20{
+    margin-top: 20px !important;
+}
+
+.padding-top-bottom-btn{
+    padding-top: 0.425rem;
+    padding-bottom: 0.425rem;
+}
+
+.select-all-checkbox{
+    width: 1.2rem;
+    height: 1.2rem;
 }

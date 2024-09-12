@@ -17,10 +17,14 @@ class Media extends Component
 
     public $mediaItems = [];
     public $page = 1;
-    public $perPage = 2;
+    public $perPage = 200;
+    public $totalMediaCount = 0;
     public $hasMorePages = true;
-    public $selectedMedia;
+    public $popupMedia;
     public $mode = 'list'; // Default mode
+    public $selectAll = false;
+    public $selectedMedia = [];
+    public $bulkAction = ''; // Holds the selected action from the dropdown
 
     protected function getMediaUploader(): MediaUploader
     {
@@ -45,7 +49,10 @@ class Media extends Component
             return;
         }
 
-        $media = MediaModel::select('id', 'media_name', 'created_at', 'updated_at')
+        $mediaQuery = MediaModel::query();
+        $this->totalMediaCount = $mediaQuery->count();
+
+        $media = $mediaQuery->select('id', 'media_name', 'created_at', 'updated_at')
                                         ->orderBy('created_at', 'desc')
                                         ->paginate($this->perPage, ['*'], 'page', $this->page);
 
@@ -56,7 +63,7 @@ class Media extends Component
 
     public function loadMediaDetails($mediaId)
     {
-        $this->selectedMedia = MediaModel::find($mediaId);
+        $this->popupMedia = MediaModel::find($mediaId);
     }
 
     public function render()
@@ -83,7 +90,7 @@ class Media extends Component
                 session()->flash('error', $result['message']);
             }
 
-            $this->render();
+            //$this->render();
 
         } catch (\Exception $e) {
             session()->flash('error', 'Deletion failed: ' . $e->getMessage());
@@ -92,6 +99,56 @@ class Media extends Component
 
     public function getFormattedDate($date) {
         return $this->getMediaUploader()->getFormattedDate($date);
+    }
+
+    public function updatedSelectedMedia()
+    {
+        $this->selectAll = count($this->selectedMedia) === count($this->mediaItems);
+    }
+
+    public function applyBulkAction()
+    {
+        if ($this->bulkAction === 'delete') {
+            if (!empty($this->selectedMedia)) {
+                $successCount = 0;
+                $failCount = 0;
+
+                foreach ($this->selectedMedia as $mediaId) {
+                    $result = $this->getMediaUploader()->deleteMedia($mediaId);
+
+                    if (isset($result['success']) && $result['success']) {
+                        $successCount++;
+                        $this->mediaItems = collect($this->mediaItems)->filter(function($item) use ($mediaId) {
+                            return $item->id != $mediaId;
+                        });
+                    } else {
+                        $failCount++;
+                    }
+                }
+
+                $this->selectedMedia = [];
+                $this->selectAll = false;
+
+                if ($successCount > 0) {
+                    session()->flash('success', "$successCount media file(s) have been deleted successfully.");
+                }
+                if ($failCount > 0) {
+                    session()->flash('error', "Failed to delete $failCount media file(s).");
+                }
+            } else {
+                session()->flash('error', 'No media selected for deletion.');
+            }
+
+            if (collect($this->mediaItems)->isEmpty() && $this->page > 1) {
+                $this->page--;
+                $this->loadMore();
+            }
+
+            // Use dispatch instead of emit
+            $this->dispatch('mediaDeleted');
+        }
+
+        $this->bulkAction = '';
     }
 
 }

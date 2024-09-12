@@ -23,7 +23,7 @@
         </div>
     <div class="modal-content library">
         <div class="modal-body">
-            <div class="media-toolbar">
+            <div class="media-toolbar padding-20 bg-white">
                 <div class="media-toolbar-secondary">
                     <a href="{{ url()->current() }}?mode=list" 
                         class="{{ request()->query('mode') == 'list' || !request()->has('mode') ? 'active' : '' }}" 
@@ -48,13 +48,31 @@
                         <option value="all">All dates</option>
                         <option value="0">August 2024</option>
                     </select>
-                    <span class="spinner"></span>
                 </div>
                 <div class="media-toolbar-primary search-form">
-                    <label for="media-search-input" class="media-search-input-label">Search media</label>
                     <input type="text" wire:model.debounce.300ms="searchTerm" id="media-search-input" class="search" placeholder="Search media files...">
                 </div>
             </div>
+            <div class="media-toolbar margin-top-20">
+                <div class="media-toolbar-secondary">
+                    <select id="media-buil-actions" class="attachment-filters" wire:model="bulkAction">>
+                        <option value="">Bulk Actions</option>
+                        <option value="delete">Delete Permanently</option>
+                    </select>
+                    <button type="button" name="apply" id="apply" class="btn btn-outline-primary me-1 mb-1 padding-top-bottom-btn" wire:click="applyBulkAction" wire:loading.attr="disabled">
+                        <span wire:loading.remove>Apply</span>
+                        <span wire:loading>
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <span class="visually-hidden">Processing...</span>
+                        </span>
+                    </button>
+                </div>
+                <div class="media-toolbar-primary search-form">
+                    {{ $this->totalMediaCount }} items
+                </div>
+            </div>
+
+
             <div class="tab-content mt-3" id="myTabContent">
                 <div class="tab-content-wrap">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -67,14 +85,14 @@
                                             <thead>
                                             <tr>
                                                 <th class="sort border-top border-translucent">
-                                                    <input type="checkbox">
+                                                    <input type="checkbox" class="select-all-checkbox" id="select-all-media" wire:model="selectAll">
                                                 </th>
                                                 <th class="sort border-top border-translucent" data-sort="name">File</th>
                                                 <th class="sort border-top border-translucent" data-sort="email">Date</th>
                                                 <th class="sort text-end align-middle pe-0 border-top border-translucent" scope="col">ACTION</th>
                                             </tr>
                                             </thead>
-                                            <tbody class="list" style="max-height: 600px; overflow-y: auto;" wire:scroll.debounce.200ms="loadMore">
+                                            <tbody class="list media-list" style="max-height: 600px; overflow-y: auto;">
                                                 @if(empty($mediaItems))
                                                 <tr>
                                                     <td class="align-middle">
@@ -85,7 +103,7 @@
                                                     @foreach($mediaItems as $item)
                                                     <tr wire:key="media-{{ $item->id }}">
                                                         <td class="align-middle">
-                                                            <input type="checkbox">
+                                                            <input type="checkbox" class="select-all-checkbox" name="media[]" value="{{ $item->id }}" wire:model="selectedMedia">
                                                         </td>
                                                         <td class="align-middle">
                                                             <div class="attachment-list">
@@ -126,7 +144,7 @@
                                         @if($this->hasMorePages)
                                             <div class="row">
                                                 <div class="col-md-4 col-sm-hidden col-xs-hidden"></div>
-                                                <div class="col-md-4 col-sm-12 col-xs-12 button-load-area">
+                                                <div class="col-md-4 col-sm-12 col-xs-12 margin-top-20">
                                                     <button type="button" class="btn btn-primary me-1 mb-1" wire:click="loadMore" wire:loading.attr="disabled">
                                                         <span wire:loading.remove>Load More</span>
                                                         <span wire:loading>
@@ -170,7 +188,7 @@
                             @if($this->hasMorePages)
                             <div class="row">
                                 <div class="col-md-4 col-sm-hidden col-xs-hidden"></div>
-                                <div class="col-md-4 col-sm-12 col-xs-12 button-load-area">
+                                <div class="col-md-4 col-sm-12 col-xs-12 margin-top-20">
                                     <button type="button" class="btn btn-primary me-1 mb-1" wire:click="loadMore" wire:loading.attr="disabled">
                                         <span wire:loading.remove>Load More</span>
                                         <span wire:loading>
@@ -188,19 +206,6 @@
                 </div>
             </div>
 
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    Livewire.on('media-deleted', function () {
-                    var modal = new bootstrap.Modal(document.getElementById('verticallyCentered'));
-                    modal.hide();
-                });
-
-                Livewire.on('error', function (event) {
-                        alert(event.message); // Show error message if needed
-                    });
-                });
-            </script>
-
             <div class="modal fade" id="verticallyCentered" tabindex="-1" aria-labelledby="verticallyCenteredModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -211,11 +216,11 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            @if($selectedMedia)
+                            @if($popupMedia)
                                 @php
-                                    $filePath = storage_path('app/public/media/' . $selectedMedia->media_name);
+                                    $filePath = storage_path('app/public/media/' . $popupMedia->media_name);
                                     $mimeType = mime_content_type($filePath) ?? 'unknown';
-                                    $extension = strtolower(pathinfo($selectedMedia->media_name, PATHINFO_EXTENSION));
+                                    $extension = strtolower(pathinfo($popupMedia->media_name, PATHINFO_EXTENSION));
                                 @endphp
 
                                 @switch($mimeType)
@@ -226,7 +231,7 @@
                                     @case('image/gif')
                                     @case('image/webp')
                                     @case('image/svg+xml')  {{-- Ensure correct MIME for SVG --}}
-                                        <img src="{{ asset('storage/media/' . $selectedMedia->media_name) }}" class="img-fluid" alt="{{ $selectedMedia->media_name }}">
+                                        <img src="{{ asset('storage/media/' . $popupMedia->media_name) }}" class="img-fluid" alt="{{ $popupMedia->media_name }}">
                                         @break
 
                                     {{-- Audio --}}
@@ -235,7 +240,7 @@
                                     @case('audio/ogg')
                                     @case('audio/x-m4a')
                                         <audio controls>
-                                            <source src="{{ asset('storage/media/' . $selectedMedia->media_name) }}" type="{{ $mimeType }}">
+                                            <source src="{{ asset('storage/media/' . $popupMedia->media_name) }}" type="{{ $mimeType }}">
                                             Your browser does not support the audio element.
                                         </audio>
                                         @break
@@ -248,14 +253,14 @@
                                     @case('video/3gpp')
                                     @case('video/ogg')
                                         <video controls width="100%">
-                                            <source src="{{ asset('storage/media/' . $selectedMedia->media_name) }}" type="{{ $mimeType }}">
+                                            <source src="{{ asset('storage/media/' . $popupMedia->media_name) }}" type="{{ $mimeType }}">
                                             Your browser does not support the video tag.
                                         </video>
                                         @break
 
                                     {{-- PDF --}}
                                     @case('application/pdf')
-                                        <embed src="{{ asset('storage/media/' . $selectedMedia->media_name) }}" type="application/pdf" width="100%" height="500px" />
+                                        <embed src="{{ asset('storage/media/' . $popupMedia->media_name) }}" type="application/pdf" width="100%" height="500px" />
                                         @break
 
                                     {{-- Office Documents (Group similar MIME types) --}}
@@ -265,7 +270,7 @@
                                     @case('application/vnd.openxmlformats-officedocument.presentationml.presentation')
                                     @case('application/vnd.ms-excel')
                                     @case('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-                                        <embed src="{{ asset('storage/media/' . $selectedMedia->media_name) }}" type="{{ $mimeType }}" width="100%" height="500px" />
+                                        <embed src="{{ asset('storage/media/' . $popupMedia->media_name) }}" type="{{ $mimeType }}" width="100%" height="500px" />
                                         @break
 
                                     {{-- Default for unknown or unhandled file types --}}
@@ -283,13 +288,13 @@
                                         @endphp
                                         <div class="file-icon">
                                             <img src="{{ asset('img/placeholders/' . $icon) }}" alt="{{ $extension }} file" width="100">
-                                            <p>{{ $selectedMedia->media_name }}</p>
+                                            <p>{{ $popupMedia->media_name }}</p>
                                         </div>
                                 @endswitch
 
                                 {{-- Additional media details --}}
                                 <div class="media-item-details" style="margin-top: 20px;">
-                                    <h5>{{ $selectedMedia->media_name }}</h5>
+                                    <h5>{{ $popupMedia->media_name }}</h5>
                                     <p>File type: {{ $mimeType }}</p>
                                 </div>
                             @else
@@ -299,8 +304,8 @@
 
                         <div class="modal-footer">
                             
-                            @if($selectedMedia)
-                                <a href="{{ route('media.download', $selectedMedia->id) }}" class="btn btn-outline-success me-1 mb-1" type="button" download>Download</a>
+                            @if($popupMedia)
+                                <a href="{{ route('media.download', $popupMedia->id) }}" class="btn btn-outline-success me-1 mb-1" type="button" download>Download</a>
                             @endif
                             <button class="btn btn-outline-primary me-1 mb-1" type="button" data-bs-dismiss="modal">Close</button>
                         </div>
@@ -311,3 +316,11 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('livewire:load', function () {
+        Livewire.on('mediaDeleted', function () {
+            // Any additional client-side actions after media deletion
+        });
+    });
+</script>
