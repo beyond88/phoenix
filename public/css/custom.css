@@ -53,3 +53,11 @@
 .add-new-media-file-heading h3{
     margin-right: 20px;
 }
+
+.button-load-area{
+    margin-top: 20px;
+}
+
+.attachment-list img{
+    cursor: pointer;
+}

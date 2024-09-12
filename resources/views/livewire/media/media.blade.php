@@ -52,7 +52,7 @@
                 </div>
                 <div class="media-toolbar-primary search-form">
                     <label for="media-search-input" class="media-search-input-label">Search media</label>
-                    <input type="search" id="media-search-input" class="search">
+                    <input type="text" wire:model.debounce.300ms="searchTerm" id="media-search-input" class="search" placeholder="Search media files...">
                 </div>
             </div>
             <div class="tab-content mt-3" id="myTabContent">
@@ -63,71 +63,87 @@
                             <div class="card-body p-0">
                                 <div class="p-4 code-to-copy">
                                     <div class="table-responsive">
-                                    <table class="table table-sm fs-9 mb-0">
-                                        <thead>
-                                        <tr>
-                                            <th class="sort border-top border-translucent">
-                                                <input type="checkbox">
-                                            </th>
-                                            <th class="sort border-top border-translucent" data-sort="name">File</th>
-                                            <th class="sort border-top border-translucent" data-sort="email">Date</th>
-                                            <th class="sort text-end align-middle pe-0 border-top border-translucent" scope="col">ACTION</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody class="list" style="max-height: 600px; overflow-y: auto;" wire:scroll.debounce.200ms="loadMore">
-                                            @if(empty($mediaItems))
+                                        <table class="table table-sm fs-9 mb-0">
+                                            <thead>
                                             <tr>
-                                                <td class="align-middle">
-                                                    No media files found.
-                                                </td>
+                                                <th class="sort border-top border-translucent">
+                                                    <input type="checkbox">
+                                                </th>
+                                                <th class="sort border-top border-translucent" data-sort="name">File</th>
+                                                <th class="sort border-top border-translucent" data-sort="email">Date</th>
+                                                <th class="sort text-end align-middle pe-0 border-top border-translucent" scope="col">ACTION</th>
                                             </tr>
-                                            @else
-                                                @foreach($mediaItems as $item)
-                                                <tr wire:key="media-{{ $item->id }}">
+                                            </thead>
+                                            <tbody class="list" style="max-height: 600px; overflow-y: auto;" wire:scroll.debounce.200ms="loadMore">
+                                                @if(empty($mediaItems))
+                                                <tr>
                                                     <td class="align-middle">
-                                                        <input type="checkbox">
-                                                    </td>
-                                                    <td class="align-middle">
-                                                        <div class="attachment-list">
-                                                        <img 
-                                                            src="{{ $this->getMediaPlaceholderIcon(asset('storage/media/' . $item->media_name)) }}" 
-                                                            draggable="false" 
-                                                            alt="{{ $item->media_name }}" 
-                                                            width="60px" 
-                                                            height="60px"
-                                                        >
-                                                        &nbsp; <a href="#!" data-bs-toggle="modal" data-bs-target="#verticallyCentered" wire:click="loadMediaDetails({{ $item->id }})"><strong>{{ $item->media_name }}</strong></a>
-                                                        </div>
-                                                    </td>
-                                                    <td class="align-middle">
-                                                        {{ $this->getFormattedDate( $item->created_at ) }}
-                                                    </td>
-                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                        <div class="btn-reveal-trigger position-static">
-                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
-                                                                <svg class="svg-inline--fa fa-ellipsis fs-10" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="">
-                                                                    <path fill="currentColor" d="M8 256a56 56 0 1 1 112 0A56 56 0 1 1 8 256zm160 0a56 56 0 1 1 112 0 56 56 0 1 1 -112 0zm216-56a56 56 0 1 1 0 112 56 56 0 1 1 0-112z"></path>
-                                                                </svg>
-                                                            </button>
-                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                <a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#verticallyCentered" wire:click="loadMediaDetails({{ $item->id }})">View</a>
-                                                                <a class="dropdown-item" href="{{ route('media.download', $item->id) }}" download>Download</a>
-                                                                <div class="dropdown-divider"></div>
-                                                                <button type="button" class="dropdown-item text-danger" wire:click="deleteMedia({{ $item->id }})">Delete</button>
-                                                            </div>
-                                                        </div>
+                                                        No media files found.
                                                     </td>
                                                 </tr>
-                                                @endforeach
-                                            @endif
-                                        </tbody>
-                                    </table>
+                                                @else
+                                                    @foreach($mediaItems as $item)
+                                                    <tr wire:key="media-{{ $item->id }}">
+                                                        <td class="align-middle">
+                                                            <input type="checkbox">
+                                                        </td>
+                                                        <td class="align-middle">
+                                                            <div class="attachment-list">
+                                                                <img 
+                                                                    src="{{ $this->getMediaPlaceholderIcon(asset('storage/media/' . $item->media_name)) }}" 
+                                                                    draggable="false" 
+                                                                    alt="{{ $item->media_name }}" 
+                                                                    width="60px" 
+                                                                    height="60px"
+                                                                    data-bs-toggle="modal" data-bs-target="#verticallyCentered" wire:click="loadMediaDetails({{ $item->id }})"
+                                                                >
+                                                                &nbsp; <a href="#!" data-bs-toggle="modal" data-bs-target="#verticallyCentered" wire:click="loadMediaDetails({{ $item->id }})"><strong>{{ $item->media_name }}</strong></a>
+                                                            </div>
+                                                        </td>
+                                                        <td class="align-middle">
+                                                            {{ $this->getFormattedDate( $item->created_at ) }}
+                                                        </td>
+                                                        <td class="align-middle white-space-nowrap text-end pe-0">
+                                                            <div class="btn-reveal-trigger position-static">
+                                                                <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
+                                                                    <svg class="svg-inline--fa fa-ellipsis fs-10" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="">
+                                                                        <path fill="currentColor" d="M8 256a56 56 0 1 1 112 0A56 56 0 1 1 8 256zm160 0a56 56 0 1 1 112 0 56 56 0 1 1 -112 0zm216-56a56 56 0 1 1 0 112 56 56 0 1 1 0-112z"></path>
+                                                                    </svg>
+                                                                </button>
+                                                                <div class="dropdown-menu dropdown-menu-end py-2">
+                                                                    <a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#verticallyCentered" wire:click="loadMediaDetails({{ $item->id }})">View</a>
+                                                                    <a class="dropdown-item" href="{{ route('media.download', $item->id) }}" download>Download</a>
+                                                                    <div class="dropdown-divider"></div>
+                                                                    <button type="button" class="dropdown-item text-danger" wire:click="deleteMedia({{ $item->id }})">Delete</button>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+                                                @endif
+                                            </tbody>
+                                        </table>
+                                        @if($this->hasMorePages)
+                                            <div class="row">
+                                                <div class="col-md-4 col-sm-hidden col-xs-hidden"></div>
+                                                <div class="col-md-4 col-sm-12 col-xs-12 button-load-area">
+                                                    <button type="button" class="btn btn-primary me-1 mb-1" wire:click="loadMore" wire:loading.attr="disabled">
+                                                        <span wire:loading.remove>Load More</span>
+                                                        <span wire:loading>
+                                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                            <span class="visually-hidden">Loading...</span>
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                                <div class="col-md-4 col-sm-hidden col-xs-hidden"></div>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
                         </div>
                         @elseif($mode === 'grid')
-                        <div class="container" style="max-height: 600px; overflow-y: auto;" wire:scroll.debounce.200ms="loadMore">
+                        <div class="container">
                             <div class="row">
                                 @if(empty($mediaItems))
                                     <div class="col-12">
@@ -151,6 +167,21 @@
                                     @endforeach
                                 @endif
                             </div>
+                            @if($this->hasMorePages)
+                            <div class="row">
+                                <div class="col-md-4 col-sm-hidden col-xs-hidden"></div>
+                                <div class="col-md-4 col-sm-12 col-xs-12 button-load-area">
+                                    <button type="button" class="btn btn-primary me-1 mb-1" wire:click="loadMore" wire:loading.attr="disabled">
+                                        <span wire:loading.remove>Load More</span>
+                                        <span wire:loading>
+                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Loading...</span>
+                                        </span>
+                                    </button>
+                                </div>
+                                <div class="col-md-4 col-sm-hidden col-xs-hidden"></div>
+                            </div>
+                            @endif
                         </div>
                         @endif
                     </div>
@@ -267,9 +298,7 @@
                         </div>
 
                         <div class="modal-footer">
-                            <!-- @if($selectedMedia)
-                                <button class="btn btn-outline-danger me-1 mb-1" type="button" wire:click="deleteMedia({{ $selectedMedia->id }})">Delete</button>
-                            @endif -->
+                            
                             @if($selectedMedia)
                                 <a href="{{ route('media.download', $selectedMedia->id) }}" class="btn btn-outline-success me-1 mb-1" type="button" download>Download</a>
                             @endif
