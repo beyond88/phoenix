@@ -70,10 +70,6 @@
     padding-right: 0px !important;
 }
 
-.bg-white{
-    background-color: #fff !important;
-}
-
 .margin-top-20{
     margin-top: 20px !important;
 }
@@ -86,4 +82,8 @@
 .select-all-checkbox{
     width: 1.2rem;
     height: 1.2rem;
+}
+
+.text-align-center{
+    text-align: center;
 }

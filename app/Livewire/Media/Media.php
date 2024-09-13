@@ -62,6 +62,7 @@ class Media extends Component
         }
 
         $mediaQuery = MediaModel::query();
+        $this->totalMediaCount = $mediaQuery->count();
 
         if ($this->search) {
             $mediaQuery->where('media_name', 'like', '%' . $this->search . '%');
@@ -71,8 +72,6 @@ class Media extends Component
         ->orderBy($this->sortField, $this->sortDirection)  // Apply sorting
         ->paginate($this->perPage, ['*'], 'page', $this->page);
         
-        // $this->mediaItems = array_merge($this->mediaItems, $media->items());
-        $this->totalMediaCount = $mediaQuery->count();
         $this->mediaItems = $this->mediaItems->merge($media->items());
         $this->hasMorePages = $media->hasMorePages();
         $this->page++;
@@ -85,6 +84,7 @@ class Media extends Component
 
     public function updatedSearch()
     {
+        $this->page = 1;
         $this->loadMedia();
     }
 
