@@ -31,45 +31,38 @@
         </div>
     @endif
 
-    <div class="row padding-20 bg-white">
-        <div class="col-lg-9" style="display:flex;">
+    <div class="row padding-20">
+        <div class="col-lg-4 padding-20 listing-mode bg-white ph-flex">
             <a href="{{ url('admin/media?mode=list') }}" 
                 class="{{ request()->query('mode') == 'list' || !request()->has('mode') ? 'active' : '' }}" 
                 style="margin-right: 5px; text-decoration: none;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-list"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="26px" height="26px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-list"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
             </a>
             <a href="{{ url('admin/media?mode=grid') }}" 
                 class="{{ request()->query('mode') == 'grid' ? 'active' : '' }}" 
-                style="margin-right: 5px; text-decoration: none;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-grid"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                style="margin-right: 10px; text-decoration: none;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26px" height="26px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-grid"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
             </a>
-
-            <select id="media-attachment-filters" class="form-select">
-                <option value="all">Images</option>
-                <option value="uploaded">Uploaded to this post</option>
-                <option value="unattached">Unattached</option>
-                <option value="mine">Mine</option>
-            </select>
             <select id="media-attachment-date-filters" class="form-select">
                 <option value="all">All dates</option>
                 <option value="0">August 2024</option>
             </select>
         </div>
-        <div class="col-lg-3">
-            <div class="row">
+        <div class="col-lg-5 padding-20 bg-white col-sm-hidden col-xs-hidden"></div>
+        <div class="col-lg-3 padding-20 bg-white">
+            <div class="row ph-flex">
                 <div class="col-sm-8">
-                <input 
-                    type="text" 
-                    id="media-search-input" 
-                    wire:model.debounce.500ms="search" 
-                    class="form-control mb-5" 
-                    placeholder="Search media files..."
-                >
+                    <input 
+                        type="text"
+                        class="form-control" 
+                        wire:model="search"
+                        placeholder="Search media files..."
+                    >
                 </div>
                 <div class="col-sm-4">
                     <button type="button" 
-                        class="btn btn-outline-primary me-1 mb-1" 
-                        wire:click="updatedSearch">
+                        class="btn btn-outline-primary" 
+                        wire:click="performSearch">
                         <i class="fas fa-search"></i>
                     </button>
                 </div>
@@ -77,23 +70,22 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-lg-9">
-            <div class="media-toolbar-secondary">
-                <select id="media-buil-actions" class="attachment-filters" wire:model="bulkAction">
-                    <option value="">Bulk Actions</option>
-                    <option value="delete">Delete Permanently</option>
-                </select>
-                <button type="button" name="apply" id="apply" class="btn btn-outline-primary me-1 mb-1 padding-top-bottom-btn" wire:click="applyBulkAction" wire:loading.attr="disabled">
-                    <span wire:loading.remove>Apply</span>
-                    <span wire:loading>
-                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                        <span class="visually-hidden">Processing...</span>
-                    </span>
-                </button>
-            </div>
+    <div class="row margin-top-bottom-20">
+        <div class="col-lg-3" style="display:flex;padding-left:0px;">
+            <select id="media-buil-actions" class="form-select" wire:model="bulkAction" style="margin-right:20px;">
+                <option value="">Bulk Actions</option>
+                <option value="delete">Delete Permanently</option>
+            </select>
+            <button type="button" name="apply" id="apply" class="btn btn-outline-primary me-1 mb-1 padding-top-bottom-btn" wire:click="applyBulkAction" wire:loading.attr="disabled">
+                <span wire:loading.remove>Apply</span>
+                <span wire:loading>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <span class="visually-hidden">Processing...</span>
+                </span>
+            </button>
         </div>
-        <div class="col-lg-3">
+        <div class="col-lg-8 col-sm-hidden col-xs-hidden"></div>
+        <div class="col-lg-1" style="text-align:right;">
             <div class="media-toolbar-primary search-form">
                 {{ $this->totalMediaCount }} items
             </div>
@@ -107,7 +99,7 @@
                 <div class="card-body p-0">
                     <div class="p-4 code-to-copy">
                         <div class="table-responsive">
-                            <table class="table table-sm fs-9 mb-0">
+                            <table class="table table-sm fs-9 mb-0" style="overflow-y: auto;">
                                 <thead>
                                 <tr>
                                     <th class="sort border-top border-translucent">
@@ -129,10 +121,10 @@
                                             @endif
                                         </a>
                                     </th>
-                                    <th class="sort text-end align-middle pe-0 border-top border-translucent" scope="col">ACTION</th>
+                                    <th class="sort text-end align-middle pe-0 border-top border-translucent" scope="col">Action</th>
                                 </tr>
                                 </thead>
-                                <tbody class="list media-list" style="max-height: 600px; overflow-y: auto;">
+                                <tbody class="list media-list">
                                     @if($isEmptyResult)
                                     <tr>
                                         <td class="align-middle" colspan="4">
@@ -358,4 +350,7 @@
         Livewire.on('mediaDeleted', function () {
         });
     });
+    window.addEventListener('contentChanged', event => {
+    Livewire.emit('refreshComponent');
+});
 </script>

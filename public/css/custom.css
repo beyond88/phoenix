@@ -87,3 +87,20 @@
 .text-align-center{
     text-align: center;
 }
+
+.margin-top-bottom-20{
+    margin: 20px 0;
+}
+.listing-mode a{
+    color: var(--phoenix-body-color);
+}
+
+.listing-mode a.active{
+    color: var(--phoenix-link-color);
+}
+
+.ph-flex{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

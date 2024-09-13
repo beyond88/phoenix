@@ -82,7 +82,7 @@ class Media extends Component
         $this->popupMedia = MediaModel::find($mediaId);
     }
 
-    public function updatedSearch()
+    public function performSearch()
     {
         $this->page = 1;
         $this->loadMedia();
@@ -129,10 +129,8 @@ class Media extends Component
     public function updatedSelectAll($value)
     {
         if ($value) {
-            // Select all media items when selectAll is true
             $this->selectedMedia = $this->mediaItems->pluck('id')->toArray();
         } else {
-            // Deselect all media items when selectAll is false
             $this->selectedMedia = [];
         }
     }
@@ -209,8 +207,7 @@ class Media extends Component
             $this->sortField = $field;
             $this->sortDirection = 'desc';
         }
-
-        // Reload media items after sorting
+        
         $this->loadMedia();
     }
 
