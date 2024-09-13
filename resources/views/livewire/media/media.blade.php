@@ -93,8 +93,22 @@
                                                 <th class="sort border-top border-translucent">
                                                     <input type="checkbox" class="select-all-checkbox" id="select-all-media" wire:model="selectAll" wire:click="toggleSelectAll">                                            
                                                 </th>
-                                                <th class="sort border-top border-translucent" data-sort="name">File</th>
-                                                <th class="sort border-top border-translucent" data-sort="email">Date</th>
+                                                <th class="sort border-top border-translucent">
+                                                    <a href="#" wire:click.prevent="sortBy('media_name')">
+                                                        File Name
+                                                        @if($sortField === 'media_name')
+                                                            <i class="fas fa-sort-{{ $sortDirection === 'asc' ? 'up' : 'down' }}"></i>
+                                                        @endif
+                                                    </a>
+                                                </th>
+                                                <th class="sort border-top border-translucent">
+                                                    <a href="#" wire:click.prevent="sortBy('created_at')">
+                                                        Date
+                                                        @if($sortField === 'created_at')
+                                                            <i class="fas fa-sort-{{ $sortDirection === 'asc' ? 'up' : 'down' }}"></i>
+                                                        @endif
+                                                    </a>
+                                                </th>
                                                 <th class="sort text-end align-middle pe-0 border-top border-translucent" scope="col">ACTION</th>
                                             </tr>
                                             </thead>

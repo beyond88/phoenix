@@ -28,6 +28,8 @@ class Media extends Component
     public $selectedMedia = [];
     public $bulkAction = ''; // Holds the selected action from the dropdown
     public string $search = '';
+    public $sortField = 'media_name'; // Default sort field
+    public $sortDirection = 'desc';
 
     protected function getMediaUploader(): MediaUploader
     {
@@ -64,10 +66,9 @@ class Media extends Component
         if ($this->search) {
             $mediaQuery->where('media_name', 'like', '%' . $this->search . '%');
         }
-
         
         $media = $mediaQuery->select('id', 'media_name', 'created_at', 'updated_at')
-        ->orderBy('created_at', 'desc')
+        ->orderBy($this->sortField, $this->sortDirection)  // Apply sorting
         ->paginate($this->perPage, ['*'], 'page', $this->page);
         
         // $this->mediaItems = array_merge($this->mediaItems, $media->items());
@@ -89,7 +90,7 @@ class Media extends Component
 
     public function render()
     {
-        logger($this->mediaItems);
+
         return view('livewire.media.media', [
             'mediaItems' => $this->mediaItems,
             'mode' => $this->mode,
@@ -188,7 +189,6 @@ class Media extends Component
                 $this->loadMore();
             }
 
-
             $this->dispatch('mediaDeleted');
         }
 
@@ -199,6 +199,19 @@ class Media extends Component
     protected function updateTotalMediaCount(): void
     {
         $this->totalMediaCount = MediaModel::count();
+    }
+
+    public function sortBy($field)
+    {
+        if ($this->sortField === $field) {
+            $this->sortDirection = $this->sortDirection === 'desc' ? 'asc' : 'desc';
+        } else {
+            $this->sortField = $field;
+            $this->sortDirection = 'desc';
+        }
+
+        // Reload media items after sorting
+        $this->loadMedia();
     }
 
 }
