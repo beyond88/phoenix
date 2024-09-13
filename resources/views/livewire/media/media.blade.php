@@ -25,15 +25,15 @@
         <div class="modal-body">
             <div class="media-toolbar padding-20 bg-white">
                 <div class="media-toolbar-secondary">
-                    <a href="{{ url()->current() }}?mode=list" 
+                    <a href="{{ url('admin/media?mode=list') }}" 
                         class="{{ request()->query('mode') == 'list' || !request()->has('mode') ? 'active' : '' }}" 
                         style="margin-right: 5px; text-decoration: none;">
-                            <span data-feather="list"></span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-list"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
                     </a>
-                    <a href="{{ url()->current() }}?mode=grid" 
+                    <a href="{{ url('admin/media?mode=grid') }}" 
                         class="{{ request()->query('mode') == 'grid' ? 'active' : '' }}" 
                         style="margin-right: 5px; text-decoration: none;">
-                            <span data-feather="grid"></span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-grid"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
                     </a>
 
                     <label for="media-attachment-filters" class="screen-reader-text">Filter by type</label>
@@ -50,12 +50,18 @@
                     </select>
                 </div>
                 <div class="media-toolbar-primary search-form">
-                    <input type="text" wire:model.debounce.300ms="searchTerm" id="media-search-input" class="search" placeholder="Search media files...">
+                    <input 
+                        type="text" 
+                        id="media-search-input" 
+                        wire:model.debounce.500ms="search" 
+                        class="search" 
+                        placeholder="Search media files..."
+                    >
                 </div>
             </div>
             <div class="media-toolbar margin-top-20">
                 <div class="media-toolbar-secondary">
-                    <select id="media-buil-actions" class="attachment-filters" wire:model="bulkAction">>
+                    <select id="media-buil-actions" class="attachment-filters" wire:model="bulkAction">
                         <option value="">Bulk Actions</option>
                         <option value="delete">Delete Permanently</option>
                     </select>
@@ -85,7 +91,7 @@
                                             <thead>
                                             <tr>
                                                 <th class="sort border-top border-translucent">
-                                                    <input type="checkbox" class="select-all-checkbox" id="select-all-media" wire:model="selectAll">
+                                                    <input type="checkbox" class="select-all-checkbox" id="select-all-media" wire:model="selectAll" wire:click="toggleSelectAll">                                            
                                                 </th>
                                                 <th class="sort border-top border-translucent" data-sort="name">File</th>
                                                 <th class="sort border-top border-translucent" data-sort="email">Date</th>
@@ -93,17 +99,17 @@
                                             </tr>
                                             </thead>
                                             <tbody class="list media-list" style="max-height: 600px; overflow-y: auto;">
-                                                @if(empty($mediaItems))
+                                                @if($isEmptyResult)
                                                 <tr>
-                                                    <td class="align-middle">
+                                                    <td class="align-middle" colspan="4">
                                                         No media files found.
                                                     </td>
                                                 </tr>
                                                 @else
                                                     @foreach($mediaItems as $item)
-                                                    <tr wire:key="media-{{ $item->id }}">
+                                                    <tr wire:key="media-item-{{ $item->id }}">
                                                         <td class="align-middle">
-                                                            <input type="checkbox" class="select-all-checkbox" name="media[]" value="{{ $item->id }}" wire:model="selectedMedia">
+                                                            <input type="checkbox" class="select-all-checkbox" value="{{ $item->id }}" wire:model="selectedMedia" @if(in_array($item->id, $selectedMedia)) checked @endif>
                                                         </td>
                                                         <td class="align-middle">
                                                             <div class="attachment-list">
@@ -163,7 +169,7 @@
                         @elseif($mode === 'grid')
                         <div class="container">
                             <div class="row">
-                                @if(empty($mediaItems))
+                                @if($isEmptyResult)
                                     <div class="col-12">
                                         <p class="text-center">No media files found.</p>
                                     </div>
@@ -305,7 +311,7 @@
                         <div class="modal-footer">
                             
                             @if($popupMedia)
-                                <a href="{{ route('media.download', $popupMedia->id) }}" class="btn btn-outline-success me-1 mb-1" type="button" download>Download</a>
+                                <a href="{{ route('media.download', $popupMedia->id) }}" class="btn btn-outline-primary me-1 mb-1" type="button" download>Download</a>
                             @endif
                             <button class="btn btn-outline-primary me-1 mb-1" type="button" data-bs-dismiss="modal">Close</button>
                         </div>
@@ -320,7 +326,6 @@
 <script>
     document.addEventListener('livewire:load', function () {
         Livewire.on('mediaDeleted', function () {
-            // Any additional client-side actions after media deletion
         });
     });
 </script>
