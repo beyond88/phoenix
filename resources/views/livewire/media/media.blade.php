@@ -43,10 +43,31 @@
                 style="margin-right: 10px; text-decoration: none;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="26px" height="26px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-grid"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
             </a>
-            <select id="media-attachment-date-filters" class="form-select">
+            @if( $this->monthCount || ( 1 === $this->monthCount && 0 === (int) $this->months[0]->month ) )
+            <select name="m" id="media-attachment-date-filters" class="form-select" style="margin-right: 10px">
                 <option value="all">All dates</option>
-                <option value="0">August 2024</option>
+                @foreach ($this->months as $arc_row)
+                    @if ((int) $arc_row->year === 0)
+                        @continue
+                    @endif
+
+                    @php
+                        $month = $this->zeroise($arc_row->month, 2, '0', STR_PAD_LEFT); // Zeroise month
+                        $year = $arc_row->year;
+                        $value = $year . $month;
+                    @endphp
+
+                    <option value="{{ $value }}">
+                        {{ \Carbon\Carbon::create($year, $month)->format('F Y') }}
+                    </option>
+                @endforeach
             </select>
+            <button type="button" 
+                class="btn btn-outline-primary" 
+                >
+                Filter
+            </button>
+            @endif
         </div>
         <div class="col-lg-5 padding-20 bg-white col-sm-hidden col-xs-hidden"></div>
         <div class="col-lg-3 padding-20 bg-white">

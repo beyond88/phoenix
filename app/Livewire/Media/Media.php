@@ -7,6 +7,7 @@ use App\Services\MediaUploader;
 use App\Models\Media as MediaModel;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class Media extends Component
 {
@@ -19,7 +20,7 @@ class Media extends Component
 
     public $mediaItems = [];
     public $page = 1;
-    public $perPage = 5;
+    public $perPage = 20;
     public $totalMediaCount = 0;
     public $hasMorePages = true;
     public $popupMedia;
@@ -30,6 +31,8 @@ class Media extends Component
     public string $search = '';
     public $sortField = 'media_name'; // Default sort field
     public $sortDirection = 'desc';
+    public $months;
+    public $monthCount;
 
     protected function getMediaUploader(): MediaUploader
     {
@@ -41,9 +44,23 @@ class Media extends Component
         return $this->getMediaUploader()->getMediaPlaceholderIcon($mediaFileName);
     }
 
+    public function loadMonths()
+    {
+        $this->months = MediaModel::select(DB::raw('YEAR(created_at) as year, MONTH(created_at) as month'))
+        ->whereNotNull('media_name')
+        ->distinct()
+        ->orderBy('year', 'desc')
+        ->orderBy('month', 'desc')
+        ->get();
+
+        $this->monthCount = $this->months->count();
+        logger('total count==>'.$this->months);
+    }
+
     public function mount()
     {
         $this->mode = request()->query('mode', 'list');
+        $this->loadMonths();
         $this->loadMedia();
     }
 
@@ -90,10 +107,10 @@ class Media extends Component
 
     public function render()
     {
-
         return view('livewire.media.media', [
             'mediaItems' => $this->mediaItems,
             'mode' => $this->mode,
+            'months' => $this->months,
             'isEmptyResult' => $this->mediaItems->isEmpty() && $this->totalMediaCount === 0,
         ]);
     }
@@ -209,6 +226,10 @@ class Media extends Component
         }
         
         $this->loadMedia();
+    }
+
+    public function zeroise( $number, $threshold ) {
+        return sprintf( '%0' . $threshold . 's', $number );
     }
 
 }
