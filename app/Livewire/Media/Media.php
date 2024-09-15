@@ -33,6 +33,7 @@ class Media extends Component
     public $sortDirection = 'desc';
     public $months;
     public $monthCount;
+    public $selectedDate = 'all';
 
     protected function getMediaUploader(): MediaUploader
     {
@@ -54,12 +55,12 @@ class Media extends Component
         ->get();
 
         $this->monthCount = $this->months->count();
-        logger('total count==>'.$this->months);
     }
 
     public function mount()
     {
         $this->mode = request()->query('mode', 'list');
+        $this->selectedDate = 'all';
         $this->loadMonths();
         $this->loadMedia();
     }
@@ -79,15 +80,23 @@ class Media extends Component
         }
 
         $mediaQuery = MediaModel::query();
-        $this->totalMediaCount = $mediaQuery->count();
 
         if ($this->search) {
             $mediaQuery->where('media_name', 'like', '%' . $this->search . '%');
         }
         
+        if ($this->selectedDate !== 'all') {
+            $year = substr($this->selectedDate, 0, 4);
+            $month = substr($this->selectedDate, 4, 2);
+            $mediaQuery->whereYear('created_at', $year)
+                       ->whereMonth('created_at', $month);
+        }
+
+        $this->totalMediaCount = $mediaQuery->count();
+        
         $media = $mediaQuery->select('id', 'media_name', 'created_at', 'updated_at')
-        ->orderBy($this->sortField, $this->sortDirection)  // Apply sorting
-        ->paginate($this->perPage, ['*'], 'page', $this->page);
+            ->orderBy($this->sortField, $this->sortDirection)
+            ->paginate($this->perPage, ['*'], 'page', $this->page);
         
         $this->mediaItems = $this->mediaItems->merge($media->items());
         $this->hasMorePages = $media->hasMorePages();
@@ -112,6 +121,7 @@ class Media extends Component
             'mode' => $this->mode,
             'months' => $this->months,
             'isEmptyResult' => $this->mediaItems->isEmpty() && $this->totalMediaCount === 0,
+            'selectedDate' => $this->selectedDate,
         ]);
     }
 
@@ -230,6 +240,16 @@ class Media extends Component
 
     public function zeroise( $number, $threshold ) {
         return sprintf( '%0' . $threshold . 's', $number );
+    }
+
+    public function updatedSelectedDate($value)
+    {
+        $this->loadMedia();
+    }
+
+    public function filterByDate()
+    {
+        $this->loadMedia();
     }
 
 }
