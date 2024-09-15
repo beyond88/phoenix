@@ -74,7 +74,7 @@ div#home {
     display: none !important;
 }
 .attachment.details.selected {
-    box-shadow: inset 0 0 0 3px #fff, inset 0 0 0 7px #2271b1;
+    box-shadow: inset 0 0 0 3px #fff, inset 0 0 0 7px var(--phoenix-blue);
 }
 .attachment-preview {
     position: relative;
@@ -134,8 +134,8 @@ div#home {
     overflow: hidden;
 }
 .attachment.details .check, .attachment.selected .check:focus, .media-frame.mode-grid .attachment.selected .check {
-    background-color: #2271b1;
-    box-shadow: 0 0 0 1px #fff, 0 0 0 2px #2271b1;
+    background-color: var(--phoenix-blue);
+    box-shadow: 0 0 0 1px #fff, 0 0 0 2px var(--phoenix-blue);
 }
 .attachment .check {
     display: none;
