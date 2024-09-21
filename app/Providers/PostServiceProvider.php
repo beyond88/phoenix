@@ -2,18 +2,18 @@
 
 namespace App\Providers;
 
-use App\Services\MediaUploader;
+use App\Services\PostService;
 use Illuminate\Support\ServiceProvider;
 
-class MediaServiceProvider extends ServiceProvider
+class PostServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
      */
     public function register(): void
     {
-        $this->app->singleton(MediaUploader::class, function ($app) {
-            return new MediaUploader(config('filesystems.default'));
+        $this->app->singleton(PostService::class, function ($app) {
+            return new PostService(config('filesystems.default'));
         });
     }
 
