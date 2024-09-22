@@ -159,7 +159,7 @@
                                     <div class="btn-reveal-trigger position-static">
                                         <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs-10"></span></button>
                                         <div class="dropdown-menu dropdown-menu-end py-2">
-                                            <a class="dropdown-item" href="#!">View</a><a class="dropdown-item" href="#!">Export</a>
+                                            <a class="dropdown-item" href="#!" target="_blank">View</a>
                                             <div class="dropdown-divider"></div>
                                             <a class="dropdown-item text-danger" href="#!" wire:click="deletePost({{ $post['id'] }})">Remove</a>
                                         </div>
@@ -170,17 +170,101 @@
                     </tbody>
                 </table>
             </div>
+            <!-- <div class="row align-items-center justify-content-between py-2 pe-0 fs-9">
+                <div class="col-auto d-flex">
+                    <p class="mb-0 d-none d-sm-block me-3 fw-semibold text-body" data-list-info="data-list-info">1 to 10 
+                        <span class="text-body-tertiary"> Items of </span>16
+                    </p>
+                </div>
+                <div class="col-auto d-flex">
+                    <button class="page-link disabled" data-list-pagination="prev" disabled="">
+                        <svg class="svg-inline--fa fa-chevron-left" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-left" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg=""><path fill="currentColor" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"></path></svg>
+                    </button>
+                    <ul class="mb-0 pagination">
+                        <li class="active"><button class="page" type="button" data-i="1" data-page="10">1</button></li>
+                        <li><button class="page" type="button" data-i="2" data-page="10">2</button></li>
+                    </ul>
+                    <button class="page-link pe-0" data-list-pagination="next">
+                        <svg class="svg-inline--fa fa-chevron-right" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
+                            <path fill="currentColor" d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"></path></svg>
+                    </button>
+                </div>
+            </div> -->
+
+            @if ($this->paginator->hasPages())
             <div class="row align-items-center justify-content-between py-2 pe-0 fs-9">
                 <div class="col-auto d-flex">
-                    <p class="mb-0 d-none d-sm-block me-3 fw-semibold text-body" data-list-info="data-list-info"></p>
-                    <a class="fw-semibold" href="#!" data-list-view="*">View all<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a class="fw-semibold d-none" href="#!" data-list-view="less">View Less<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
+                    <p class="mb-0 d-none d-sm-block me-3 fw-semibold text-body" data-list-info="data-list-info">
+                        {{ $this->paginator->firstItem() }} to {{ $this->paginator->lastItem() }}
+                        <span class="text-body-tertiary"> Items of </span>{{ $this->paginator->total() }}
+                    </p>
                 </div>
+
                 <div class="col-auto d-flex">
-                    <button class="page-link" data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
-                    <ul class="mb-0 pagination"></ul>
-                    <button class="page-link pe-0" data-list-pagination="next"><span class="fas fa-chevron-right"></span></button>
+                    {{-- Previous Page Link --}}
+                    @if ($this->paginator->onFirstPage())
+                        <button class="page-link disabled" disabled>
+                            <svg class="svg-inline--fa fa-chevron-left" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                                <path fill="currentColor" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"></path>
+                            </svg>
+                        </button>
+                    @else
+                        <button class="page-link" wire:click="previousPage">
+                            <svg class="svg-inline--fa fa-chevron-left" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                                <path fill="currentColor" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"></path>
+                            </svg>
+                        </button>
+                    @endif
+
+                    <ul class="mb-0 pagination">
+                        {{-- Previous Page Link --}}
+                        @if ($this->paginator->onFirstPage())
+                            <li class="disabled"><span class="page">&laquo;</span></li>
+                        @else
+                            <li><a href="{{ $this->paginator->previousPageUrl() }}" class="page">&laquo;</a></li>
+                        @endif
+
+                        {{-- Pagination Links --}}
+                        @foreach ($this->paginator->links()->elements as $element)
+                            @if (is_string($element))
+                                <li class="disabled"><span class="page">{{ $element }}</span></li>
+                            @elseif (is_array($element))
+                                @foreach ($element as $page => $url)
+                                    @if ($page == $this->paginator->currentPage())
+                                        <li class="active"><button class="page" type="button">{{ $page }}</button></li>
+                                    @else
+                                        <li><a href="{{ $url }}" class="page">{{ $page }}</a></li>
+                                    @endif
+                                @endforeach
+                            @endif
+                        @endforeach
+
+                        {{-- Next Page Link --}}
+                        @if ($this->paginator->hasMorePages())
+                            <li><a href="{{ $this->paginator->nextPageUrl() }}" class="page">&raquo;</a></li>
+                        @else
+                            <li class="disabled"><span class="page">&raquo;</span></li>
+                        @endif
+                    </ul>
+
+                    {{-- Next Page Link --}}
+                    @if ($this->paginator->hasMorePages())
+                        <button class="page-link pe-0" wire:click="nextPage">
+                            <svg class="svg-inline--fa fa-chevron-right" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                                <path fill="currentColor" d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5 12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"></path>
+                            </svg>
+                        </button>
+                    @else
+                        <button class="page-link disabled pe-0" disabled>
+                            <svg class="svg-inline--fa fa-chevron-right" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                                <path fill="currentColor" d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5 12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"></path>
+                            </svg>
+                        </button>
+                    @endif
                 </div>
             </div>
+            @endif
+
         </div>
     </div>
 </div>

@@ -57,7 +57,12 @@ class UpdatePost extends Component
     }
 
     public function loadContent(){
+
         $post = $this->postService->getPostById($this->postId);
+        if( empty($post) ){
+            return null;
+        }
+
         $this->postTitle = $post['post_title']; 
         $this->postContent = $post['post_content'];
         $this->postStatus = $post['status'];
@@ -75,35 +80,31 @@ class UpdatePost extends Component
         $this->loadCategories();
     }
 
-    public function setStatusAndSave($status)
+    public function setStatusAndUpdate($status)
     {
         $this->postStatus = $status;
     
         try {
             $validatedData = $this->validate();
-            $this->savePost($validatedData);
+            $this->updatePost($validatedData);
             
         } catch (\Illuminate\Validation\ValidationException $e) {
             $this->messageService->message('error', 'Validation Failed: ' . implode(', ', $e->validator->errors()->all()));
-            $this->dispatch('reinit');
+            // $this->dispatch('reinit');
         }
     }
 
-    public function updatedPostContent($value)
-    {
-        \Log::info('Post Content Updated:', ['content' => $value]);
-    }
-
-    public function savePost($validatedData)
+    public function updatePost($validatedData)
     {
         $data = array_merge($validatedData, [
+            'id' => $this->postId,
             'post_title' => $this->postTitle,
             'post_status' => $this->postStatus,
             'post_content' => $this->postContent,
             'category_id' => $this->categoryId,
             'media_id' => $this->mediaId,
         ]);
-        $this->postService->create($data);
+        $this->postService->update($data);
         $this->messageService->message('success', 'Post updated successfully.');
     }
 

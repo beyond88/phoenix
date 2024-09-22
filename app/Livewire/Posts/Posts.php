@@ -40,7 +40,7 @@ class Posts extends Component
      *
      * @var int
      */
-    public $perPage = 5;
+    public $perPage = 2;
 
     /**
      * Total number of post items.
@@ -48,6 +48,13 @@ class Posts extends Component
      * @var int
      */
     public $totalPostCount = 0;
+
+    /**
+     * Boolean flag indicating if more pages are available.
+     *
+     * @var bool
+     */
+    public $hasMorePages = true;
 
     /**
      * Total number of publish post items.
@@ -98,10 +105,33 @@ class Posts extends Component
      */
     public $months;
 
+    /**
+     * Service for handling post-related operations.
+     *
+     * @var PostService
+     */
     protected $postService;
+
+    /**
+     * Service for handling category-related operations.
+     *
+     * @var CategoryService
+     */
     protected $categoryService;
+
+    /**
+     * Service for handling message-related operations.
+     *
+     * @var MessageService
+     */
     protected $messageService;
 
+    /**
+     * Constructor method for the controller.
+     * Initializes the services needed for handling posts, categories, and messages.
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->postService = app(PostService::class);
@@ -119,7 +149,7 @@ class Posts extends Component
     public function updatedSelectAll($value)
     {
         if ($value) {
-            $this->selectedPosts = collect($this->postItems)->pluck('id')->toArray(); // Convert to collection
+            $this->selectedPosts = collect($this->postItems)->pluck('id')->toArray();
         } else {
             $this->selectedPosts = [];
         }
@@ -143,7 +173,7 @@ class Posts extends Component
     public function toggleSelectAll()
     {
         if ($this->selectAll) {
-            $this->selectedPosts = collect($this->postItems)->pluck('id')->toArray(); // Convert to collection
+            $this->selectedPosts = collect($this->postItems)->pluck('id')->toArray();
         } else {
             $this->selectedPosts = [];
         }
@@ -255,10 +285,8 @@ class Posts extends Component
             'search' => $this->search,
         ];
 
-        // Get posts and metadata (total count, current page) from the service
         $postsData = $this->postService->getAllPosts($filters);
 
-        // Map the posts for display
         $this->postItems = collect($postsData['posts'])->map(function ($post) {
             return [
                 'id' => $post['id'],
@@ -275,10 +303,11 @@ class Posts extends Component
             ];
         })->toArray();
 
-        // Set the total post count for pagination and other uses
         $this->totalPostCount = $postsData['total'];
         $this->draft = $postsData['draft'];
         $this->publish = $postsData['publish'];
+        $this->hasMorePages = $postsData['has_more_pages'];
+        $this->paginator = $postsData['paginator'];
     }
 
     /**
@@ -349,7 +378,6 @@ class Posts extends Component
     {
         if (collect($this->postItems)->isEmpty() && $this->page > 1) {
             $this->page--;
-            // $this->loadMore();
         }
     }
 

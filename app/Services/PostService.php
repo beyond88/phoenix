@@ -72,11 +72,15 @@ class PostService extends Controller
      * @param array $data
      * @return \App\Models\Post
      */
-    public function update(Post $post, array $data)
+    public function update(array $data)
     {
+
+        $post = Post::findOrFail($data['id']);
+        unset($data['id']);
         $post->update($data);
+    
         return $post;
-    }
+    }    
 
     /**
      * Deletes a post by its ID.
@@ -111,19 +115,6 @@ class PostService extends Controller
     }
 
     /**
-     * Search posts based on a query.
-     *
-     * @param string $query
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function search(string $query)
-    {
-        return Post::where('post_title', 'like', '%' . $query . '%')
-                   ->orWhere('post_content', 'like', '%' . $query . '%')
-                   ->get();
-    }
-
-    /**
      * Get all posts with optional search, pagination, and ordering.
      * Also returns total post count and current page number if paginated.
      *
@@ -134,11 +125,10 @@ class PostService extends Controller
     {
 
         $query = Post::query()
-        ->leftJoin('media', 'posts.media_id', '=', 'media.id') // Use leftJoin to handle optional media_id
-        ->join('post_categories', 'posts.category_id', '=', 'post_categories.term_id') // Regular join for categories
+        ->leftJoin('media', 'posts.media_id', '=', 'media.id')
+        ->join('post_categories', 'posts.category_id', '=', 'post_categories.term_id')
         ->select('posts.*', 'media.media_name', 'post_categories.name as category_name');
 
-        // Apply search filter if present
         if (!empty($filters['search'])) {
             $search = $filters['search'];
             $query->where(function ($q) use ($search) {
@@ -147,28 +137,27 @@ class PostService extends Controller
             });
         }
 
-        // Total publish and draft posts
         $publish = Post::where('post_status', 'publish')->count();
         $draft = Post::where('post_status', 'draft')->count();
 
-        // Apply orderBy filter if present, default to 'desc'
         $orderBy = $filters['orderBy'] ?? 'desc';
         $query->orderBy('created_at', $orderBy);
 
-        // Set perPage value, default to 20 if not provided
         $perPage = $filters['perPage'] ?? 20;
 
-        // Apply pagination, default page is 1 if not provided
         $page = $filters['page'] ?? 1;
         $paginator = $query->paginate($perPage, ['*'], 'page', $page);
+        $hasMorePages = $paginator->hasMorePages();
 
         return [
             'posts' => $paginator->items(),
             'publish' => $publish,
             'draft' => $draft,
-            'total' => $paginator->total(),        // Total number of posts
-            'current_page' => $paginator->currentPage(),  // Current page number
-            'per_page' => $paginator->perPage(),   // Number of posts per page
+            'total' => $paginator->total(),     
+            'current_page' => $paginator->currentPage(),
+            'per_page' => $paginator->perPage(),
+            'has_more_pages' => $hasMorePages,
+            'paginator' => $paginator
         ];
     }
 
@@ -185,7 +174,7 @@ class PostService extends Controller
     {
 
         if (!is_numeric($id) || $id <= 0) {
-            throw new \InvalidArgumentException('Invalid post ID provided.');
+            return null;
         }
 
         $post = Post::leftJoin('media', 'posts.media_id', '=', 'media.id')

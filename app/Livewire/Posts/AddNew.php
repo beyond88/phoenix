@@ -71,11 +71,6 @@ class AddNew extends Component
         }
     }
 
-    public function updatedPostContent($value)
-    {
-        \Log::info('Post Content Updated:', ['content' => $value]);
-    }
-
     public function savePost($validatedData)
     {
         $data = array_merge($validatedData, [

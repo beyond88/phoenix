@@ -60,9 +60,9 @@
                 }
             }
         });
-        $wire.on('reinit', () => {
-            this.quill.root.innerHTML = @js($value);
-        });
+        // $wire.on('reinit', () => {
+        //     this.quill.root.innerHTML = @js($value);
+        // });
     </script>
 
 
