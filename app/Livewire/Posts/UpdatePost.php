@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Livewire\Posts;
 
 use App\Services\PostService;
@@ -8,14 +9,17 @@ use Livewire\Component;
 use App\Models\PostCategory;
 use App\Livewire\Quill;
 
-class AddNew extends Component
+class UpdatePost extends Component
 {
+
     public $cats;
+    public $postId;
     public $postTitle;
     public $postContent;
     public $postStatus = 'draft';
     public $categoryId;
     public $mediaId;
+    public $mediaName = 'img/placeholders/posts-featured-image.jpg';
     public $userId;
     public $listeners = [
         Quill::EVENT_VALUE_UPDATED
@@ -52,8 +56,22 @@ class AddNew extends Component
         $this->cats = $this->categoryService->getAllCategories();
     }
 
-    public function mount()
+    public function loadContent(){
+        $post = $this->postService->getPostById($this->postId);
+        $this->postTitle = $post['post_title']; 
+        $this->postContent = $post['post_content'];
+        $this->postStatus = $post['status'];
+        $this->categoryId = $post['category_id'];
+        $this->mediaId = $post['media_id'];
+        if( !empty($post['media_name']) ){
+            $this->mediaName = '/storage/media/' . $post['media_name'];
+        }
+    }
+
+    public function mount($id)
     {
+        $this->postId = $id;
+        $this->loadContent();
         $this->loadCategories();
     }
 
@@ -86,23 +104,11 @@ class AddNew extends Component
             'media_id' => $this->mediaId,
         ]);
         $this->postService->create($data);
-        $this->messageService->message('success', 'Post saved successfully.');
-        $this->resetForm();
-    }
-
-    public function resetForm()
-    {
-        $this->postTitle = '';
-        $this->postContent = '';
-        $this->postStatus = 'draft';
-        $this->categoryId = null;
-        $this->mediaId = null;
-        $this->userId = null;
-        $this->resetQuillFlag = !$this->resetQuillFlag; 
+        $this->messageService->message('success', 'Post updated successfully.');
     }
 
     public function render()
     {
-        return view('livewire.posts.add-new');
+        return view('livewire.posts.update-post');
     }
 }

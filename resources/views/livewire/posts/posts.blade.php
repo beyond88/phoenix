@@ -133,12 +133,13 @@
                                     </div>
                                 </td>
                                 <td class="align-middle white-space-nowrap py-0">
-                                    
                                     <a class="d-block border border-translucent rounded-2" href="{{ url('admin/posts/1') }}">
                                         <img src="{{ asset('storage/media/' . $post['media_name']) }}" alt="" width="53" />
                                     </a>
                                 </td>
-                                <td class="product align-middle ps-4"><a class="fw-semibold line-clamp-3 mb-0" href="{{ url('admin/posts/1') }}">{{ $post['post_title'] }}</a></td>
+                                <td class="product align-middle ps-4">
+                                    <a class="fw-semibold line-clamp-3 mb-0" href="{{ url('admin/posts/' . $post['id']) }}">{{ $post['post_title'] }}</a>
+                                </td>
                                 <td class="category align-middle white-space-nowrap text-body-quaternary fs-9 ps-4 fw-semibold">{{ $post['category_name'] }}</td>
                                 <td class="price align-middle white-space-nowrap text-end fw-bold text-body-tertiary ps-4">{{ $post['user_id'] }}</td>
                                 <td class="tags align-middle review pb-2 ps-3" style="min-width:225px;">

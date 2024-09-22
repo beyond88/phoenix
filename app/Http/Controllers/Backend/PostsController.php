@@ -8,14 +8,16 @@ use Illuminate\Http\Request;
 class PostsController extends Controller
 {
 
+    public $postId;
+
     public function index()
     {
         return view('backend.posts.posts');
     }
 
-    public function postDetails()
+    public function postDetails($id)
     {
-        return view('backend.posts.details');
+        return view('backend.posts.details', compact('id'));
     }
 
     public function addNewPost()

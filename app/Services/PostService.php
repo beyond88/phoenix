@@ -173,6 +173,52 @@ class PostService extends Controller
     }
 
     /**
+     * Get a specific post by its ID, including related media and category details.
+     * Merges post information, media details (if available), and category details into a single array.
+     *
+     * @param int $id The ID of the post to retrieve
+     * @return array|null Returns a merged array of post, media, and category details or null if the post is not found
+     * 
+     * @throws \InvalidArgumentException if the post ID is invalid
+     */
+    public function getPostById($id)
+    {
+
+        if (!is_numeric($id) || $id <= 0) {
+            throw new \InvalidArgumentException('Invalid post ID provided.');
+        }
+
+        $post = Post::leftJoin('media', 'posts.media_id', '=', 'media.id')
+            ->join('post_categories', 'posts.category_id', '=', 'post_categories.term_id')
+            ->select(
+                'posts.*',
+                'media.media_name',
+                'media.id as media_id',
+                'post_categories.name as category_name',
+                'post_categories.term_id as category_id'
+            )
+            ->where('posts.id', $id)
+            ->first();
+
+        if (!$post) {
+            return null;
+        }
+
+        return [
+            'id' => $post->id,
+            'post_title' => $post->post_title,
+            'post_content' => $post->post_content,
+            'media_id' => $post->media_id,          // Media ID
+            'media_name' => $post->media_name,      // Media name
+            'category_id' => $post->category_id,    // Category ID
+            'category_name' => $post->category_name,// Category name
+            'created_at' => $post->created_at,      // Creation date
+            'updated_at' => $post->updated_at,      // Last updated date
+            'status' => $post->post_status          // Post status (publish/draft)
+        ];
+    }
+
+    /**
      * Loads distinct months from the media records.
      *
      * @return void

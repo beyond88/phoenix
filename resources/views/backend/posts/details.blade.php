@@ -10,7 +10,7 @@
       
       @include("backend.layouts.breadcrumb")
 
-      @livewire('posts.add-new')
+      @livewire('posts.update-post', ['id' => $id])
       
       @include("backend.layouts.copyright")
    </div>
