@@ -46,7 +46,7 @@
                   </div>
                   <div class="ms-xxl-auto">
                      <button class="btn btn-link text-body me-4 px-0"><span class="fa-solid fa-file-export fs-9 me-2"></span>Export</button>
-                     <button class="btn btn-primary" id="addBtn"><span class="fas fa-plus me-2"></span>Add New Page</button>
+                     <a href="{{ url('admin/pages/add')}}" class="btn btn-primary" id="addBtn"><span class="fas fa-plus me-2"></span>Add New Page</a>
                   </div>
                </div>
             </div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-US" dir="ltr" data-navigation-type="default" data-navbar-horizontal-shape="default">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
     <head>
         <meta charset="utf-8">
@@ -11,7 +11,6 @@
         <!--    Document Title-->
         <!-- ===============================================-->
         <title>Phoenix</title>
-
 
         <!-- ===============================================-->
         <!--    Favicons-->
@@ -44,7 +43,8 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.10.2/dropzone.min.css">
         <link href="{{ url('css/media-modal.css') }}" type="text/css" rel="stylesheet" id="user-style-default">
         <link href="{{ url('css/custom.css') }}" type="text/css" rel="stylesheet" id="custom-css">
-
+        <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.5/dist/quill.snow.css" rel="stylesheet" />
         <script>
             var phoenixIsRTL = window.config.config.phoenixIsRTL;
             if (phoenixIsRTL) {
@@ -60,6 +60,7 @@
                 userLinkRTL.setAttribute('disabled', true);
             }
         </script>
+
         @livewireStyles
     </head>
 <body>

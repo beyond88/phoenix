@@ -50,7 +50,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Select</button>
+                <button type="button" id="insert-this-into-content" class="btn btn-primary">Insert</button>
             </div>
         </div>
     </div>

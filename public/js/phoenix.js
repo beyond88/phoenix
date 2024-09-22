@@ -1859,8 +1859,16 @@
         // eslint-disable-next-line
         item.querySelector(Selector.DZ_PREVIEW).innerHTML = '';
 
-        const baseUrl = `${window.location.protocol}//${window.location.host}`;
+        const allowedMimeTypes = [
+          'image/jpeg', 'image/png', 'image/gif', 'image/webp',
+          'audio/mpeg', 'audio/wav', 'audio/ogg',
+          'video/mp4', 'video/avi', 'video/mpeg',
+          'application/pdf', 'application/msword', 'application/vnd.ms-excel',
+          'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        ];
 
+        const baseUrl = `${window.location.protocol}//${window.location.host}`;
         const dropzone = new window.Dropzone(item, {
           url: baseUrl+"/admin/media/upload",
           headers: {
@@ -1868,7 +1876,7 @@
           },
           maxFiles: 1000, // Maximum number of files allowed
           maxFilesize: 500, // Maximum file size in MB
-          acceptedFiles: "image/*", // Accepted file types (for example, images only)
+          acceptedFiles: allowedMimeTypes.join(','), // Accepted file types (for example, images only)
           dictDefaultMessage: "Drop files here or click to upload", // Default message
           init: function() {
               this.on("error", function(file, response) {
@@ -1879,7 +1887,7 @@
               this.on("success", function(file, response) {
               });
           }
-      });
+        });
 
         dropzone.on(Events.ADDED_FILE, () => {
           if (item.querySelector(Selector.DZ_PREVIEW_COVER)) {

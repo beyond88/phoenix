@@ -17,7 +17,7 @@
                     <h5 class="text-body-tertiary fw-semibold">Create post across your store</h5>
                 </div>
                 <div class="col-auto">
-                    <button class="btn btn-phoenix-secondary me-2 mb-2 mb-sm-0" type="button">Discard</button>
+                    <a href="{{ url('admin/pages')}}" class="btn btn-phoenix-secondary me-2 mb-2 mb-sm-0" type="button">Discard</a>
                     <button class="btn btn-phoenix-primary me-2 mb-2 mb-sm-0" type="button">Save Draft</button>
                     <button class="btn btn-primary mb-2 mb-sm-0" type="submit">Publish</button>
                 </div>

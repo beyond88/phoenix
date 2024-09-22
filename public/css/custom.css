@@ -27,3 +27,80 @@
 .dropzone.dropzone-multiple .dz-progress{
     width: 7.25rem !important;
 }
+
+.media-toolbar-secondary a{
+    color: #2c3338;
+}
+
+.media-toolbar-secondary a:hover,
+.media-toolbar-secondary a:active,
+.media-toolbar-secondary a.active{
+    color: var(--phoenix-blue);
+}
+
+.media-toolbar-secondary svg{
+    width: 22px;
+    height: 22px;
+}
+
+.add-new-media-file-heading{
+    display: flex;
+    column-gap: normal;
+    justify-content: left;
+    align-items: start;
+}
+
+.add-new-media-file-heading h3{
+    margin-right: 20px;
+}
+
+.margin-top-20{
+    margin-top: 20px;
+}
+
+.attachment-list img{
+    cursor: pointer;
+}
+
+.padding-20{
+    padding: 20px !important;
+}
+
+.padding-right-0{
+    padding-right: 0px !important;
+}
+
+.margin-top-20{
+    margin-top: 20px !important;
+}
+
+.padding-top-bottom-btn{
+    padding-top: 0.425rem;
+    padding-bottom: 0.425rem;
+}
+
+.select-all-checkbox{
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+.text-align-center{
+    text-align: center;
+}
+
+.margin-top-bottom-20{
+    margin: 20px 0;
+}
+.listing-mode a{
+    color: var(--phoenix-body-color);
+}
+
+.listing-mode a.active{
+    color: var(--phoenix-link-color);
+}
+
+.ph-flex{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
