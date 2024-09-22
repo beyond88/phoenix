@@ -62,14 +62,12 @@ class AddNew extends Component
         } catch (\Illuminate\Validation\ValidationException $e) {
             session()->flash('error', 'Validation Failed: ' . implode(', ', $e->validator->errors()->all()));
             $this->dispatch('reinit');
-            // \Log::error('Validation Failed:', ['errors' => $e->validator->errors()->all()]);
         }
     }
 
     public function updatedPostContent($value)
     {
         \Log::info('Post Content Updated:', ['content' => $value]);
-        // $this->emit('contentUpdated', $this->postContent);
     }
 
     public function savePost($validatedData)

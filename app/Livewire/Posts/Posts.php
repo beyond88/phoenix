@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Posts;
 
+use App\Services\MessageService;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Services\PostService;
+use App\Services\categoryService;
 use App\Models\PostCategory;
 use Carbon\Carbon;
 
@@ -97,11 +99,15 @@ class Posts extends Component
     public $months;
 
     protected $postService;
+    protected $categoryService;
+    protected $messageService;
 
     public function __construct()
     {
-        $this->cats = PostCategory::select('term_id', 'name', 'slug')->get();
         $this->postService = app(PostService::class);
+        $this->categoryService = app(categoryService::class);
+        $this->messageService = app(MessageService::class);
+        
     }
 
     /**
@@ -155,7 +161,7 @@ class Posts extends Component
         }
 
         if (empty($this->selectedPosts)) {
-            session()->flash('error', 'No post selected for deletion.');
+            $this->messageService->message('error', 'No post selected for deletion.');
             return;
         }
 
@@ -213,6 +219,7 @@ class Posts extends Component
     public function mount()
     {
         $this->loadMonths();
+        $this->loadCategories();
         $this->loadPosts();
     }
 
@@ -224,6 +231,16 @@ class Posts extends Component
     public function loadMonths()
     {
         $this->months = $this->postService->loadMonths();
+    }
+
+    /**
+     * Load all categories and assign them to the $cats property.
+     *
+     * @return void
+     */
+    public function loadCategories()
+    {
+        $this->cats = $this->categoryService->getAllCategories();
     }
 
     /**
@@ -311,39 +328,6 @@ class Posts extends Component
     }
 
     /**
-     * Flash a success message to the session.
-     *
-     * @param string $message
-     * @return void
-     */
-    protected function flashSuccessMessage($message)
-    {
-        session()->flash('success', $message);
-    }
-
-    /**
-     * Flash an error message to the session.
-     *
-     * @param string $message
-     * @return void
-     */
-    protected function flashErrorMessage($message)
-    {
-        session()->flash('error', $message);
-    }
-
-    /**
-     * Handle exceptions thrown during media deletion.
-     *
-     * @param \Exception $e
-     * @return void
-     */
-    protected function handleDeletionException(\Exception $e)
-    {
-        session()->flash('error', 'Deletion failed: ' . $e->getMessage());
-    }
-
-    /**
      * Remove the media item from the list.
      *
      * @param int $id
@@ -379,10 +363,10 @@ class Posts extends Component
     protected function flashDeletionMessages($successCount, $failCount)
     {
         if ($successCount > 0) {
-            session()->flash('success', "$successCount post(s) have been deleted successfully.");
+            $this->messageService->message('success', "$successCount post(s) have been deleted successfully.");
         }
         if ($failCount > 0) {
-            session()->flash('error', "Failed to delete $failCount post(s).");
+            $this->messageService->message('error', "Failed to delete $failCount post(s).");
         }
     }
 
@@ -403,15 +387,16 @@ class Posts extends Component
             
             if ($this->isDeletionSuccessful($result)) {
                 $this->removePostFromList($id);
-                $this->flashSuccessMessage($result['message']);
+                $this->messageService->message('success', $result['message']);
             } else {
-                $this->flashErrorMessage($result['message']);
+                $this->messageService->message('error', $result['message']);
             }
     
             $this->render();
             
         } catch (\Exception $e) {
-            $this->handleDeletionException($e);
+            $this->messageService->message('error', 'Deletion failed: ' . $e->getMessage());
+
         }
         
     }

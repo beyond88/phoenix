@@ -4,17 +4,23 @@ namespace App\Livewire\Posts;
 
 use Livewire\Component;
 use App\Models\PostCategory;
-use Illuminate\Support\Str;
+use App\Services\CategoryService;
+use App\Services\MessageService;
 
 class Categories extends Component
 {
-    public $cats, $name, $slug, $termId, $updateCat = false, $addCat = false;
 
-    public function render()
-    {
-        $this->cats = PostCategory::select('term_id', 'name', 'slug')->get();
-        return view('livewire.posts.categories');
-    }    
+    public $cats;
+
+    public $name; 
+
+    public $slug; 
+
+    public $termId; 
+
+    public $updateCat = false; 
+
+    public $addCat = false;
 
     protected $listeners = [
         'deleteCatListner' => 'deleteCat'
@@ -23,6 +29,32 @@ class Categories extends Component
     protected $rules = [
         'name' => 'required',
     ];
+
+    protected $categoryService;
+
+    protected $messageService;
+
+    public function __construct() 
+    {
+        $this->categoryService = app(CategoryService::class);
+        $this->messageService = app(MessageService::class);
+    }
+
+    public function mount() 
+    {
+        $this->loadCategories();
+    }
+
+    private function loadCategories()
+    {
+        $this->cats = $this->categoryService->getAllCategories();
+    }
+
+    public function render()
+    {
+        
+        return view('livewire.posts.categories');
+    }
 
     public function resetFields()
     {
@@ -43,45 +75,32 @@ class Categories extends Component
         $this->validate();
 
         if (empty($this->slug)) {
-            $this->slug = Str::slug($this->name);
+            $this->slug = $this->categoryService->textUpperToLower($this->name);
         } else {
-            $this->slug = Str::slug($this->slug);
+            $this->slug = $this->categoryService->textUpperToLower($this->slug);
         }
 
-        $this->slug = $this->generateUniqueSlug($this->slug);
+        $this->slug = $this->categoryService->generateUniqueSlug($this->slug);
 
         try {
-            PostCategory::create([
+            $this->categoryService->create([
                 'name' => $this->name,
                 'slug' => $this->slug
             ]);
-            session()->flash('success', 'Category Created Successfully!');
+            $this->messageService->message('success', 'Category Created Successfully!');
             $this->resetFields();
             $this->addCat = false;
         } catch (\Exception $ex) {
-            session()->flash('error', 'Something went wrong!!');
+            $this->messageService->message('error', 'Something went wrong!!');
         }
-    }
-
-    public function generateUniqueSlug($slug)
-    {
-        $originalSlug = $slug;
-        $count = 1;
-
-        while (PostCategory::where('slug', $slug)->exists()) {
-            $slug = $originalSlug . '-' . $count;
-            $count++;
-        }
-
-        return $slug;
     }
 
     public function editCategory($id)
     {
         try {
-            $category = PostCategory::findOrFail($id);
+            $category = $this->categoryService->editCategory($id);
             if (!$category) {
-                session()->flash('error', 'Category not found');
+                $this->messageService->message('error', 'Category not found');
             } else {
                 $this->name = $category->name;
                 $this->slug = $category->slug;
@@ -90,41 +109,34 @@ class Categories extends Component
                 $this->addCat = false;
             }
         } catch (\Exception $ex) {
-            session()->flash('error', 'Something went wrong!!');
+            $this->messageService->message('error', 'Something went wrong!!');
         }
     }
 
     public function updateCategory()
     {
         $this->validate();
-    
-        // Fetch the current category from the database
-        $currentCategory = PostCategory::find($this->termId);
-    
-        // Check if the slug field is empty
-        if (empty($this->slug)) {
-            $this->slug = Str::slug($this->name);
-        } else {
-            $this->slug = Str::slug($this->slug);
-        }
-    
-        // If the slug has changed, generate a unique slug
-        if ($this->slug !== $currentCategory->slug) {
-            $this->slug = $this->generateUniqueSlug($this->slug, $this->termId);
-        }
-    
         try {
-            // Update the category with the new name and slug
-            PostCategory::where('term_id', $this->termId)->update([
+
+            $data = [
                 'name' => $this->name,
-                'slug' => $this->slug
-            ]);
-    
-            session()->flash('success', 'Category Updated Successfully!');
+                'slug' => $this->slug,
+                'term_id' => $this->termId
+            ];
+            $result = $this->categoryService->updateCategory($data);
+
+            if ($this->messageService->isActionSuccessful($result)) {
+                $this->messageService->message('success', 'Category Updated Successfully!');
+                $this->resetFields();
+                $this->updateCat = false;
+                $this->loadCategories();
+            } else {
+                $this->messageService->message('error', 'Something went wrong!');
+            }
             $this->resetFields();
             $this->updateCat = false;
         } catch (\Exception $ex) {
-            session()->flash('error', 'Something went wrong!');
+            $this->messageService->message('error', 'Something went wrong!');
         }
     }    
 
@@ -138,10 +150,15 @@ class Categories extends Component
     public function deleteCategory($id)
     {
         try {
-            PostCategory::find($id)->delete();
-            session()->flash('success', "Category Deleted Successfully!");
+            $result = $this->categoryService->deleteCategory($id);
+            if ($this->messageService->isActionSuccessful($result)) {
+                $this->loadCategories();
+               $this->messageService->message('success', "Category Deleted Successfully!");
+            } else {
+                $this->messageService->message('error', $result['message']);
+            }
         } catch (\Exception $e) {
-            session()->flash('error', "Something went wrong!!");
+            $this->messageService->message('error', "Something went wrong!!");
         }
     }
 }
