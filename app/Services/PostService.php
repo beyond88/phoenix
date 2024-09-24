@@ -128,7 +128,6 @@ class PostService extends Controller
             ->join('post_categories', 'posts.category_id', '=', 'post_categories.term_id')
             ->select('posts.*', 'media.media_name', 'post_categories.name as category_name');
 
-        // Search functionality
         if (!empty($filters['search'])) {
             $search = $filters['search'];
             $query->where(function ($q) use ($search) {
@@ -137,19 +136,29 @@ class PostService extends Controller
             });
         }
 
-        // Get counts for published and draft posts
+        if (!empty($filters['category_id']) && $filters['category_id'] > 0) {
+            $query->where('posts.category_id', '=', $filters['category_id']);
+        }
+
+        if (!empty($filters['post_status']) && $filters['post_status'] !== 'all') {
+            $query->where('posts.post_status', '=', $filters['post_status']);
+        }
+
+        if (!empty($filters['selected_date']) && $filters['selected_date'] !== 'all') {
+            $year = substr($filters['selected_date'], 0, 4);
+            $month = substr($filters['selected_date'], 4, 2);
+            $query->whereYear('posts.created_at', $year)
+                    ->whereMonth('posts.created_at', $month);
+        }
+
         $publish = Post::where('post_status', 'publish')->count();
         $draft = Post::where('post_status', 'draft')->count();
 
-        // Ordering and pagination
         $orderBy = $filters['orderBy'] ?? 'desc';
         $query->orderBy('created_at', $orderBy);
 
-        // Pagination parameters
         $perPage = $filters['perPage'] ?? 20;
         $page = $filters['page'] ?? 1;
-
-        // Paginate the results
         $paginator = $query->paginate($perPage, ['*'], 'page', $page);
 
         return [
@@ -158,8 +167,7 @@ class PostService extends Controller
             'draft' => $draft,
             'total' => $paginator->total(),
             'current_page' => $paginator->currentPage(),
-            'last_page' => $paginator->lastPage(), // Added last page info
-            'has_more_pages' => $paginator->hasMorePages(),
+            'last_page' => $paginator->lastPage(),
             'per_page' => $paginator->perPage(),
         ];
     }

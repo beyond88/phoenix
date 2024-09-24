@@ -33,7 +33,7 @@ class Posts extends Component
      *
      * @var int
      */
-    public $perPage = 20;
+    public $perPage = 3;
 
     /**
      * Current page for post pagination.
@@ -104,6 +104,41 @@ class Posts extends Component
      * @var mixed
      */
     public $months;
+
+    /**
+     * The name of the selected category.
+     *
+     * @var string
+     */
+    public $selectedCategoryName = 'Category'; // Default display text
+
+    /**
+     * The ID of the selected category.
+     *
+     * @var int
+     */
+    public $selectedCategoryId = 0; // Default ID for "All Categories"
+
+    /**
+     * The name of the selected category.
+     *
+     * @var string
+     */
+    public $selectedDateName = 'All Dates'; // Default display text
+
+    /**
+     * The ID of the selected date.
+     *
+     * @var string
+     */
+    public $selectedDate = 'all'; // Default date for "All dates"
+
+    /**
+     * The ID of the selected category.
+     *
+     * @var string
+     */
+    public $postStatus = 'all'; // Default status for "All posts"
 
     /**
      * Service for handling post-related operations.
@@ -283,6 +318,9 @@ class Posts extends Component
         $filters = [
             'perPage' => $this->perPage,
             'search' => $this->search,
+            'category_id' => $this->selectedCategoryId,
+            'selected_date' => $this->selectedDate,
+            'post_status' => $this->postStatus,
             'page' => $this->currentPage,
         ];
 
@@ -431,7 +469,7 @@ class Posts extends Component
         
     }
 
-/**
+    /**
      * Advances to the next page.
      *
      * @return void
@@ -483,6 +521,40 @@ class Posts extends Component
     }
 
     /**
+     * Selects a category and reloads the associated posts.
+     *
+     * @param string $name The name of the category to select.
+     * @param int $id The ID of the category to select.
+     * @return void
+     */
+    public function selectCategory($name, $id)
+    {
+        $this->selectedCategoryName = $name;
+        $this->selectedCategoryId = $id;
+        $this->loadPosts();
+    }
+
+    /**
+     * Selects a date and reloads the associated posts.
+     *
+     * @param string $name The name of the category to select.
+     * @param int $id The ID of the category to select.
+     * @return void
+     */
+    public function selectDate($name, $date)
+    {
+        $this->selectedDateName = $name;
+        $this->selectedDate = $date;
+        $this->loadPosts();
+    }
+
+    public function getPostByStatus($status)
+    {
+        $this->postStatus = $status;
+        $this->loadPosts();
+    }
+
+    /**
      * Livewire render method.
      *
      * @return \Illuminate\View\View
@@ -490,6 +562,7 @@ class Posts extends Component
     public function render()
     {
 
+        $this->loadMonths();
         return view('livewire.posts.posts', [
             'posts' => $this->postItems,
             'total' => $this->totalPostCount,

@@ -304,7 +304,6 @@ class Media extends Component
             $this->updateMediaItems($media->items());
             $this->updatePaginationState($media);
         } catch (\Exception $e) {
-            // Log the exception details for debugging
             \Log::error('Failed to load more media: ' . $e->getMessage(), [
                 'exception' => $e,
                 'search' => $this->search,

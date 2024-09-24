@@ -29,9 +29,22 @@
     @endif
 
     <ul class="nav nav-links mb-3 mb-lg-2 mx-n3">
-        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#"><span>All </span><span class="text-body-tertiary fw-semibold">({{ $totalPostCount }})</span></a></li>
-        <li class="nav-item"><a class="nav-link" href="#"><span>Published </span><span class="text-body-tertiary fw-semibold">({{ $publish }})</span></a></li>
-        <li class="nav-item"><a class="nav-link" href="#"><span>Drafts </span><span class="text-body-tertiary fw-semibold">({{ $draft }})</span></a></li>
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#" wire:click.prevent="getPostByStatus('all')"><span>All </span>
+                <span class="text-body-tertiary fw-semibold">
+                    @php
+                        $sub_total = $this->publish + $this->draft;
+                        $grand_total = $totalPostCount;
+                        if( $sub_total > $totalPostCount ){
+                            $grand_total = $sub_total;
+                        }
+                    @endphp
+                    ({{ $grand_total }})
+                </span>
+            </a>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="#" wire:click.prevent="getPostByStatus('publish')"><span>Published </span><span class="text-body-tertiary fw-semibold">({{ $publish }})</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="#" wire:click.prevent="getPostByStatus('draft')"><span>Drafts </span><span class="text-body-tertiary fw-semibold">({{ $draft }})</span></a></li>
         <li class="nav-item"><a class="nav-link" href="#"><span>Mine</span><span class="text-body-tertiary fw-semibold">(17)</span></a></li>
     </ul>
     <div id="posts">
@@ -42,7 +55,7 @@
                         <input class="form-control search-input search" type="search" placeholder="Search posts" aria-label="Search" wire:model="search"/>
                         <span class="fas fa-search search-box-icon"></span>
                     </form>
-                    <button class="btn btn-outline-primary" wire:click="performSearch">
+                    <button class="btn btn-outline-primary" wire:click="performSearch" wire:loading.attr="disabled">
                         <span wire:loading.remove>Search</span>
                         <span wire:loading>
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -75,19 +88,21 @@
                     <div class="btn-group position-static" role="group">
                         <div class="btn-group position-static text-nowrap">
                             <button class="btn btn-phoenix-secondary px-7 flex-shrink-0" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
-                            Category<span class="fas fa-angle-down ms-2"></span>
+                                {{ $selectedCategoryName ?? 'Category' }} <span class="fas fa-angle-down ms-2"></span>
                             </button>
                             <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" wire:click.prevent="selectCategory('All Categories', 0)">All Categories</a></li>
                                 @foreach($cats as $cat)
-                                    <li><a class="dropdown-item" href="{{ $cat['term_id'] }}">{{ $cat['name'] }}</a></li>
+                                    <li><a class="dropdown-item" href="#" wire:click.prevent="selectCategory('{{ $cat['name'] }}', {{ $cat['term_id'] }})"> {{ $cat['name'] }}</a></li>
                                 @endforeach
                             </ul>
                         </div>
                         <div class="btn-group position-static text-nowrap">
                             <button class="btn btn-sm btn-phoenix-secondary px-7 flex-shrink-0" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
-                            Date<span class="fas fa-angle-down ms-2"></span>
+                                Date<span class="fas fa-angle-down ms-2"></span>
                             </button>
                             <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" wire:click.prevent="selectDate('All Dates', 'all')">All Dates</a></li>
                                 @foreach ($this->months as $arc_row)
                                     @if ((int) $arc_row->year === 0)
                                         @continue
@@ -97,8 +112,10 @@
                                         $month = $this->zeroise($arc_row->month, 2);
                                         $year = $arc_row->year;
                                         $value = $year . $month;
+                                        $dateLabel = \Carbon\Carbon::create($year, $month)->format('F Y')
                                     @endphp
-                                    <li><a class="dropdown-item" href="#">{{ \Carbon\Carbon::create($year, $month)->format('F Y') }}</a></li>
+
+                                    <li><a class="dropdown-item" href="#" wire:click.prevent="selectDate( '{{ $dateLabel }}', {{ $value }})">{{ \Carbon\Carbon::create($year, $month)->format('F Y') }}</a></li>
                                 @endforeach
                             </ul>
                         </div>
