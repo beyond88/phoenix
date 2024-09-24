@@ -36,48 +36,21 @@
     </ul>
     <div id="posts">
         <div class="mb-4">
-            <div class="d-flex flex-wrap gap-3">
-                <div class="search-box">
+            <div class="d-flex flex-wrap gap-3" style="justify-content:space-between">
+                <div class="d-flex flex-wrap search-box" style="width: 21rem; justify-content:space-between">
                     <form class="position-relative">
-                    <input class="form-control search-input search" type="search" placeholder="Search posts" aria-label="Search" />
-                    <span class="fas fa-search search-box-icon"></span>
+                        <input class="form-control search-input search" type="search" placeholder="Search posts" aria-label="Search" wire:model="search"/>
+                        <span class="fas fa-search search-box-icon"></span>
                     </form>
-                </div>
-                <div class="scrollbar overflow-hidden-y">
-                    <div class="btn-group position-static" role="group">
-                    <div class="btn-group position-static text-nowrap">
-                        <button class="btn btn-phoenix-secondary px-7 flex-shrink-0" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
-                        Category<span class="fas fa-angle-down ms-2"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            @foreach($cats as $cat)
-                                <li><a class="dropdown-item" href="{{ $cat['term_id'] }}">{{ $cat['name'] }}</a></li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    <div class="btn-group position-static text-nowrap">
-                        <button class="btn btn-sm btn-phoenix-secondary px-7 flex-shrink-0" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
-                        Date<span class="fas fa-angle-down ms-2"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            @foreach ($this->months as $arc_row)
-                                @if ((int) $arc_row->year === 0)
-                                    @continue
-                                @endif
-
-                                @php
-                                    $month = $this->zeroise($arc_row->month, 2);
-                                    $year = $arc_row->year;
-                                    $value = $year . $month;
-                                @endphp
-                                <li><a class="dropdown-item" href="#">{{ \Carbon\Carbon::create($year, $month)->format('F Y') }}</a></li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    </div>
+                    <button class="btn btn-outline-primary" wire:click="performSearch">
+                        <span wire:loading.remove>Search</span>
+                        <span wire:loading>
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <span class="visually-hidden">Processing...</span>
+                        </span>
+                    </button>
                 </div>
                 <div class="ms-xxl-auto">
-                    <button class="btn btn-link text-body me-4 px-0"><span class="fa-solid fa-file-export fs-9 me-2"></span>Export</button>
                     <button class="btn btn-primary" id="addBtn" onClick="window.location.href='{{ url('admin/posts/add')}}'"><span class="fas fa-plus me-2"></span>Add Post</button>
                 </div>
             </div>
@@ -97,7 +70,41 @@
                     </span>
                 </button>
             </div>
-            <div class="col-lg-8 col-sm-hidden col-xs-hidden"></div>
+            <div class="col-lg-8">
+                <div class="scrollbar overflow-hidden-y">
+                    <div class="btn-group position-static" role="group">
+                        <div class="btn-group position-static text-nowrap">
+                            <button class="btn btn-phoenix-secondary px-7 flex-shrink-0" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
+                            Category<span class="fas fa-angle-down ms-2"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                @foreach($cats as $cat)
+                                    <li><a class="dropdown-item" href="{{ $cat['term_id'] }}">{{ $cat['name'] }}</a></li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        <div class="btn-group position-static text-nowrap">
+                            <button class="btn btn-sm btn-phoenix-secondary px-7 flex-shrink-0" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
+                            Date<span class="fas fa-angle-down ms-2"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                @foreach ($this->months as $arc_row)
+                                    @if ((int) $arc_row->year === 0)
+                                        @continue
+                                    @endif
+
+                                    @php
+                                        $month = $this->zeroise($arc_row->month, 2);
+                                        $year = $arc_row->year;
+                                        $value = $year . $month;
+                                    @endphp
+                                    <li><a class="dropdown-item" href="#">{{ \Carbon\Carbon::create($year, $month)->format('F Y') }}</a></li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="col-lg-1" style="text-align:right;">
                 <div class="media-toolbar-primary search-form">
                     {{ $totalPostCount }} items
@@ -167,103 +174,49 @@
                                 </td>
                             </tr>
                         @endforeach
+
+                        @if(empty($postItems))
+                        <tr>
+                            <td class="align-middle" colspan="7">
+                                No posts found.
+                            </td>
+                        </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>
-            <!-- <div class="row align-items-center justify-content-between py-2 pe-0 fs-9">
-                <div class="col-auto d-flex">
-                    <p class="mb-0 d-none d-sm-block me-3 fw-semibold text-body" data-list-info="data-list-info">1 to 10 
-                        <span class="text-body-tertiary"> Items of </span>16
-                    </p>
-                </div>
-                <div class="col-auto d-flex">
-                    <button class="page-link disabled" data-list-pagination="prev" disabled="">
-                        <svg class="svg-inline--fa fa-chevron-left" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-left" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg=""><path fill="currentColor" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"></path></svg>
-                    </button>
-                    <ul class="mb-0 pagination">
-                        <li class="active"><button class="page" type="button" data-i="1" data-page="10">1</button></li>
-                        <li><button class="page" type="button" data-i="2" data-page="10">2</button></li>
-                    </ul>
-                    <button class="page-link pe-0" data-list-pagination="next">
-                        <svg class="svg-inline--fa fa-chevron-right" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
-                            <path fill="currentColor" d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"></path></svg>
-                    </button>
-                </div>
-            </div> -->
 
-            @if ($this->paginator->hasPages())
             <div class="row align-items-center justify-content-between py-2 pe-0 fs-9">
                 <div class="col-auto d-flex">
                     <p class="mb-0 d-none d-sm-block me-3 fw-semibold text-body" data-list-info="data-list-info">
-                        {{ $this->paginator->firstItem() }} to {{ $this->paginator->lastItem() }}
-                        <span class="text-body-tertiary"> Items of </span>{{ $this->paginator->total() }}
+                        {{ empty( $postItems ) ? '0 to 0' : (($currentPage - 1) * $perPage + 1) }} to 
+                        {{ min($currentPage * $perPage, $totalPostCount) }} 
+                        <span class="text-body-tertiary"> Items of </span>{{ $totalPostCount }}
                     </p>
                 </div>
-
+    
                 <div class="col-auto d-flex">
-                    {{-- Previous Page Link --}}
-                    @if ($this->paginator->onFirstPage())
-                        <button class="page-link disabled" disabled>
-                            <svg class="svg-inline--fa fa-chevron-left" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
-                                <path fill="currentColor" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"></path>
-                            </svg>
-                        </button>
-                    @else
-                        <button class="page-link" wire:click="previousPage">
-                            <svg class="svg-inline--fa fa-chevron-left" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
-                                <path fill="currentColor" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"></path>
-                            </svg>
-                        </button>
-                    @endif
+                    <button class="page-link {{ ($currentPage == 1) ? 'disabled' : '' }}" wire:click="previousPage" {{ ($currentPage == 1) ? 'disabled' : '' }}>
+                        <svg class="svg-inline--fa fa-chevron-left" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-left" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                            <path fill="currentColor" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"></path>
+                        </svg>
+                    </button>
 
-                    <ul class="mb-0 pagination">
-                        {{-- Previous Page Link --}}
-                        @if ($this->paginator->onFirstPage())
-                            <li class="disabled"><span class="page">&laquo;</span></li>
-                        @else
-                            <li><a href="{{ $this->paginator->previousPageUrl() }}" class="page">&laquo;</a></li>
-                        @endif
-
-                        {{-- Pagination Links --}}
-                        @foreach ($this->paginator->links()->elements as $element)
-                            @if (is_string($element))
-                                <li class="disabled"><span class="page">{{ $element }}</span></li>
-                            @elseif (is_array($element))
-                                @foreach ($element as $page => $url)
-                                    @if ($page == $this->paginator->currentPage())
-                                        <li class="active"><button class="page" type="button">{{ $page }}</button></li>
-                                    @else
-                                        <li><a href="{{ $url }}" class="page">{{ $page }}</a></li>
-                                    @endif
-                                @endforeach
-                            @endif
-                        @endforeach
-
-                        {{-- Next Page Link --}}
-                        @if ($this->paginator->hasMorePages())
-                            <li><a href="{{ $this->paginator->nextPageUrl() }}" class="page">&raquo;</a></li>
-                        @else
-                            <li class="disabled"><span class="page">&raquo;</span></li>
-                        @endif
+                    <ul class="mb-0 pagination pagination-custom-button">
+                        @for ($i = 1; $i <= ceil($totalPostCount / $perPage); $i++)
+                            <li class="{{ ($currentPage == $i) ? 'active' : '' }}">
+                                <button class="page" type="button" wire:click="gotoPage({{ $i }})">{{ $i }}</button>
+                            </li>
+                        @endfor
                     </ul>
 
-                    {{-- Next Page Link --}}
-                    @if ($this->paginator->hasMorePages())
-                        <button class="page-link pe-0" wire:click="nextPage">
-                            <svg class="svg-inline--fa fa-chevron-right" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
-                                <path fill="currentColor" d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5 12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"></path>
-                            </svg>
-                        </button>
-                    @else
-                        <button class="page-link disabled pe-0" disabled>
-                            <svg class="svg-inline--fa fa-chevron-right" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
-                                <path fill="currentColor" d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5 12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"></path>
-                            </svg>
-                        </button>
-                    @endif
+                    <button class="page-link {{ ($currentPage == ceil($totalPostCount / $perPage)) ? 'disabled' : '' }}" wire:click="nextPage" {{ ($currentPage == ceil($totalPostCount / $perPage)) ? 'disabled' : '' }}>
+                        <svg class="svg-inline--fa fa-chevron-right" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                            <path fill="currentColor" d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"></path>
+                        </svg>
+                    </button>
                 </div>
             </div>
-            @endif
 
         </div>
     </div>

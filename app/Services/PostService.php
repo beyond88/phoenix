@@ -123,12 +123,12 @@ class PostService extends Controller
      */
     public function getAllPosts(array $filters = [])
     {
-
         $query = Post::query()
-        ->leftJoin('media', 'posts.media_id', '=', 'media.id')
-        ->join('post_categories', 'posts.category_id', '=', 'post_categories.term_id')
-        ->select('posts.*', 'media.media_name', 'post_categories.name as category_name');
+            ->leftJoin('media', 'posts.media_id', '=', 'media.id')
+            ->join('post_categories', 'posts.category_id', '=', 'post_categories.term_id')
+            ->select('posts.*', 'media.media_name', 'post_categories.name as category_name');
 
+        // Search functionality
         if (!empty($filters['search'])) {
             $search = $filters['search'];
             $query->where(function ($q) use ($search) {
@@ -137,27 +137,30 @@ class PostService extends Controller
             });
         }
 
+        // Get counts for published and draft posts
         $publish = Post::where('post_status', 'publish')->count();
         $draft = Post::where('post_status', 'draft')->count();
 
+        // Ordering and pagination
         $orderBy = $filters['orderBy'] ?? 'desc';
         $query->orderBy('created_at', $orderBy);
 
+        // Pagination parameters
         $perPage = $filters['perPage'] ?? 20;
-
         $page = $filters['page'] ?? 1;
+
+        // Paginate the results
         $paginator = $query->paginate($perPage, ['*'], 'page', $page);
-        $hasMorePages = $paginator->hasMorePages();
 
         return [
             'posts' => $paginator->items(),
             'publish' => $publish,
             'draft' => $draft,
-            'total' => $paginator->total(),     
+            'total' => $paginator->total(),
             'current_page' => $paginator->currentPage(),
+            'last_page' => $paginator->lastPage(), // Added last page info
+            'has_more_pages' => $paginator->hasMorePages(),
             'per_page' => $paginator->perPage(),
-            'has_more_pages' => $hasMorePages,
-            'paginator' => $paginator
         ];
     }
 
@@ -197,13 +200,13 @@ class PostService extends Controller
             'id' => $post->id,
             'post_title' => $post->post_title,
             'post_content' => $post->post_content,
-            'media_id' => $post->media_id,          // Media ID
-            'media_name' => $post->media_name,      // Media name
-            'category_id' => $post->category_id,    // Category ID
-            'category_name' => $post->category_name,// Category name
-            'created_at' => $post->created_at,      // Creation date
-            'updated_at' => $post->updated_at,      // Last updated date
-            'status' => $post->post_status          // Post status (publish/draft)
+            'media_id' => $post->media_id,
+            'media_name' => $post->media_name,
+            'category_id' => $post->category_id,
+            'category_name' => $post->category_name,
+            'created_at' => $post->created_at,
+            'updated_at' => $post->updated_at,
+            'status' => $post->post_status
         ];
     }
 

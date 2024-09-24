@@ -6,10 +6,11 @@
                 <h2 class="mb-2">Edit Post</h2>
                 <h5 class="text-body-tertiary fw-semibold">Edit post across your store</h5>
             </div>
+            {{ $postStatus }}
             <div class="col-auto">
                 <a href="{{ url('admin/posts') }}" class="btn btn-phoenix-secondary me-2 mb-2 mb-sm-0" type="button">Discard</a>
-                <button class="btn btn-phoenix-secondary me-2 mb-2 mb-sm-0" type="button" wire:click="setStatusAndUpdate('draft')">Draft</button>
-                <button class="btn btn-primary mb-2 mb-sm-0" type="button" wire:click="setStatusAndUpdate('publish')">Publish</button>
+                <button class="btn {{ ($this->postStatus === 'draft') ? 'btn-primary' : 'btn-phoenix-secondary' }} me-2 mb-2 mb-sm-0" type="button" wire:click="setStatusAndUpdate('draft')">Draft</button>
+                <button class="btn {{ ($this->postStatus === 'publish') ? 'btn-primary' : 'btn-phoenix-secondary' }} mb-2 mb-sm-0" type="button" wire:click="setStatusAndUpdate('publish')">Publish</button>
             </div>
         </div>
 
@@ -39,7 +40,7 @@
         <div class="row g-5">
             <div class="col-12 col-xl-8">
                 <h4 class="mb-3">Title</h4>
-                <input class="form-control mb-5" type="text" wire:model="postTitle" value=""placeholder="Write title here..." />
+                <input class="form-control mb-5" type="text" wire:model="postTitle" value=""placeholder="Enter title here..." />
                 <div class="mb-6">
                     <h4 class="mb-3">Description</h4>
                     <livewire:quill :value="$postContent" :reset-flag="$resetQuillFlag" wire:key="quill-{{ $resetQuillFlag }}">

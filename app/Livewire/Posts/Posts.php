@@ -29,18 +29,18 @@ class Posts extends Component
     public $postItems = [];
 
     /**
-     * Current page for media pagination.
-     *
-     * @var int
-     */
-    public $page = 1;
-
-    /**
      * Number of posts per page.
      *
      * @var int
      */
-    public $perPage = 2;
+    public $perPage = 20;
+
+    /**
+     * Current page for post pagination.
+     *
+     * @var int
+     */
+    public $currentPage = 1;
 
     /**
      * Total number of post items.
@@ -283,6 +283,7 @@ class Posts extends Component
         $filters = [
             'perPage' => $this->perPage,
             'search' => $this->search,
+            'page' => $this->currentPage,
         ];
 
         $postsData = $this->postService->getAllPosts($filters);
@@ -304,10 +305,11 @@ class Posts extends Component
         })->toArray();
 
         $this->totalPostCount = $postsData['total'];
-        $this->draft = $postsData['draft'];
         $this->publish = $postsData['publish'];
-        $this->hasMorePages = $postsData['has_more_pages'];
-        $this->paginator = $postsData['paginator'];
+        $this->draft = $postsData['draft'];
+
+        $this->currentPage = (int)$postsData['current_page'];
+        $this->lastPage = (int)$postsData['last_page'];
     }
 
     /**
@@ -376,8 +378,8 @@ class Posts extends Component
      */
     protected function handlePostDeletionState()
     {
-        if (collect($this->postItems)->isEmpty() && $this->page > 1) {
-            $this->page--;
+        if (collect($this->postItems)->isEmpty() && $this->currentPage > 1) {
+            $this->currentPage--;
         }
     }
 
@@ -429,6 +431,57 @@ class Posts extends Component
         
     }
 
+/**
+     * Advances to the next page.
+     *
+     * @return void
+     */
+    public function nextPage()
+    {
+        if ($this->currentPage < ceil($this->totalPostCount / $this->perPage)) {
+            $this->currentPage++;
+            $this->loadPosts();
+        }
+    }
+
+    /**
+     * Returns to the previous page.
+     *
+     * @return void
+     */
+    public function previousPage()
+    {
+        if ($this->currentPage > 1) {
+            $this->currentPage--;
+            $this->loadPosts();
+        }
+    }
+
+    /**
+     * Navigates to a specified page.
+     *
+     * @param int $page The page number to navigate to.
+     * @return void
+     */
+    public function gotoPage($page)
+    {
+        if ($page >= 1 && $page <= ceil($this->totalPostCount / $this->perPage)) {
+            $this->currentPage = $page;
+            $this->loadPosts();
+        }
+    }
+
+    /**
+     * Performs a search query and reloads the post items.
+     *
+     * @return void
+     */
+    public function performSearch()
+    {
+        $this->page = 1;
+        $this->loadPosts();
+    }
+
     /**
      * Livewire render method.
      *
@@ -436,8 +489,13 @@ class Posts extends Component
      */
     public function render()
     {
-        return view('livewire.posts.posts', []);
-    }
 
+        return view('livewire.posts.posts', [
+            'posts' => $this->postItems,
+            'total' => $this->totalPostCount,
+            'page' => $this->currentPage,
+            'lastPage' => ceil($this->totalPostCount / $this->perPage),
+        ]);
+    }
 
 }
