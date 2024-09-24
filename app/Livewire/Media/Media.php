@@ -2,6 +2,7 @@
 namespace App\Livewire\Media;
 
 use Livewire\Component;
+use App\Services\MessageService;
 use App\Services\MediaUploader;
 use App\Models\Media as MediaModel;
 use Illuminate\Support\Collection;
@@ -130,13 +131,23 @@ class Media extends Component
     public $selectedDate = 'all';
 
     /**
-     * Returns the media uploader service instance.
+     * Service for handling message-related operations.
      *
-     * @return MediaUploader
+     * @var MessageService
      */
-    protected function getMediaUploader(): MediaUploader
+    protected $messageService;
+
+    /**
+     * Constructor method for the controller.
+     * Initializes the services needed for handling posts, categories, and messages.
+     *
+     * @return void
+     */
+    public function __construct()
     {
-        return app(MediaUploader::class);
+        // $this->postService = app(PostService::class);
+        $this->mediaUploader = app(MediaUploader::class);
+        $this->messageService = app(MessageService::class);
     }
 
     /**
@@ -147,7 +158,7 @@ class Media extends Component
      */
     public function getMediaPlaceholderIcon($mediaFileName)
     {
-        return $this->getMediaUploader()->getMediaPlaceholderIcon($mediaFileName);
+        return $this->mediaUploader->getMediaPlaceholderIcon($mediaFileName);
     }
 
     /**
@@ -184,7 +195,7 @@ class Media extends Component
      */
     protected function performMediaDeletion($mediaId)
     {
-        return $this->getMediaUploader()->deleteMedia($mediaId);
+        return $this->mediaUploader->deleteMedia($mediaId);
     }
     
     /**
@@ -219,7 +230,7 @@ class Media extends Component
      */
     protected function flashSuccessMessage($message)
     {
-        session()->flash('success', $message);
+        $this->messageService->message('success', $message);
     }
     
     /**
@@ -230,7 +241,7 @@ class Media extends Component
      */
     protected function flashErrorMessage($message)
     {
-        session()->flash('error', $message);
+        $this->messageService->message('error', $message);
     }
     
     /**
@@ -241,7 +252,7 @@ class Media extends Component
      */
     protected function handleDeletionException(\Exception $e)
     {
-        session()->flash('error', 'Deletion failed: ' . $e->getMessage());
+        $this->messageService->message('error', 'Deletion failed: ' . $e->getMessage());
     }    
 
     /**
@@ -251,7 +262,7 @@ class Media extends Component
      * @return string
      */
     public function getFormattedDate($date) {
-        return $this->getMediaUploader()->getFormattedDate($date);
+        return $this->mediaUploader->getFormattedDate($date);
     }
 
     /**
@@ -314,7 +325,7 @@ class Media extends Component
             ]);
         
             // Flash an error message to the session for user feedback
-            session()->flash('error', 'Failed to load more media. Please try again later.');
+            $this->messageService->message('error', 'Failed to load more media. Please try again later.');
         }
         
     }
@@ -462,7 +473,7 @@ class Media extends Component
         }
 
         if (empty($this->selectedMedia)) {
-            session()->flash('error', 'No media selected for deletion.');
+            $this->messageService->message('error', 'No media selected for deletion.');
             return;
         }
 
@@ -507,7 +518,7 @@ class Media extends Component
      */
     protected function deleteMediaById($mediaId)
     {
-        return $this->getMediaUploader()->deleteMedia($mediaId);
+        return $this->mediaUploader->deleteMedia($mediaId);
     }
 
     /**
@@ -520,10 +531,10 @@ class Media extends Component
     protected function flashDeletionMessages($successCount, $failCount)
     {
         if ($successCount > 0) {
-            session()->flash('success', "$successCount media file(s) have been deleted successfully.");
+            $this->messageService->message('success', "$successCount media file(s) have been deleted successfully.");
         }
         if ($failCount > 0) {
-            session()->flash('error', "Failed to delete $failCount media file(s).");
+            $this->messageService->message('error', "Failed to delete $failCount media file(s).");
         }
     }
 

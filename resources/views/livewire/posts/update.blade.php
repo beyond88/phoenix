@@ -6,7 +6,7 @@
                 <h2 class="mb-2">Edit Post</h2>
                 <h5 class="text-body-tertiary fw-semibold">Edit post across your store</h5>
             </div>
-            {{ $postStatus }}
+
             <div class="col-auto">
                 <a href="{{ url('admin/posts') }}" class="btn btn-phoenix-secondary me-2 mb-2 mb-sm-0" type="button">Discard</a>
                 <button class="btn {{ ($this->postStatus === 'draft') ? 'btn-primary' : 'btn-phoenix-secondary' }} me-2 mb-2 mb-sm-0" type="button" wire:click="setStatusAndUpdate('draft')">Draft</button>

@@ -31,7 +31,7 @@ class UpdatePost extends Component
         'postTitle' => 'required|string|max:255',
         'postContent' => 'required|string',
         'postStatus' => 'in:draft,publish',
-        'categoryId' => 'required|exists:post_categories,term_id',
+        'categoryId' => 'required|exists:terms,term_id',
         'mediaId' => 'nullable|exists:media,id',
         'userId' => 'nullable|exists:users,id',
     ];
@@ -110,6 +110,6 @@ class UpdatePost extends Component
 
     public function render()
     {
-        return view('livewire.posts.update-post');
+        return view('livewire.posts.update');
     }
 }

@@ -125,8 +125,8 @@ class PostService extends Controller
     {
         $query = Post::query()
             ->leftJoin('media', 'posts.media_id', '=', 'media.id')
-            ->join('post_categories', 'posts.category_id', '=', 'post_categories.term_id')
-            ->select('posts.*', 'media.media_name', 'post_categories.name as category_name');
+            ->join('terms', 'posts.category_id', '=', 'terms.term_id')
+            ->select('posts.*', 'media.media_name', 'terms.name as category_name');
 
         if (!empty($filters['search'])) {
             $search = $filters['search'];
@@ -189,13 +189,13 @@ class PostService extends Controller
         }
 
         $post = Post::leftJoin('media', 'posts.media_id', '=', 'media.id')
-            ->join('post_categories', 'posts.category_id', '=', 'post_categories.term_id')
+            ->join('terms', 'posts.category_id', '=', 'terms.term_id')
             ->select(
                 'posts.*',
                 'media.media_name',
                 'media.id as media_id',
-                'post_categories.name as category_name',
-                'post_categories.term_id as category_id'
+                'terms.name as category_name',
+                'terms.term_id as category_id'
             )
             ->where('posts.id', $id)
             ->first();
