@@ -52,7 +52,7 @@ class Categories extends Component
 
     public function render()
     {
-        
+        $this->loadCategories();
         return view('livewire.posts.categories');
     }
 

@@ -77,10 +77,15 @@ class AddNew extends Component
             'post_title' => $this->postTitle,
             'post_status' => $this->postStatus,
             'post_content' => $this->postContent,
-            'category_id' => $this->categoryId,
             'media_id' => $this->mediaId,
         ]);
-        $this->postService->create($data);
+
+        $postId = $this->postService->create($data);
+        $termRelationships = [
+            'object_id' => $postId,
+            'term_taxonomy_id' => $this->categoryId,
+        ];
+        $this->postService->termRelationships($termRelationships);
         $this->messageService->message('success', 'Post saved successfully.');
         $this->resetForm();
     }

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Post;
+use App\Models\TermRelationship;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -62,7 +63,13 @@ class PostService extends Controller
      */
     public function create(array $data)
     {
-        return Post::create($data);
+        $post = Post::create($data);
+        return $post->id;
+    }
+
+    public function termRelationships(array $data) 
+    {
+        return TermRelationship::create($data);
     }
 
     /**
@@ -123,10 +130,12 @@ class PostService extends Controller
      */
     public function getAllPosts(array $filters = [])
     {
+
         $query = Post::query()
-            ->leftJoin('media', 'posts.media_id', '=', 'media.id')
-            ->join('terms', 'posts.category_id', '=', 'terms.term_id')
-            ->select('posts.*', 'media.media_name', 'terms.name as category_name');
+        ->leftJoin('media', 'posts.media_id', '=', 'media.id')
+        ->join('term_relationships', 'posts.id', '=', 'term_relationships.object_id')
+        ->join('terms', 'term_relationships.term_taxonomy_id', '=', 'terms.term_id')
+        ->select('posts.*', 'media.media_name', 'terms.name as category_name');
 
         if (!empty($filters['search'])) {
             $search = $filters['search'];
@@ -137,7 +146,7 @@ class PostService extends Controller
         }
 
         if (!empty($filters['category_id']) && $filters['category_id'] > 0) {
-            $query->where('posts.category_id', '=', $filters['category_id']);
+            $query->where('term_relationships.term_taxonomy_id', '=', $filters['category_id']);
         }
 
         if (!empty($filters['post_status']) && $filters['post_status'] !== 'all') {

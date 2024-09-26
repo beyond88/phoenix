@@ -34,11 +34,8 @@ class CategoryService extends Controller
 
     public function getAllCategories()
     {
-        return PostCategory::select('terms.term_id', 'terms.name', 'terms.slug')
-            ->leftJoin('posts', 'terms.term_id', '=', 'posts.category_id')
-            ->select('terms.*', DB::raw('COUNT(posts.id) as post_count'))
-            ->groupBy('terms.term_id', 'terms.name', 'terms.slug')
-            ->orderBy('terms.name')
+        return PostCategory::select('*')
+            ->orderBy('terms.term_id')
             ->get();
     }
 

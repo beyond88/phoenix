@@ -12,15 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('term_relationships', function (Blueprint $table) {
-            $table->bigInteger('object_id', true, true)->unsigned()->default(0);
+            $table->bigIncrements('object_id')->unsigned();
             $table->bigInteger('term_taxonomy_id')->unsigned()->default(0);
             $table->integer('term_order')->default(0);
-            
-            // Primary key
             $table->primary(['object_id', 'term_taxonomy_id']);
-            
-            // Index for term_taxonomy_id
             $table->index('term_taxonomy_id');
+            $table->timestamps();
         });
     }
 
