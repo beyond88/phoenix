@@ -101,15 +101,20 @@ class UpdatePost extends Component
             'post_title' => $this->postTitle,
             'post_status' => $this->postStatus,
             'post_content' => $this->postContent,
-            'category_id' => $this->categoryId,
             'media_id' => $this->mediaId,
         ]);
         $this->postService->update($data);
+
+        $termData = [
+            'object_id' => $this->postId,
+            'term_taxonomy_id' => $this->categoryId,
+        ];
+        $this->postService->updateTermRelationships($termData);
         $this->messageService->message('success', 'Post updated successfully.');
     }
 
     public function render()
     {
-        return view('livewire.posts.update');
+        return view('livewire.posts.update-post');
     }
 }

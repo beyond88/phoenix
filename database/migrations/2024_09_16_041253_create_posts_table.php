@@ -18,7 +18,7 @@ class CreatePostsTable extends Migration
             $table->string('post_title')->nullable(false); // Ensure this is not nullable if it is required
             $table->text('post_content');
             $table->string('post_status')->default('draft');
-            $table->unsignedBigInteger('category_id');
+            $table->string('post_type')->default('post');
             $table->unsignedBigInteger('media_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();

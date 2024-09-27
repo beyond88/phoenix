@@ -12,11 +12,10 @@ use App\Livewire\Quill;
 class AddNew extends Component
 {
 
-    public $cats;
     public $postTitle;
     public $postContent;
     public $postStatus = 'draft';
-    public $categoryId;
+    public $postType = 'page';
     public $mediaId;
     public $userId;
     public $listeners = [
@@ -29,6 +28,7 @@ class AddNew extends Component
         'postTitle' => 'required|string|max:255',
         'postContent' => 'nullable|string',
         'postStatus' => 'in:draft,publish',
+        'postType' => 'in:page',
         'mediaId' => 'nullable|exists:media,id',
         'userId' => 'nullable|exists:users,id',
     ];
@@ -53,31 +53,31 @@ class AddNew extends Component
 
     public function setStatusAndSave($status)
     {
-        // $this->postStatus = $status;
+        $this->postStatus = $status;
     
-        // try {
-        //     $validatedData = $this->validate();
-        //     $this->savePost($validatedData);
+        try {
+            $validatedData = $this->validate();
+            $this->savePost($validatedData);
             
-        // } catch (\Illuminate\Validation\ValidationException $e) {
-        //     $this->messageService->message('error', 'Validation Failed: ' . implode(', ', $e->validator->errors()->all()));
-        //     $this->dispatch('reinit');
-        // }
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->messageService->message('error', 'Validation Failed: ' . implode(', ', $e->validator->errors()->all()));
+            $this->dispatch('reinit');
+        }
         
     }
 
     public function savePost($validatedData)
     {
-        // $data = array_merge($validatedData, [
-        //     'post_title' => $this->postTitle,
-        //     'post_status' => $this->postStatus,
-        //     'post_content' => $this->postContent,
-        //     'category_id' => $this->categoryId,
-        //     'media_id' => $this->mediaId,
-        // ]);
-        // $this->postService->create($data);
-        // $this->messageService->message('success', 'Post saved successfully.');
-        // $this->resetForm();
+        $data = array_merge($validatedData, [
+            'post_title' => $this->postTitle,
+            'post_status' => $this->postStatus,
+            'post_content' => $this->postContent,
+            'post_type' => $this->postType,
+            'media_id' => $this->mediaId,
+        ]);
+        $this->postService->create($data);
+        $this->messageService->message('success', 'Page saved successfully.');
+        $this->resetForm();
     }
 
     public function resetForm()

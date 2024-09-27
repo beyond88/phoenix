@@ -72,6 +72,13 @@ class PostService extends Controller
         return TermRelationship::create($data);
     }
 
+    public function updateTermRelationships(array $data) 
+    {
+        $termRelationships = TermRelationship::findOrFail($data['object_id']);
+        $termRelationships->update($data);
+        return $termRelationships;
+    }
+
     /**
      * Update an existing post.
      *
@@ -104,12 +111,18 @@ class PostService extends Controller
             // Check if the post exists
             $post = Post::findOrFail($id);
 
+            if ($post->post_type === 'page') {
+                $message = 'Page deleted successfully!';
+            } elseif ($post->post_type === 'post') {
+                $message = 'Post deleted successfully!';
+            }
+            
             // Delete the post
             $post->delete();
     
             return [
                 'success' => true,
-                'message' => 'Post deleted successfully!',
+                'message' => $message,
                 'type' => 'success'
             ];
         } catch (\Exception $e) {
@@ -132,16 +145,25 @@ class PostService extends Controller
     {
 
         $query = Post::query()
-        ->leftJoin('media', 'posts.media_id', '=', 'media.id')
-        ->join('term_relationships', 'posts.id', '=', 'term_relationships.object_id')
-        ->join('terms', 'term_relationships.term_taxonomy_id', '=', 'terms.term_id')
-        ->select('posts.*', 'media.media_name', 'terms.name as category_name');
+            ->leftJoin('media', 'posts.media_id', '=', 'media.id')
+            ->select('posts.*', 'media.media_name');
+
+        if (!empty($filters['post_type'])) {
+            $query->where('posts.post_type', '=', $filters['post_type']);
+        }
+
+        if (!empty($filters['post_type']) && $filters['post_type'] == "post") {
+            // Join `term_relationships` before joining `terms`.
+            $query->join('term_relationships', 'posts.id', '=', 'term_relationships.object_id')
+                ->join('terms', 'term_relationships.term_taxonomy_id', '=', 'terms.term_id')
+                ->addSelect('terms.name as category_name');
+        }
 
         if (!empty($filters['search'])) {
             $search = $filters['search'];
             $query->where(function ($q) use ($search) {
                 $q->where('post_title', 'like', '%' . $search . '%')
-                ->orWhere('post_content', 'like', '%' . $search . '%');
+                    ->orWhere('post_content', 'like', '%' . $search . '%');
             });
         }
 
@@ -157,11 +179,11 @@ class PostService extends Controller
             $year = substr($filters['selected_date'], 0, 4);
             $month = substr($filters['selected_date'], 4, 2);
             $query->whereYear('posts.created_at', $year)
-                    ->whereMonth('posts.created_at', $month);
+                ->whereMonth('posts.created_at', $month);
         }
 
-        $publish = Post::where('post_status', 'publish')->count();
-        $draft = Post::where('post_status', 'draft')->count();
+        $publish = Post::where('post_status', 'publish')->where('post_type', $filters['post_type'])->count();
+        $draft = Post::where('post_status', 'draft')->where('post_type', $filters['post_type'])->count();
 
         $orderBy = $filters['orderBy'] ?? 'desc';
         $query->orderBy('created_at', $orderBy);
@@ -179,6 +201,7 @@ class PostService extends Controller
             'last_page' => $paginator->lastPage(),
             'per_page' => $paginator->perPage(),
         ];
+
     }
 
     /**
@@ -198,16 +221,17 @@ class PostService extends Controller
         }
 
         $post = Post::leftJoin('media', 'posts.media_id', '=', 'media.id')
-            ->join('terms', 'posts.category_id', '=', 'terms.term_id')
-            ->select(
-                'posts.*',
-                'media.media_name',
-                'media.id as media_id',
-                'terms.name as category_name',
-                'terms.term_id as category_id'
-            )
-            ->where('posts.id', $id)
-            ->first();
+                ->join('term_relationships', 'posts.id', '=', 'term_relationships.object_id')
+                ->join('terms', 'term_relationships.term_taxonomy_id', '=', 'terms.term_id')
+                ->select(
+                    'posts.*',
+                    'media.media_name',
+                    'media.id as media_id',
+                    'terms.name as category_name',
+                    'terms.term_id as category_id'
+                )
+                ->where('posts.id', $id)
+                ->first();
 
         if (!$post) {
             return null;

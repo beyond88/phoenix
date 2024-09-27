@@ -124,10 +124,11 @@
             </div>
             <div class="col-lg-1" style="text-align:right;">
                 <div class="media-toolbar-primary search-form">
-                    {{ $totalPostCount }} items
+                    {{ $totalPostCount }} item(s)
                 </div>
             </div>
         </div>
+
         <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-body-emphasis border-top border-bottom border-translucent position-relative top-1">
             <div class="table-responsive scrollbar mx-n1 px-1">
                 <table class="table fs-9 mb-0">
@@ -135,7 +136,7 @@
                     <tr>
                         <th class="white-space-nowrap fs-9 align-middle ps-0" style="max-width:20px; width:18px;">
                             <div class="form-check mb-0 fs-8">
-                                <input class="form-check-input" id="checkbox-bulk-products-select" type="checkbox" data-bulk-select='{"body":"products-table-body"}' wire:model="selectAll" wire:click="toggleSelectAll" />
+                                <input class="form-check-input" id="checkbox-bulk-products-select" type="checkbox" wire:model="selectAll" wire:click="toggleSelectAll" />
                             </div>
                         </th>
                         <th class="sort white-space-nowrap align-middle fs-10" scope="col" style="width:70px;"></th>
@@ -150,15 +151,22 @@
                     </thead>
                     <tbody class="list" id="products-table-body">
                         @foreach ($postItems as $post)
+                            @php
+                            if (empty($post['media_name'])){
+                                $mediaPath = 'img/placeholders/default.png';
+                            } else {
+                                $mediaPath = 'storage/media/' . $post['media_name'];
+                            }
+                            @endphp
                             <tr class="position-static">
                                 <td class="fs-9 align-middle">
                                     <div class="form-check mb-0 fs-8">
-                                        <input class="form-check-input" type="checkbox" value="{{ $post['id'] }}" data-bulk-select-row='{"product":"Fitbit Sense Advanced Smartwatch with Tools for Heart Health, Stress Management & Skin Temperature Trends, Carbon/Graphite, One Size (S & L Bands...","productImage":"/products/1.png","price":"$39","category":"Plants","tags":["Health","Exercise","Discipline","Lifestyle","Fitness"],"star":false,"vendor":"Blue Olive Plant sellers. Inc","publishedOn":"Nov 12, 10:45 PM"}' />
+                                        <input class="form-check-input" type="checkbox" value="{{ $post['id'] }}" wire:model="selectedPosts"/>
                                     </div>
                                 </td>
                                 <td class="align-middle white-space-nowrap py-0">
-                                    <a class="d-block border border-translucent rounded-2" href="{{ url('admin/posts/1') }}">
-                                        <img src="{{ asset('storage/media/' . $post['media_name']) }}" alt="" width="53" />
+                                    <a class="d-block border border-translucent rounded-2" href="{{ url('admin/posts/'.$post['id']) }}">
+                                        <img src="{{ asset($mediaPath) }}" alt="" width="53" />
                                     </a>
                                 </td>
                                 <td class="product align-middle ps-4">

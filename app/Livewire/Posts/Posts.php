@@ -191,7 +191,7 @@ class Posts extends Component
     }    
 
     /**
-     * Updates the 'Select All' flag based on selected media.
+     * Updates the 'Select All' flag based on selected post.
      *
      * @return void
      */
@@ -234,6 +234,8 @@ class Posts extends Component
         $this->handlePostDeletionState();
         $this->dispatch('postDeleted');
         $this->bulkAction = '';
+        $this->loadPosts();
+
     }
 
     public function deletePostById($postId){
@@ -322,6 +324,7 @@ class Posts extends Component
             'selected_date' => $this->selectedDate,
             'post_status' => $this->postStatus,
             'page' => $this->currentPage,
+            'post_type' => 'post',
         ];
 
         $postsData = $this->postService->getAllPosts($filters);
