@@ -83,7 +83,7 @@
                     </span>
                 </button>
             </div>
-            <div class="col-lg-8">
+            <div class="col-lg-7">
                 <div class="scrollbar overflow-hidden-y">
                     <div class="btn-group position-static" role="group">
                         <div class="btn-group position-static text-nowrap">
@@ -122,7 +122,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-1" style="text-align:right;">
+            <div class="col-lg-2" style="text-align:right;">
                 <div class="media-toolbar-primary search-form">
                     {{ $totalPostCount }} item(s)
                 </div>
