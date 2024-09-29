@@ -165,7 +165,7 @@
                                     </div>
                                 </td>
                                 <td class="align-middle white-space-nowrap py-0">
-                                    <a class="d-block border border-translucent rounded-2" href="{{ url('admin/posts/'.$post['id']) }}">
+                                    <a class="d-block border border-translucent rounded-2" href="{{ url('admin/posts/' . $post['id']) }}">
                                         <img src="{{ asset($mediaPath) }}" alt="" width="53" />
                                     </a>
                                 </td>
@@ -175,8 +175,9 @@
                                 <td class="category align-middle white-space-nowrap text-body-quaternary fs-9 ps-4 fw-semibold">{{ $post['category_name'] }}</td>
                                 <td class="price align-middle white-space-nowrap text-end fw-bold text-body-tertiary ps-4">{{ $post['user_id'] }}</td>
                                 <td class="tags align-middle review pb-2 ps-3" style="min-width:225px;">
-                                    <a class="text-decoration-none" href="#!"><span class="badge badge-tag me-2 mb-2">Health</span></a><a class="text-decoration-none" href="#!"><span class="badge badge-tag me-2 mb-2">Exercise</span></a><a class="text-decoration-none" href="#!"><span class="badge badge-tag me-2 mb-2">Discipline</span></a><a class="text-decoration-none" href="#!"><span class="badge badge-tag me-2 mb-2">Lifestyle</span></a><a class="text-decoration-none" href="#!"><span class="badge badge-tag me-2 mb-2">Fitness</span>
-                                </a>
+                                    <a class="text-decoration-none" href="#!">
+                                        <span class="badge badge-tag me-2 mb-2">Health</span></a><a class="text-decoration-none" href="#!"><span class="badge badge-tag me-2 mb-2">Exercise</span></a><a class="text-decoration-none" href="#!"><span class="badge badge-tag me-2 mb-2">Discipline</span></a><a class="text-decoration-none" href="#!"><span class="badge badge-tag me-2 mb-2">Lifestyle</span></a><a class="text-decoration-none" href="#!"><span class="badge badge-tag me-2 mb-2">Fitness</span>
+                                    </a>
                                 </td>
                                 <td class="align-middle review fs-8 text-center ps-4">
                                     <div class="d-toggle-container">

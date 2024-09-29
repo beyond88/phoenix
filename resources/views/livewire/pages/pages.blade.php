@@ -61,7 +61,7 @@
         </li>
     </ul>
     <div id="pages">
-    <div class="mb-4">
+        <div class="mb-4">
             <div class="d-flex flex-wrap gap-3" style="justify-content:space-between">
                 <div class="d-flex flex-wrap search-box" style="width: 21rem; justify-content:space-between">
                     <form class="position-relative">
@@ -104,7 +104,7 @@
                                 Date<span class="fas fa-angle-down ms-2"></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#" wire:click.prevent="selectDate('All Dates', 'all')">All Dates</a></li>
+                                <li><a class="dropdown-item" href="{{ url('admin/pages')}}" wire:click.prevent="selectDate('All Dates', 'all')">All Dates</a></li>
                                 @foreach ($this->months as $arc_row)
                                     @if ((int) $arc_row->year === 0)
                                         @continue

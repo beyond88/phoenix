@@ -40,7 +40,7 @@
         <div class="row g-5">
             <div class="col-12 col-xl-8">
                 <h4 class="mb-3">Title</h4>
-                <input class="form-control mb-5" type="text" wire:model="postTitle" value=""placeholder="Enter title here..." />
+                <input class="form-control mb-5" type="text" wire:model="postTitle" placeholder="Enter title here..." />
                 <div class="mb-6">
                     <h4 class="mb-3">Description</h4>
                     <livewire:quill :value="$postContent" :reset-flag="$resetQuillFlag" wire:key="quill-{{ $resetQuillFlag }}">

@@ -90,7 +90,6 @@ class UpdatePost extends Component
             
         } catch (\Illuminate\Validation\ValidationException $e) {
             $this->messageService->message('error', 'Validation Failed: ' . implode(', ', $e->validator->errors()->all()));
-            // $this->dispatch('reinit');
         }
     }
 
