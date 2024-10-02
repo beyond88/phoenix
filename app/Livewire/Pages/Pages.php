@@ -12,145 +12,32 @@ class Pages extends Component
 {
     use WithPagination;
 
-    /**
-     * Array to hold pages items.
-     *
-     * @var array
-     */
-    public $pageItems = [];
-
-    /**
-     * Number of posts per page.
-     *
-     * @var int
-     */
-    public $perPage = 10;
-
-    /**
-     * Current page for post pagination.
-     *
-     * @var int
-     */
-    public $currentPage = 1;
-
-    /**
-     * Total number of post items.
-     *
-     * @var int
-     */
-    public $totalPageCount = 0;
-
-    /**
-     * Boolean flag indicating if more pages are available.
-     *
-     * @var bool
-     */
-    public $hasMorePages = true;
-
-    /**
-     * Total number of publish post items.
-     *
-     * @var int
-     */
-    public $publish = 0;
-
-    /**
-     * Total number of draft post items.
-     *
-     * @var int
-     */
-    public $draft = 0;
-
-    /**
-     * Search query for filtering posts.
-     *
-     * @var string
-     */
+    public array $pageItems = [];
+    public int $perPage = 10;
+    public int $currentPage = 1;
+    public int $totalPageCount = 0;
+    public bool $hasMorePages = true;
+    public int $publish = 0;
+    public int $draft = 0;
     public string $search = '';
+    public bool $selectAll = false;
+    public array $selectedPages = [];
+    public string $bulkAction = '';
+    public ?object $months;
+    public string $selectedDateName = 'All Dates';
+    public string $selectedDate = 'all';
+    public string $pageStatus = 'all';
 
-    /**
-     * Flag to select or deselect all media items.
-     *
-     * @var bool
-     */
-    public $selectAll = false;
+    private $postService;
+    private $messageService;
 
-    /**
-     * Array of selected media IDs.
-     *
-     * @var array
-     */
-    public $selectedPages = [];
-
-    /**
-     * Selected bulk action.
-     *
-     * @var string
-     */
-    public $bulkAction = '';
-
-    /**
-     * Collection of months for filtering by date.
-     *
-     * @var mixed
-     */
-    public $months;
-
-    /**
-     * The name of the selected category.
-     *
-     * @var string
-     */
-    public $selectedDateName = 'All Dates'; // Default display text
-
-    /**
-     * The ID of the selected date.
-     *
-     * @var string
-     */
-    public $selectedDate = 'all'; // Default date for "All dates"
-
-    /**
-     * The ID of the selected category.
-     *
-     * @var string
-     */
-    public $pageStatus = 'all'; // Default status for "All pages"
-
-    /**
-     * Service for handling post-related operations.
-     *
-     * @var PostService
-     */
-    protected $postService;
-
-    /**
-     * Service for handling message-related operations.
-     *
-     * @var MessageService
-     */
-    protected $messageService;
-
-    /**
-     * Constructor method for the controller.
-     * Initializes the services needed for handling posts, categories, and messages.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function boot(PostService $postService, MessageService $messageService)
     {
-        $this->postService = app(PostService::class);
-        $this->messageService = app(MessageService::class);
-        
+        $this->postService = $postService;
+        $this->messageService = $messageService;
     }
 
-    /**
-     * Updates the selection when 'Select All' is toggled.
-     *
-     * @param bool $value
-     * @return void
-     */
-    public function updatedSelectAll($value)
+    public function updatedSelectAll($value): void
     {
         if ($value) {
             $this->selectedPages = collect($this->pageItems)->pluck('id')->toArray();
@@ -159,22 +46,12 @@ class Pages extends Component
         }
     }
     
-    /**
-     * Updates the 'Select All' flag based on selected page.
-     *
-     * @return void
-     */
-    public function updatedSelectedPost()
+    public function updatedSelectedPost(): void
     {
         $this->selectAll = count($this->selectedPages) === count($this->pageItems);
     }
 
-    /**
-     * Toggles the 'Select All' action.
-     *
-     * @return void
-     */
-    public function toggleSelectAll()
+    public function toggleSelectAll(): void
     {
         if ($this->selectAll) {
             $this->selectedPages = collect($this->pageItems)->pluck('id')->toArray();
@@ -183,12 +60,7 @@ class Pages extends Component
         }
     }
 
-    /**
-     * Applies the selected bulk action to the media items.
-     *
-     * @return void
-     */
-    public function applyBulkAction()
+    public function applyBulkAction(): void
     {
         if ($this->bulkAction !== 'delete') {
             return;
@@ -206,16 +78,12 @@ class Pages extends Component
         $this->loadPages();
     }
 
-    public function deletePageById($pageId){
+    public function deletePageById($pageId): bool
+    {
         return $this->postService->delete($pageId);
     }
 
-    /**
-     * Process the bulk deletion of media items.
-     *
-     * @return void
-     */
-    protected function processBulkDeletion()
+    protected function processBulkDeletion(): void
     {
         $successCount = 0;
         $failCount = 0;
@@ -236,42 +104,22 @@ class Pages extends Component
         $this->selectAll = false;
     }
 
-    /**
-     * Pads a number with leading zeros up to the specified threshold.
-     *
-     * @param int $number The number to be padded.
-     * @param int $threshold The total length after padding.
-     * @return string The padded number as a string.
-     */
-    public function zeroise($number, $threshold)
+    public function zeroise($number, $threshold): string
     {
         return sprintf('%0' . $threshold . 's', $number);
     }
 
-    /**
-     * Initialize component and load initial data.
-     */
-    public function mount()
+    public function mount(): void
     {
         $this->loadMonths();
         $this->loadPages();
     }
 
-    /**
-     * Loads distinct months from the media records.
-     *
-     * @return void
-     */
-    public function loadMonths()
+    public function loadMonths(): void
     {
         $this->months = $this->postService->loadMonths();
     }
 
-    /**
-     * Load the posts for the current page.
-     *
-     * @return void
-     */
     public function loadPages(): void
     {
         $filters = [
@@ -307,106 +155,56 @@ class Pages extends Component
         $this->lastPage = (int)$pageData['last_page'];
     }
 
-    /**
-     * Update the list when the search term changes.
-     */
-    public function updatedSearch()
+    public function updatedSearch(): void
     {
-        $this->resetPage(); // Reset pagination when search changes
+        $this->resetPage();
         $this->loadPages();
     }
 
-    /**
-     * Formats a timestamp into a human-readable date string.
-     *
-     * @param string $timestamp The timestamp to format (e.g., 'Y-m-d H:i:s').
-     * @param string|null $timezone Optional timezone for formatting. Defaults to the application's timezone if null.
-     * @return string Formatted date string in 'M d, h:i A' format.
-     */
-    public function formatDate($timestamp, $timezone = null)
+    public function formatDate($timestamp, $timezone = null): ? string
     {
         if($timestamp == null){
-            return;
+            return null;
         }
         return $this->postService->formatDate($timestamp, $timezone = null);
     }
 
-    /**
-     * Perform the media deletion operation.
-     *
-     * @param int $id
-     * @return array
-     */
-    protected function performPageDeletion($id)
+    protected function performPageDeletion($id): bool
     {
         return $this->postService->delete($id);
     }
 
-    /**
-     * Check if the deletion was successful.
-     *
-     * @param array $result
-     * @return bool
-     */
-    protected function isDeletionSuccessful($result)
+    protected function isDeletionSuccessful($result): bool
     {
         return isset($result['success']) && $result['success'];
     }
 
-    /**
-     * Remove the media item from the list.
-     *
-     * @param int $id
-     * @return void
-     */
-    protected function removePageFromList($id)
+    protected function removePageFromList(int $id): void
     {
-        $this->pageItems = collect($this->pageItems)->filter(function($item) use ($id) {
-            return $item['id'] != $id;
-        })->toArray(); // Make sure to convert the collection back to an array
+        $this->pageItems = collect($this->pageItems)->filter(function ($item) use ($id) {
+            return $item['id'] !== $id; // Use strict comparison for safety
+        })->toArray();
     }
-    
-    /**
-     * Handle state updates and pagination after deletion.
-     *
-     * @return void
-     */
-    protected function handlePageDeletionState()
+
+    protected function handlePageDeletionState(): void
     {
         if (collect($this->pageItems)->isEmpty() && $this->currentPage > 1) {
             $this->currentPage--;
         }
     }
 
-    /**
-     * Flash success and error messages based on the deletion result.
-     *
-     * @param int $successCount
-     * @param int $failCount
-     * @return void
-     */
-    protected function flashDeletionMessages($successCount, $failCount)
+    protected function flashDeletionMessages(int $successCount, int $failCount): void
     {
         if ($successCount > 0) {
             $this->messageService->message('success', "$successCount page(s) have been deleted successfully.");
         }
         if ($failCount > 0) {
-            $this->messageService->message('error', "Failed to delete $failCount post(s).");
+            $this->messageService->message('error', "Failed to delete $failCount page(s).");
         }
     }
 
-    /**
-     * Deletes a page by its ID.
-     *
-     * This method checks if the provided ID is a valid integer and whether
-     * a page with that ID exists before attempting to delete it.
-     *
-     * @param int $id The ID of the page to delete.
-     * @return bool True if the page was deleted, false otherwise.
-     */
-    public function deletePage($id)
+    public function deletePage(int $id): void
     {
-
         try {
             $result = $this->performPageDeletion($id);
             
@@ -416,91 +214,67 @@ class Pages extends Component
             } else {
                 $this->messageService->message('error', $result['message']);
             }
-    
+
             $this->render();
             
         } catch (\Exception $e) {
-            $this->messageService->message('error', 'Deletion failed: ' . $e->getMessage());
-
+            // Log the exception for debugging
+            \Log::error('Deletion failed: ' . $e->getMessage());
+            // Provide a generic error message to the user
+            $this->messageService->message('error', 'Deletion failed. Please try again.');
         }
-        
     }
 
-    /**
-     * Advances to the next page.
-     *
-     * @return void
-     */
-    public function nextPage()
+    public function nextPage(): void
     {
-        if ($this->currentPage < ceil($this->totalPageCount / $this->perPage)) {
+        $totalPages = (int) ceil($this->totalPageCount / $this->perPage);
+        if ($this->currentPage < $totalPages) {
             $this->currentPage++;
             $this->loadPages();
         }
     }
 
-    /**
-     * Returns to the previous page.
-     *
-     * @return void
-     */
-    public function previousPage()
+    public function previousPage(): void
     {
         if ($this->currentPage > 1) {
             $this->currentPage--;
-            $this->loadPages();
+            $this->loadPages(); // Load the pages for the previous page
         }
     }
 
-    /**
-     * Navigates to a specified page.
-     *
-     * @param int $page The page number to navigate to.
-     * @return void
-     */
-    public function gotoPage($page)
+    public function gotoPage(int $page): void
     {
-        if ($page >= 1 && $page <= ceil($this->totalPageCount / $this->perPage)) {
+        $totalPages = (int) ceil($this->totalPageCount / $this->perPage);
+        
+        if ($page >= 1 && $page <= $totalPages) {
             $this->currentPage = $page;
-            $this->loadPages();
+            $this->loadPages(); // Load the pages for the specified page
         }
     }
 
-    /**
-     * Performs a search query and reloads the post items.
-     *
-     * @return void
-     */
-    public function performSearch()
+    public function performSearch(): void
     {
-        $this->page = 1;
-        $this->loadPages();
+        $this->currentPage = 1; // Reset to the first page on search
+        $this->loadPages(); // Load pages based on the search criteria
     }
 
-    /**
-     * Selects a date and reloads the associated posts.
-     *
-     * @param string $name The name of the category to select.
-     * @param int $id The ID of the category to select.
-     * @return void
-     */
-    public function selectDate($name, $date)
+    public function selectDate(string $name, string $date): void
     {
         $this->selectedDateName = $name;
         $this->selectedDate = $date;
-        $this->loadPages();
+        $this->loadPages(); // Load pages based on the selected date
     }
 
-    public function getPostByStatus($status)
+    public function getPostByStatus(string $status): void
     {
         $this->pageStatus = $status;
-        $this->loadPages();
+        $this->loadPages(); // Load pages based on the post status
     }
 
     public function render()
     {
-        $this->loadMonths();
-        return view('livewire.pages.pages',[
+        $this->loadMonths(); // Load months for display
+        return view('livewire.pages.pages', [
             'pages' => $this->pageItems,
             'total' => $this->totalPageCount,
             'page' => $this->currentPage,

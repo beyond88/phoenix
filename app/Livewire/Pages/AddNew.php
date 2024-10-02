@@ -12,19 +12,20 @@ use App\Livewire\Quill;
 class AddNew extends Component
 {
 
-    public $postTitle;
-    public $postContent;
-    public $postStatus = 'draft';
-    public $postType = 'page';
-    public $mediaId;
-    public $userId;
-    public $listeners = [
-        Quill::EVENT_VALUE_UPDATED
+    public string $postTitle = '';
+    public ?string $postContent = null;
+    public string $postStatus = 'draft';
+    public string $postType = 'page';
+    public ?int $mediaId = null;
+    public ?int $userId = null;
+
+    protected array $listeners = [
+        Quill::EVENT_VALUE_UPDATED => 'quillValueUpdated'
     ];
 
-    public $resetQuillFlag = false;
+    public bool $resetQuillFlag = false;
 
-    protected $rules = [
+    protected array $rules = [
         'postTitle' => 'required|string|max:255',
         'postContent' => 'nullable|string',
         'postStatus' => 'in:draft,publish',
@@ -33,40 +34,36 @@ class AddNew extends Component
         'userId' => 'nullable|exists:users,id',
     ];
 
-    protected $postService;
-    protected $messageService;
+    private $postService;
+    private $messageService;
 
-    public function __construct()
+    public function boot(PostService $postService, MessageService $messageService)
     {
-        $this->postService = app(PostService::class);
-        $this->messageService = app(MessageService::class);
+        $this->postService = $postService;
+        $this->messageService = $messageService;
     }
 
-    public function quill_value_updated($value){
+    public function quillValueUpdated(string $value): void
+    {
         $this->postContent = $value;
     }
 
-    public function mount()
-    {
-
-    }
-
-    public function setStatusAndSave($status)
+    public function setStatusAndSave(string $status): void
     {
         $this->postStatus = $status;
     
         try {
             $validatedData = $this->validate();
             $this->savePost($validatedData);
-            
-        } catch (\Illuminate\Validation\ValidationException $e) {
+        } catch (ValidationException $e) {
             $this->messageService->message('error', 'Validation Failed: ' . implode(', ', $e->validator->errors()->all()));
             $this->dispatch('reinit');
+        } catch (\Exception $e) {
+            $this->messageService->message('error', 'An error occurred: ' . $e->getMessage());
         }
-        
     }
 
-    public function savePost($validatedData)
+    private function savePost(array $validatedData): void
     {
         $data = array_merge($validatedData, [
             'post_title' => $this->postTitle,
@@ -80,14 +77,11 @@ class AddNew extends Component
         $this->resetForm();
     }
 
-    public function resetForm()
+    public function resetForm(): void
     {
-        $this->postTitle = '';
-        $this->postContent = '';
+        $this->reset(['postTitle', 'postContent', 'postStatus', 'mediaId', 'userId']);
         $this->postStatus = 'draft';
-        $this->mediaId = null;
-        $this->userId = null;
-        $this->resetQuillFlag = !$this->resetQuillFlag; 
+        $this->resetQuillFlag = !$this->resetQuillFlag;
     }
 
     public function render()

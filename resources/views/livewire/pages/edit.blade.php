@@ -6,8 +6,8 @@
         </div>
         <div class="col-auto">
             <a href="{{ url('admin/pages')}}" class="btn btn-phoenix-secondary me-2 mb-2 mb-sm-0" type="button">Discard</a>
-            <button class="btn btn-phoenix-secondary me-2 mb-2 mb-sm-0" type="button" wire:click="setStatusAndSave('draft')">Draft</button>
-            <button class="btn btn-primary mb-2 mb-sm-0" type="button" wire:click="setStatusAndSave('publish')">Publish</button>
+            <button class="btn btn-phoenix-secondary me-2 mb-2 mb-sm-0" type="button" wire:click="setStatusAndUpdate('draft')">Draft</button>
+            <button class="btn btn-primary mb-2 mb-sm-0" type="button" wire:click="setStatusAndUpdate('publish')">Publish</button>
         </div>
     </div>
 

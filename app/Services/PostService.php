@@ -221,8 +221,8 @@ class PostService extends Controller
         }
 
         $post = Post::leftJoin('media', 'posts.media_id', '=', 'media.id')
-                ->join('term_relationships', 'posts.id', '=', 'term_relationships.object_id')
-                ->join('terms', 'term_relationships.term_taxonomy_id', '=', 'terms.term_id')
+                ->leftJoin('term_relationships', 'posts.id', '=', 'term_relationships.object_id')
+                ->leftJoin('terms', 'term_relationships.term_taxonomy_id', '=', 'terms.term_id')
                 ->select(
                     'posts.*',
                     'media.media_name',

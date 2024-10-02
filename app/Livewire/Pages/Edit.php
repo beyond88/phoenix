@@ -12,18 +12,19 @@ use App\Livewire\Quill;
 class Edit extends Component
 {
 
-    public $postTitle;
-    public $postContent;
-    public $postStatus = 'draft';
-    public $postType = 'page';
-    public $mediaId;
-    public $mediaName = 'img/placeholders/posts-featured-image.jpg';
-    public $userId;
+    public int $postId;
+    public string $postTitle = '';
+    public ?string $postContent = null;
+    public string $postStatus = 'draft';
+    public string $postType = 'page';
+    public ?int $mediaId = null;
+    public string $mediaName = 'img/placeholders/posts-featured-image.jpg';
+    public ?int $userId = null;
     public $listeners = [
         Quill::EVENT_VALUE_UPDATED
     ];
 
-    public $resetQuillFlag = false;
+    public bool $resetQuillFlag = false;
 
     protected $rules = [
         'postTitle' => 'required|string|max:255',
@@ -34,30 +35,32 @@ class Edit extends Component
         'userId' => 'nullable|exists:users,id',
     ];
 
-    protected $postService;
-    protected $messageService;
+    private $postService;
+    private $messageService;
 
-    public function __construct()
+    public function boot(PostService $postService, MessageService $messageService)
     {
-        $this->postService = app(PostService::class);
-        $this->messageService = app(MessageService::class);
+        $this->postService = $postService;
+        $this->messageService = $messageService;
     }
 
-    public function quill_value_updated($value){
+    public function quill_value_updated(string $value): void
+    {
         $this->postContent = $value;
     }
 
-    public function mount($id)
+    public function mount(string $id): void
     {
         $this->postId = $id;
         $this->loadContent();
     }
 
-    public function loadContent(){
+    public function loadContent(): void
+    {
 
         $post = $this->postService->getPostById($this->postId);
-        if( empty($post) ){
-            return null;
+        if( empty($post) ) {
+            return;
         }
 
         $this->postTitle = $post['post_title']; 
@@ -69,20 +72,21 @@ class Edit extends Component
         }
     }
 
-    public function setStatusAndUpdate($status)
+    public function setStatusAndUpdate(string $status): void
     {
         $this->postStatus = $status;
-    
+
         try {
             $validatedData = $this->validate();
             $this->updatePost($validatedData);
-            
-        } catch (\Illuminate\Validation\ValidationException $e) {
+        } catch (ValidationException $e) {
             $this->messageService->message('error', 'Validation Failed: ' . implode(', ', $e->validator->errors()->all()));
+        } catch (\Exception $e) {
+            $this->messageService->message('error', 'An error occurred: ' . $e->getMessage());
         }
     }
 
-    public function updatePost($validatedData)
+    public function updatePost(array $validatedData): void
     {
         $data = array_merge($validatedData, [
             'id' => $this->postId,

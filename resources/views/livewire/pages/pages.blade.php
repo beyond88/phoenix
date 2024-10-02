@@ -152,10 +152,10 @@
 
                         @foreach ( $pageItems as $page )
                         @php
-                            if (empty($post['media_name'])){
+                            if (empty($page['media_name'])){
                                 $mediaPath = 'img/placeholders/default.png';
                             } else {
-                                $mediaPath = 'storage/media/' . $post['media_name'];
+                                $mediaPath = 'storage/media/' . $page['media_name'];
                             }
                         @endphp
                         <tr class="position-static">
