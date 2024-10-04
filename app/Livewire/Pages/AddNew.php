@@ -37,7 +37,7 @@ class AddNew extends Component
     private $postService;
     private $messageService;
 
-    public function boot(PostService $postService, MessageService $messageService)
+    public function boot(PostService $postService, MessageService $messageService): void
     {
         $this->postService = $postService;
         $this->messageService = $messageService;

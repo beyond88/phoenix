@@ -32,18 +32,19 @@ class AddNew extends Component
         'userId' => 'nullable|exists:users,id',
     ];
 
-    protected $postService;
-    protected $categoryService;
-    protected $messageService;
+    private $postService;
+    private $categoryService;
+    private $messageService;
 
-    public function __construct()
+    public function boot(PostService $postService, CategoryService $categoryService, MessageService $messageService): void
     {
-        $this->postService = app(PostService::class);
-        $this->categoryService = app(CategoryService::class);
-        $this->messageService = app(MessageService::class);
+        $this->postService = $postService;
+        $this->categoryService = $categoryService;
+        $this->messageService = $messageService;
     }
 
-    public function quill_value_updated($value){
+    public function quill_value_updated($value): void
+    {
         $this->postContent = $value;
     }
 
@@ -52,12 +53,13 @@ class AddNew extends Component
         $this->cats = $this->categoryService->getAllCategories();
     }
 
-    public function mount()
+    public function mount(): void
     {
+        
         $this->loadCategories();
     }
 
-    public function setStatusAndSave($status)
+    public function setStatusAndSave($status): void
     {
         $this->postStatus = $status;
     
@@ -71,7 +73,7 @@ class AddNew extends Component
         }
     }
 
-    public function savePost($validatedData)
+    public function savePost($validatedData): void
     {
         $data = array_merge($validatedData, [
             'post_title' => $this->postTitle,
@@ -90,7 +92,7 @@ class AddNew extends Component
         $this->resetForm();
     }
 
-    public function resetForm()
+    public function resetForm(): void
     {
         $this->postTitle = '';
         $this->postContent = '';

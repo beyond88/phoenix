@@ -27,9 +27,9 @@
                                 <div class="fallback">
                                     <input name="file" type="file" multiple="multiple" />
                                 </div>
-                                <div class="dz-preview d-flex flex-wrap">
+                                <div class="dz-preview d-flex flex-wrap" style="display:none !important;">
                                     <div class="border border-translucent bg-body-emphasis rounded-3 d-flex flex-center position-relative me-2 mb-2" style="height:80px;width:80px;">
-                                        <img class="dz-image" src="{{ url('img/products/23.png') }}" alt="..." data-dz-thumbnail="data-dz-thumbnail" />
+                                        <img class="dz-image" src="{{ url('img/products/23.png') }}" alt="..." data-dz-thumbnail="data-dz-thumbnail"/>
                                         <a class="dz-remove text-body-quaternary" href="#!" data-dz-remove="data-dz-remove">
                                             <span data-feather="x"></span>
                                         </a>
