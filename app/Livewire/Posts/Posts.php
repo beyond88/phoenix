@@ -7,158 +7,33 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Services\PostService;
 use App\Services\categoryService;
-use App\Models\PostCategory;
+use App\Models\Terms;
 use Carbon\Carbon;
 
 class Posts extends Component
 {
     use WithPagination;
 
-     /**
-     * Array to hold category items.
-     *
-     * @var array
-     */
     public $cats;
-
-    /**
-     * Array to hold post items.
-     *
-     * @var array
-     */
     public $postItems = [];
-
-    /**
-     * Number of posts per page.
-     *
-     * @var int
-     */
-    public $perPage = 3;
-
-    /**
-     * Current page for post pagination.
-     *
-     * @var int
-     */
+    public $perPage = 20;
     public $currentPage = 1;
-
-    /**
-     * Total number of post items.
-     *
-     * @var int
-     */
     public $totalPostCount = 0;
-
-    /**
-     * Boolean flag indicating if more pages are available.
-     *
-     * @var bool
-     */
     public $hasMorePages = true;
-
-    /**
-     * Total number of publish post items.
-     *
-     * @var int
-     */
     public $publish = 0;
-
-    /**
-     * Total number of draft post items.
-     *
-     * @var int
-     */
     public $draft = 0;
-
-    /**
-     * Search query for filtering posts.
-     *
-     * @var string
-     */
     public string $search = '';
-
-    /**
-     * Flag to select or deselect all media items.
-     *
-     * @var bool
-     */
     public $selectAll = false;
-
-    /**
-     * Array of selected media IDs.
-     *
-     * @var array
-     */
     public $selectedPosts = [];
-
-    /**
-     * Selected bulk action.
-     *
-     * @var string
-     */
     public $bulkAction = '';
-
-    /**
-     * Collection of months for filtering by date.
-     *
-     * @var mixed
-     */
     public $months;
-
-    /**
-     * The name of the selected category.
-     *
-     * @var string
-     */
-    public $selectedCategoryName = 'Category'; // Default display text
-
-    /**
-     * The ID of the selected category.
-     *
-     * @var int
-     */
-    public $selectedCategoryId = 0; // Default ID for "All Categories"
-
-    /**
-     * The name of the selected category.
-     *
-     * @var string
-     */
-    public $selectedDateName = 'All Dates'; // Default display text
-
-    /**
-     * The ID of the selected date.
-     *
-     * @var string
-     */
-    public $selectedDate = 'all'; // Default date for "All dates"
-
-    /**
-     * The ID of the selected category.
-     *
-     * @var string
-     */
-    public $postStatus = 'all'; // Default status for "All posts"
-
-    /**
-     * Service for handling post-related operations.
-     *
-     * @var PostService
-     */
+    public $selectedCategoryName = 'Category';
+    public $selectedCategoryId = 0;
+    public $selectedDateName = 'All Dates';
+    public $selectedDate = 'all';
+    public $postStatus = 'all';
     protected $postService;
-
-    /**
-     * Service for handling category-related operations.
-     *
-     * @var CategoryService
-     */
     protected $categoryService;
-
-    /**
-     * Service for handling message-related operations.
-     *
-     * @var MessageService
-     */
     protected $messageService;
 
     /**
@@ -409,7 +284,7 @@ class Posts extends Component
     {
         $this->postItems = collect($this->postItems)->filter(function($item) use ($id) {
             return $item['id'] != $id;
-        })->toArray(); // Make sure to convert the collection back to an array
+        })->toArray();
     }
     
     /**

@@ -10,7 +10,6 @@ class TermRelationship extends Model
     use HasFactory;
 
     protected $table = 'term_relationships';
-    protected $primaryKey = 'object_id'; // Assuming 'object_id' is your primary key
     public $incrementing = false;
     protected $keyType = 'string';
     protected $fillable = [

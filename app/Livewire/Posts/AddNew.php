@@ -5,8 +5,9 @@ use App\Services\PostService;
 use App\Services\CategoryService;
 use App\Services\MessageService;
 use Livewire\Component;
-use App\Models\PostCategory;
+use App\Models\Terms;
 use App\Livewire\Quill;
+use Illuminate\Support\Facades\Log;
 
 class AddNew extends Component
 {
@@ -83,11 +84,18 @@ class AddNew extends Component
         ]);
 
         $postId = $this->postService->create($data);
-        $termRelationships = [
-            'object_id' => $postId,
-            'term_taxonomy_id' => $this->categoryId,
-        ];
-        $this->postService->termRelationships($termRelationships);
+        $termTaxonomy = $this->postService->getTermTaxonomy($this->categoryId);
+        
+        if ($termTaxonomy) {
+            // Log::info('TermTaxonomy found', ['TermTaxonomy' => $termTaxonomy->term_taxonomy_id]);
+            $termRelationships = [
+                'object_id' => $postId,
+                'term_taxonomy_id' => $termTaxonomy->term_taxonomy_id,
+            ];
+            $this->postService->addTermRelationships($termRelationships);
+            $this->postService->increementTermTaxonomyCount($termTaxonomy->term_taxonomy_id);
+        }
+
         $this->messageService->message('success', 'Post saved successfully.');
         $this->resetForm();
     }

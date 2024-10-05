@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('term_relationships', function (Blueprint $table) {
-            $table->bigIncrements('object_id')->unsigned();
-            $table->bigInteger('term_taxonomy_id')->unsigned();
-            $table->integer('term_order')->default(0);
-            $table->index('term_taxonomy_id');
+        Schema::create('options', function (Blueprint $table) {
+            $table->id();
+            $table->string('option_name')->unique();
+            $table->longText('option_value')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('term_relationships');
+        Schema::dropIfExists('options');
     }
 };

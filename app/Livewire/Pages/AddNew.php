@@ -6,7 +6,7 @@ use App\Services\PostService;
 use App\Services\CategoryService;
 use App\Services\MessageService;
 use Livewire\Component;
-use App\Models\PostCategory;
+use App\Models\Terms;
 use App\Livewire\Quill;
 
 class AddNew extends Component

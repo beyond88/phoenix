@@ -3,7 +3,7 @@
 namespace App\Livewire\Posts;
 
 use Livewire\Component;
-use App\Models\PostCategory;
+use App\Models\Terms;
 use App\Services\CategoryService;
 use App\Services\MessageService;
 

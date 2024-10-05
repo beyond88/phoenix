@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Post;
 use App\Models\TermRelationship;
+use App\Models\TermTaxonomy;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -11,6 +12,7 @@ use App\Http\Controllers\Exception;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class PostService extends Controller
 {
@@ -25,32 +27,24 @@ class PostService extends Controller
     public function formatDate($timestamp = null, $timezone = null)
     {
         try {
-            // If no timestamp is provided, use current time
             if ($timestamp === null) {
                 $date = Carbon::now();
             } else {
-                // Create a date from the provided timestamp string
                 $date = Carbon::parse($timestamp);
             }
 
-            // If a timezone is provided, set it
             if ($timezone) {
                 try {
                     $date->setTimezone($timezone);
                 } catch (\Exception $e) {
-                    // If timezone is invalid, fall back to UTC
                     $date->setTimezone('UTC');
                     $timezone = null;
                 }
             } else {
-                // If no timezone is provided, use the application's timezone
-                $date->setTimezone(config('app.timezone')); // Use local app timezone
+                $date->setTimezone(config('app.timezone'));
             }
-
-            // Format the date as "M d, h:i A"
             return $date->format('M d, h:i A');
         } catch (\Exception $e) {
-            // If anything goes wrong, return a fallback string
             return 'Date unavailable';
         }
     }
@@ -67,18 +61,6 @@ class PostService extends Controller
         return $post->id;
     }
 
-    public function termRelationships(array $data) 
-    {
-        return TermRelationship::create($data);
-    }
-
-    public function updateTermRelationships(array $data) 
-    {
-        $termRelationships = TermRelationship::findOrFail($data['object_id']);
-        $termRelationships->update($data);
-        return $termRelationships;
-    }
-
     /**
      * Update an existing post.
      *
@@ -88,7 +70,6 @@ class PostService extends Controller
      */
     public function update(array $data)
     {
-
         $post = Post::findOrFail($data['id']);
         unset($data['id']);
         $post->update($data);
@@ -108,7 +89,6 @@ class PostService extends Controller
     public function delete($id)
     {
         try {
-            // Check if the post exists
             $post = Post::findOrFail($id);
 
             if ($post->post_type === 'page') {
@@ -116,9 +96,22 @@ class PostService extends Controller
             } elseif ($post->post_type === 'post') {
                 $message = 'Post deleted successfully!';
             }
+
+            if ($post->post_type === 'post') {
+                $termTaxonomies = TermRelationship::where('object_id', $id)->get();
+            }
             
             // Delete the post
             $post->delete();
+            
+            if ($post->post_type === 'post') {
+                // delete term relationships with post
+                $this->deleteTermRelationships($id);
+                foreach ($termTaxonomies as $termRelationship) {
+                    // update total post count
+                    $this->decreementTermTaxonomyCount($termRelationship->term_taxonomy_id);
+                }
+            }
     
             return [
                 'success' => true,
@@ -266,5 +259,50 @@ class PostService extends Controller
         ->get();
     }
 
+    /**
+     * Get term taxonomy by term_id
+     *
+     * @param integer
+     * @return array
+     */
+    public function getTermTaxonomy($termId) {
+        return TermTaxonomy::select('term_taxonomy_id', 'term_id', 'taxonomy', 'description', 'count')
+                ->where('term_id', $termId)
+                ->first();
+    }
+
+    public function increementTermTaxonomyCount($termTaxonomyId)
+    {
+        $termTaxonomy = TermTaxonomy::find($termTaxonomyId);
+        if ($termTaxonomy) {
+            $termTaxonomy->increment('count');
+        }
+    }
+
+    public function decreementTermTaxonomyCount($termTaxonomyId)
+    {
+        $termTaxonomy = TermTaxonomy::find($termTaxonomyId);
+        if ($termTaxonomy) {
+            $termTaxonomy->decrement('count');
+        }
+    }
+
+    public function addTermRelationships(array $data)
+    {
+        return TermRelationship::create($data);
+    }
+
+    public function updateTermRelationships(array $data) 
+    {
+        $termRelationships = TermRelationship::findOrFail($data['object_id']);
+        $termRelationships->update($data);
+        return $termRelationships;
+    }
+
+    public function deleteTermRelationships($postId)
+    {
+        $termRelationships = TermRelationship::where('object_id', $postId)->delete();
+        Log::info('term relationships', ['termRelationships' => $termRelationships]);
+    }
 
 }
