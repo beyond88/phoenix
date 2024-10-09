@@ -19,7 +19,7 @@ class AddNew extends Component
     public ?int $mediaId = null;
     public ?int $userId = null;
 
-    protected array $listeners = [
+    protected $listeners = [
         Quill::EVENT_VALUE_UPDATED => 'quillValueUpdated'
     ];
 

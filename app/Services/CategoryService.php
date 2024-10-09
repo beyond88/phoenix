@@ -36,7 +36,8 @@ class CategoryService extends Controller
 
     public function getAllCategories()
     {
-        return Terms::select('*')
+        return Terms::select('terms.*', 'term_taxonomy.taxonomy', 'term_taxonomy.description', 'term_taxonomy.parent', 'term_taxonomy.count')
+            ->leftJoin('term_taxonomy', 'terms.term_id', '=', 'term_taxonomy.term_id')
             ->orderBy('terms.term_id')
             ->get();
     }

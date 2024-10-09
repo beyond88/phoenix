@@ -66,7 +66,7 @@
                                                         {{$cat->slug}}
                                                     </td>
                                                     <td>
-                                                        {{$cat->post_count}}
+                                                        {{$cat->count}}
                                                     </td>
                                                     <td>
                                                         <button wire:click="editCategory({{$cat->term_id}})" class="btn btn-primary me-1 mb-1" type="button">Edit</button>

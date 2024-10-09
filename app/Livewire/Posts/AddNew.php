@@ -56,7 +56,6 @@ class AddNew extends Component
 
     public function mount(): void
     {
-        
         $this->loadCategories();
     }
 

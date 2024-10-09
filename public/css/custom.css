@@ -168,3 +168,7 @@
 #my-awesome-dropzone .fallback{
     display: none;
 }
+
+.form-select{
+    cursor: pointer;
+}
