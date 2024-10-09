@@ -104,3 +104,71 @@
     align-items: center;
     justify-content: center;
 }
+
+.pagination-custom-button button{
+    padding: .5rem .75rem;
+    color: var(--phoenix-secondary-color);
+    font-size: .64rem;
+    margin-left: .25rem;
+    margin-right: .25rem;
+    --phoenix-btn-padding-x: 1.5rem;
+    --phoenix-btn-padding-y: 0.625rem;
+    --phoenix-btn-font-family: ;
+    --phoenix-btn-font-size: 0.8rem;
+    --phoenix-btn-font-weight: 700;
+    --phoenix-btn-line-height: 1.2;
+    --phoenix-btn-color: var(--phoenix-body-color);
+    --phoenix-btn-bg: transparent;
+    --phoenix-btn-border-width: var(--phoenix-border-width);
+    --phoenix-btn-border-color: transparent;
+    --phoenix-btn-border-radius: var(--phoenix-border-radius);
+    --phoenix-btn-hover-border-color: transparent;
+    --phoenix-btn-box-shadow: initial;
+    --phoenix-btn-disabled-opacity: 0.3;
+    --phoenix-btn-focus-box-shadow: 0 0 0 0 rgba(var(--phoenix-btn-focus-shadow-rgb), .5);
+    display: inline-block;
+    padding: var(--phoenix-btn-padding-y) var(--phoenix-btn-padding-x);
+    font-family: var(--phoenix-btn-font-family);
+    font-size: var(--phoenix-btn-font-size);
+    font-weight: var(--phoenix-btn-font-weight);
+    line-height: var(--phoenix-btn-line-height);
+    color: var(--phoenix-btn-color);
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: var(--phoenix-btn-border-width) solid var(--phoenix-btn-border-color);
+    border-radius: var(--phoenix-btn-border-radius);
+    background-color: var(--phoenix-btn-bg);
+    -webkit-box-shadow: var(--phoenix-btn-box-shadow);
+    box-shadow: var(--phoenix-btn-box-shadow);
+    -webkit-transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
+    -o-transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
+}
+
+.pagination-custom-button .page {
+    padding: .5rem .75rem;
+    color: var(--phoenix-secondary-color);
+    font-size: .64rem;
+    margin-left: .25rem;
+    margin-right: .25rem;
+}
+
+.pagination-custom-button li.active .page{
+    color: #fff;
+    background-color: #3874ff;
+}
+
+#my-awesome-dropzone .fallback{
+    display: none;
+}
+
+.form-select{
+    cursor: pointer;
+}

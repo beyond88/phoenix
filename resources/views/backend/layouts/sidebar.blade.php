@@ -1,11 +1,8 @@
 <nav class="navbar navbar-vertical navbar-expand-lg">
    <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
-       <!-- scrollbar removed-->
        <div class="navbar-vertical-content">
            <ul class="navbar-nav flex-column" id="navbarVerticalNav">
-                {{-- Dashboard --}}
                 <li class="nav-item">
-                   <!-- parent pages-->
                    <div class="nav-item-wrapper">
                        <a class="nav-link dropdown-indicator label-1" href="#nv-home" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-home">
                            <div class="d-flex align-items-center">
@@ -23,14 +20,14 @@
                            <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="nv-home">
                                 <li class="collapsed-nav-item-title d-none">Home </li>
                                 <li class="nav-item">
-                                   <a class="nav-link" href="#">
+                                   <a class="nav-link" href="{{ url('admin') }}">
                                        <div class="d-flex align-items-center">
                                            <span class="nav-link-text">Home</span>
                                        </div>
                                    </a>
                                 </li>
                                 <li class="nav-item">
-                                   <a class="nav-link" href="dashboard/crm.html">
+                                   <a class="nav-link" href="{{ url('admin') }}">
                                        <div class="d-flex align-items-center">
                                            <span class="nav-link-text">Update</span>
                                        </div>
@@ -42,13 +39,10 @@
                </li>
 
                <li class="nav-item">
-                   <!-- label-->
                    <p class="navbar-vertical-label">Apps </p>
                    <hr class="navbar-vertical-line" />
-
-                    <!-- Posts: parent pages-->
                     <div class="nav-item-wrapper">
-                        <a class="nav-link dropdown-indicator label-1" href="#nv-posts" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="nv-posts">
+                        <a class="nav-link dropdown-indicator label-1" href="#nv-posts" role="button" data-bs-toggle="collapse" aria-expanded="{{ Request::is('admin/posts*') ? 'true' : 'false' }}" aria-controls="nv-posts">
                             <div class="d-flex align-items-center">
                                 <div class="dropdown-indicator-icon-wrapper">
                                     <span class="fas fa-caret-right dropdown-indicator-icon"></span>
@@ -60,31 +54,31 @@
                             </div>
                         </a>
                         <div class="parent-wrapper label-1">
-                            <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-posts">
+                            <ul class="nav collapse parent {{ Request::is('admin/posts*') ? 'show' : '' }}" data-bs-parent="#navbarVerticalCollapse" id="nv-posts">
                                 <li class="collapsed-nav-item-title d-none">Posts </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('admin/posts') }}">
+                                    <a class="nav-link {{ Request::is('admin/posts') ? 'active' : '' }}" href="{{ url('admin/posts') }}">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">All Posts</span>
                                         </div>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('admin/posts/add') }}">
+                                    <a class="nav-link {{ Request::is('admin/posts/add') ? 'active' : '' }}" href="{{ url('admin/posts/add') }}">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">Add New Post</span>
                                         </div>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('admin/posts/categories') }}">
+                                    <a class="nav-link {{ Request::is('admin/posts/categories') ? 'active' : '' }}" href="{{ url('admin/posts/categories') }}">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">Categories</span>
                                         </div>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('admin/posts/tags') }}">
+                                    <a class="nav-link {{ Request::is('admin/posts/tags') ? 'active' : '' }}" href="{{ url('admin/posts/tags') }}">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">Tags</span>
                                         </div>
@@ -94,7 +88,6 @@
                         </div>
                     </div>
 
-                    <!-- Media: parent pages-->
                     <div class="nav-item-wrapper">
                         <a class="nav-link dropdown-indicator label-1" href="#nv-media" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="nv-media">
                             <div class="d-flex align-items-center">
@@ -108,17 +101,17 @@
                             </div>
                         </a>
                         <div class="parent-wrapper label-1">
-                            <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-media">
+                            <ul class="nav collapse parent {{ Request::is('admin/media*') ? 'show' : '' }}" data-bs-parent="#navbarVerticalCollapse" id="nv-media">
                                 <li class="collapsed-nav-item-title d-none">Media </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('admin/media') }}">
+                                    <a class="nav-link {{ Request::is('admin/media') ? 'active' : '' }}" href="{{ url('admin/media') }}">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">Library</span>
                                         </div>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('admin/media/add') }}">
+                                    <a class="nav-link {{ Request::is('admin/media/add') ? 'active' : '' }}" href="{{ url('admin/media/add') }}">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">Add New Media File</span>
                                         </div>
@@ -128,7 +121,6 @@
                         </div>
                     </div>
 
-                    <!-- Pages: parent pages-->
                     <div class="nav-item-wrapper">
                         <a class="nav-link dropdown-indicator label-1" href="#nv-pages" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="nv-pages">
                             <div class="d-flex align-items-center">
@@ -142,17 +134,17 @@
                             </div>
                         </a>
                         <div class="parent-wrapper label-1">
-                            <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-pages">
+                            <ul class="nav collapse parent {{ Request::is('admin/pages*') ? 'show' : '' }}" data-bs-parent="#navbarVerticalCollapse" id="nv-pages">
                                 <li class="collapsed-nav-item-title d-none">Pages </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('admin/pages') }}">
+                                    <a class="nav-link {{ Request::is('admin/pages') ? 'active' : '' }}" href="{{ url('admin/pages') }}">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">All Pages</span>
                                         </div>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('admin/pages/add') }}">
+                                    <a class="nav-link {{ Request::is('admin/pages/add') ? 'active' : '' }}" href="{{ url('admin/pages/add') }}">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">Add New Page</span>
                                         </div>
@@ -162,7 +154,6 @@
                         </div>
                     </div>
 
-                   <!-- E commerce: parent pages-->
                    <div class="nav-item-wrapper">
                        <a class="nav-link dropdown-indicator label-1" href="#nv-e-commerce" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="nv-e-commerce">
                            <div class="d-flex align-items-center">
@@ -172,29 +163,29 @@
                                <span class="nav-link-icon">
                                    <span data-feather="shopping-cart"></span>
                                </span>
-                               <span class="nav-link-text">E commerce</span>
+                               <span class="nav-link-text">E-commerce</span>
                            </div>
                        </a>
                        <div class="parent-wrapper label-1">
-                           <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-e-commerce">
-                               <li class="collapsed-nav-item-title d-none">E commerce </li>
+                           <ul class="nav collapse parent {{ Request::is('admin/orders*') ? 'show' : '' }}" data-bs-parent="#navbarVerticalCollapse" id="nv-e-commerce">
+                               <li class="collapsed-nav-item-title d-none">E-commerce </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('admin/orders') }}">
+                                    <a class="nav-link {{ Request::is('admin/orders') ? 'active' : '' }}" href="{{ url('admin/orders') }}">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">Orders</span>
                                         </div>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('admin/customers') }}">
+                                    <a class="nav-link {{ Request::is('admin/orders/customers') ? 'active' : '' }}" href="{{ url('admin/orders/customers') }}">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">Customers</span>
                                         </div>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('admin/reports') }}">
+                                    <a class="nav-link {{ Request::is('admin/orders/reports') ? 'active' : '' }}" href="{{ url('admin/orders/reports') }}">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">Reports</span>
                                         </div>
@@ -211,7 +202,6 @@
                        </div>
                    </div>
 
-                   <!-- Products: parent pages-->
                    <div class="nav-item-wrapper">
                        <a class="nav-link dropdown-indicator label-1" href="#nv-CRM" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="nv-CRM">
                            <div class="d-flex align-items-center">
@@ -225,39 +215,35 @@
                            </div>
                        </a>
                        <div class="parent-wrapper label-1">
-                           <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-CRM">
+                           <ul class="nav collapse parent {{ Request::is('admin/products*') ? 'show' : '' }}" data-bs-parent="#navbarVerticalCollapse" id="nv-CRM">
                                <li class="collapsed-nav-item-title d-none">Products </li>
                                <li class="nav-item">
-                                   <a class="nav-link" href="{{ url('admin/products') }}">
+                                   <a class="nav-link {{ Request::is('admin/products') ? 'active' : '' }}" href="{{ url('admin/products') }}">
                                        <div class="d-flex align-items-center">
                                            <span class="nav-link-text">All Products</span>
                                        </div>
                                    </a>
-                                   <!-- more inner pages-->
                                </li>
                                <li class="nav-item">
-                                   <a class="nav-link" href="{{ url('admin/products/add') }}">
+                                   <a class="nav-link {{ Request::is('admin/products/add') ? 'active' : '' }}" href="{{ url('admin/products/add') }}">
                                        <div class="d-flex align-items-center">
                                            <span class="nav-link-text">Add New</span>
                                        </div>
                                    </a>
-                                   <!-- more inner pages-->
                                </li>
                                <li class="nav-item">
-                                   <a class="nav-link" href="{{ url('admin/products/categories') }}">
+                                   <a class="nav-link {{ Request::is('admin/products/categories') ? 'active' : '' }}" href="{{ url('admin/products/categories') }}">
                                        <div class="d-flex align-items-center">
                                            <span class="nav-link-text">Categories</span>
                                        </div>
                                    </a>
-                                   <!-- more inner pages-->
                                 </li>
                                 <li class="nav-item">
-                                   <a class="nav-link" href="{{ url('admin/products/tags') }}">
+                                   <a class="nav-link {{ Request::is('admin/products/tags') ? 'active' : '' }}" href="{{ url('admin/products/tags') }}">
                                        <div class="d-flex align-items-center">
                                            <span class="nav-link-text">Tags</span>
                                        </div>
                                    </a>
-                                   <!-- more inner pages-->
                                 </li>
                                 <li class="nav-item">
                                    <a class="nav-link" href="#">
@@ -265,15 +251,13 @@
                                            <span class="nav-link-text">Attributes</span>
                                        </div>
                                    </a>
-                                   <!-- more inner pages-->
                                 </li>
                                 <li class="nav-item">
-                                   <a class="nav-link" href="{{ url('admin/reviews') }}">
+                                   <a class="nav-link {{ Request::is('admin/products/reviews') ? 'active' : '' }}" href="{{ url('admin/products/reviews') }}">
                                        <div class="d-flex align-items-center">
                                            <span class="nav-link-text">Reviews</span>
                                        </div>
                                    </a>
-                                   <!-- more inner pages-->
                                </li>
                            </ul>
                        </div>
@@ -292,17 +276,17 @@
                             </div>
                         </a>
                         <div class="parent-wrapper label-1">
-                            <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-users">
+                            <ul class="nav collapse parent {{ Request::is('admin/users*') ? 'show' : '' }}" data-bs-parent="#navbarVerticalCollapse" id="nv-users">
                                 <li class="collapsed-nav-item-title d-none">Users </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('admin/users') }}">
+                                    <a class="nav-link {{ Request::is('admin/users') ? 'active' : '' }}" href="{{ url('admin/users') }}">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">All Users</span>
                                         </div>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('admin/users/add') }}">
+                                    <a class="nav-link {{ Request::is('admin/users/add') ? 'active' : '' }}" href="{{ url('admin/users/add') }}">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">Add New User</span>
                                         </div>
@@ -312,7 +296,6 @@
                         </div>
                     </div>
 
-                    <!-- Settings: parent pages-->
                     <div class="nav-item-wrapper">
                         <a class="nav-link dropdown-indicator label-1" href="#nv-settings" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="nv-settings">
                             <div class="d-flex align-items-center">

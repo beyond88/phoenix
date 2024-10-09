@@ -8,9 +8,9 @@
          <div class="col-auto">
             <button class="btn btn-phoenix-secondary me-2 mb-2 mb-sm-0" type="button" wire:click.prevent="cancelCategory()">Discard</button>
             @if ($updateCat)
-                <button class="btn btn-primary mb-2 mb-sm-0" type="button" wire:click.prevent="updateCategory()">Update</button>
+               <button class="btn btn-primary mb-2 mb-sm-0" type="button" wire:click.prevent="updateCategory()">Update</button>
             @else
-                <button class="btn btn-primary mb-2 mb-sm-0" type="button" wire:click.prevent="storeCategory()">Save</button>
+               <button class="btn btn-primary mb-2 mb-sm-0" type="button" wire:click.prevent="storeCategory()">Save</button>
             @endif
          </div>
       </div>
@@ -66,7 +66,7 @@
                                                         {{$cat->slug}}
                                                     </td>
                                                     <td>
-                                                        {{$cat->post_count}}
+                                                        {{$cat->count}}
                                                     </td>
                                                     <td>
                                                         <button wire:click="editCategory({{$cat->term_id}})" class="btn btn-primary me-1 mb-1" type="button">Edit</button>

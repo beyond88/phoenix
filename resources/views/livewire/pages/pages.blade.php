@@ -1,7 +1,7 @@
 <div class="mb-9">
     <div class="row g-3 mb-4">
         <div class="col-auto">
-            <h2 class="mb-0">Posts</h2>
+            <h2 class="mb-0">Pages</h2>
         </div>
     </div>
 
@@ -30,12 +30,13 @@
 
     <ul class="nav nav-links mb-3 mb-lg-2 mx-n3">
         <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#" wire:click.prevent="getPostByStatus('all')"><span>All </span>
+            <a class="nav-link active" aria-current="page" href="#" wire:click.prevent="getPostByStatus('all')">
+                <span>All </span>
                 <span class="text-body-tertiary fw-semibold">
                     @php
                         $sub_total = $this->publish + $this->draft;
-                        $grand_total = $totalPostCount;
-                        if( $sub_total > $totalPostCount ){
+                        $grand_total = $totalPageCount;
+                        if( $sub_total > $totalPageCount ){
                             $grand_total = $sub_total;
                         }
                     @endphp
@@ -43,16 +44,28 @@
                 </span>
             </a>
         </li>
-        <li class="nav-item"><a class="nav-link" href="#" wire:click.prevent="getPostByStatus('publish')"><span>Published </span><span class="text-body-tertiary fw-semibold">({{ $publish }})</span></a></li>
-        <li class="nav-item"><a class="nav-link" href="#" wire:click.prevent="getPostByStatus('draft')"><span>Drafts </span><span class="text-body-tertiary fw-semibold">({{ $draft }})</span></a></li>
-        <li class="nav-item"><a class="nav-link" href="#"><span>Mine</span><span class="text-body-tertiary fw-semibold">(17)</span></a></li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" wire:click.prevent="getPostByStatus('publish')">
+                <span>Published </span><span class="text-body-tertiary fw-semibold">({{ $publish }})</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" wire:click.prevent="getPostByStatus('draft')">
+                <span>Drafts </span><span class="text-body-tertiary fw-semibold">({{ $draft }})</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <span>Mine</span><span class="text-body-tertiary fw-semibold">(17)</span>
+            </a>
+        </li>
     </ul>
-    <div id="posts">
+    <div id="pages">
         <div class="mb-4">
             <div class="d-flex flex-wrap gap-3" style="justify-content:space-between">
                 <div class="d-flex flex-wrap search-box" style="width: 21rem; justify-content:space-between">
                     <form class="position-relative">
-                        <input class="form-control search-input search" type="search" placeholder="Search posts" aria-label="Search" wire:model="search"/>
+                        <input class="form-control search-input search" type="search" placeholder="Search pages" aria-label="Search" wire:model="search"/>
                         <span class="fas fa-search search-box-icon"></span>
                     </form>
                     <button class="btn btn-outline-primary" wire:click="performSearch" wire:loading.attr="disabled">
@@ -64,7 +77,7 @@
                     </button>
                 </div>
                 <div class="ms-xxl-auto">
-                    <button class="btn btn-primary" id="addBtn" onClick="window.location.href='{{ url('admin/posts/add')}}'"><span class="fas fa-plus me-2"></span>Add Post</button>
+                    <button class="btn btn-primary" id="addBtn" onClick="window.location.href='{{ url('admin/pages/add')}}'"><span class="fas fa-plus me-2"></span>Add Page</button>
                 </div>
             </div>
         </div>
@@ -87,22 +100,11 @@
                 <div class="scrollbar overflow-hidden-y">
                     <div class="btn-group position-static" role="group">
                         <div class="btn-group position-static text-nowrap">
-                            <button class="btn btn-phoenix-secondary px-7 flex-shrink-0" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
-                                {{ $selectedCategoryName ?? 'Category' }} <span class="fas fa-angle-down ms-2"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#" wire:click.prevent="selectCategory('All Categories', 0)">All Categories</a></li>
-                                @foreach($cats as $cat)
-                                    <li><a class="dropdown-item" href="#" wire:click.prevent="selectCategory('{{ $cat['name'] }}', {{ $cat['term_id'] }})"> {{ $cat['name'] }}</a></li>
-                                @endforeach
-                            </ul>
-                        </div>
-                        <div class="btn-group position-static text-nowrap">
                             <button class="btn btn-sm btn-phoenix-secondary px-7 flex-shrink-0" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
                                 Date<span class="fas fa-angle-down ms-2"></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#" wire:click.prevent="selectDate('All Dates', 'all')">All Dates</a></li>
+                                <li><a class="dropdown-item" href="{{ url('admin/pages')}}" wire:click.prevent="selectDate('All Dates', 'all')">All Dates</a></li>
                                 @foreach ($this->months as $arc_row)
                                     @if ((int) $arc_row->year === 0)
                                         @continue
@@ -124,7 +126,7 @@
             </div>
             <div class="col-lg-2" style="text-align:right;">
                 <div class="media-toolbar-primary search-form">
-                    {{ $totalPostCount }} item(s)
+                    {{ $totalPageCount }} item(s)
                 </div>
             </div>
         </div>
@@ -141,83 +143,58 @@
                         </th>
                         <th class="sort white-space-nowrap align-middle fs-10" scope="col" style="width:70px;"></th>
                         <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:350px;" data-sort="product">TITLE</th>
-                        <th class="sort align-middle ps-4" scope="col" data-sort="category" style="width:150px;">CATEGORY</th>
                         <th class="sort align-middle ps-4" scope="col" data-sort="vendor" style="width:200px;">AUTHOR</th>
-                        <th class="sort align-middle ps-3" scope="col" data-sort="tags" style="width:250px;">TAGS</th>
-                        <th class="sort align-middle ps-4" scope="col" style="width:50px;">COMMENT</th>
                         <th class="sort align-middle ps-4" scope="col" data-sort="time" style="width:50px;">DATE</th>
                         <th class="sort text-end align-middle pe-0 ps-4" scope="col"></th>
                     </tr>
                     </thead>
                     <tbody class="list" id="products-table-body">
-                        @foreach ($postItems as $post)
-                            @php
-                            if (empty($post['media_name'])){
+
+                        @foreach ( $pageItems as $page )
+                        @php
+                            if (empty($page['media_name'])){
                                 $mediaPath = 'img/placeholders/default.png';
                             } else {
-                                $mediaPath = 'storage/media/' . $post['media_name'];
+                                $mediaPath = 'storage/media/' . $page['media_name'];
                             }
-                            @endphp
-                            <tr class="position-static">
-                                <td class="fs-9 align-middle">
-                                    <div class="form-check mb-0 fs-8">
-                                        <input class="form-check-input" type="checkbox" value="{{ $post['id'] }}" wire:model="selectedPosts"/>
+                        @endphp
+                        <tr class="position-static">
+                            <td class="fs-9 align-middle">
+                                <div class="form-check mb-0 fs-8">
+                                    <input class="form-check-input" type="checkbox" value="{{ $page['id'] }}" wire:model="selectedPages" />
+                                </div>
+                            </td>
+                            <td class="align-middle white-space-nowrap py-0">
+                                <a class="d-block border border-translucent rounded-2" href="{{ url('admin/pages/'.$page['id']) }}">
+                                    <img src="{{ asset($mediaPath) }}" alt="" width="53" />
+                                </a>
+                            </td>
+                            <td class="product align-middle ps-4">
+                                <a class="fw-semibold line-clamp-3 mb-0" href="{{ url('admin/pages/' . $page['id']) }}">{{ $page['post_title'] }}</a>
+                            </td>
+                            <td class="price align-middle white-space-nowrap text-end fw-bold text-body-tertiary ps-4">John Doe</td>
+                            <td class="time align-middle white-space-nowrap text-body-tertiary text-opacity-85 ps-4">{{ $this->formatDate( $page['created_at'] ) }}</td>
+                            <td class="align-middle white-space-nowrap text-end pe-0 ps-4 btn-reveal-trigger">
+                                <div class="btn-reveal-trigger position-static">
+                                    <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs-10"></span></button>
+                                    <div class="dropdown-menu dropdown-menu-end py-2">
+                                        <a class="dropdown-item" href="#!">View</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item text-danger" href="#!" wire:click="deletePage({{ $page['id'] }})">Remove</a>
                                     </div>
-                                </td>
-                                <td class="align-middle white-space-nowrap py-0">
-                                    <a class="d-block border border-translucent rounded-2" href="{{ url('admin/posts/' . $post['id']) }}">
-                                        <img src="{{ asset($mediaPath) }}" alt="" width="53" />
-                                    </a>
-                                </td>
-                                <td class="product align-middle ps-4">
-                                    <a class="fw-semibold line-clamp-3 mb-0" href="{{ url('admin/posts/' . $post['id']) }}">{{ $post['post_title'] }}</a>
-                                </td>
-                                <td class="category align-middle white-space-nowrap text-body-quaternary fs-9 ps-4 fw-semibold">{{ $post['category_name'] }}</td>
-                                <td class="price align-middle white-space-nowrap text-end fw-bold text-body-tertiary ps-4">{{ $post['user_id'] }}</td>
-                                <td class="tags align-middle review pb-2 ps-3" style="min-width:225px;">
-                                    <a class="text-decoration-none" href="#!">
-                                        <span class="badge badge-tag me-2 mb-2">Health</span></a><a class="text-decoration-none" href="#!"><span class="badge badge-tag me-2 mb-2">Exercise</span></a><a class="text-decoration-none" href="#!"><span class="badge badge-tag me-2 mb-2">Discipline</span></a><a class="text-decoration-none" href="#!"><span class="badge badge-tag me-2 mb-2">Lifestyle</span></a><a class="text-decoration-none" href="#!"><span class="badge badge-tag me-2 mb-2">Fitness</span>
-                                    </a>
-                                </td>
-                                <td class="align-middle review fs-8 text-center ps-4">
-                                    <div class="d-toggle-container">
-                                        <div class="d-block-hover"><span class="fas fa-star text-warning"></span></div>
-                                        <div class="d-none-hover"><span class="far fa-star text-warning"></span></div>
-                                    </div>
-                                </td>
-                                <td class="time align-middle white-space-nowrap text-body-tertiary text-opacity-85 ps-4">
-                                    {{ $this->formatDate( $post['created_at'] ) }}
-                                </td>
-                                <td class="align-middle white-space-nowrap text-end pe-0 ps-4 btn-reveal-trigger">
-                                    <div class="btn-reveal-trigger position-static">
-                                        <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs-10"></span></button>
-                                        <div class="dropdown-menu dropdown-menu-end py-2">
-                                            <a class="dropdown-item" href="#!" target="_blank">View</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item text-danger" href="#!" wire:click="deletePost({{ $post['id'] }})">Remove</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-
-                        @if(empty($postItems))
-                        <tr>
-                            <td class="align-middle" colspan="7">
-                                No posts found.
+                                </div>
                             </td>
                         </tr>
-                        @endif
+                        @endforeach
                     </tbody>
                 </table>
             </div>
-
             <div class="row align-items-center justify-content-between py-2 pe-0 fs-9">
                 <div class="col-auto d-flex">
                     <p class="mb-0 d-none d-sm-block me-3 fw-semibold text-body" data-list-info="data-list-info">
-                        {{ empty( $postItems ) ? '0 to 0' : (($currentPage - 1) * $perPage + 1) }} to 
-                        {{ min($currentPage * $perPage, $totalPostCount) }} 
-                        <span class="text-body-tertiary"> Items of </span>{{ $totalPostCount }}
+                        {{ empty( $pageItems ) ? '0 to 0' : (($currentPage - 1) * $perPage + 1) }} to 
+                        {{ min($currentPage * $perPage, $totalPageCount) }} 
+                        <span class="text-body-tertiary"> Items of </span>{{ $totalPageCount }}
                     </p>
                 </div>
     
@@ -229,21 +206,20 @@
                     </button>
 
                     <ul class="mb-0 pagination pagination-custom-button">
-                        @for ($i = 1; $i <= ceil($totalPostCount / $perPage); $i++)
+                        @for ($i = 1; $i <= ceil($totalPageCount / $perPage); $i++)
                             <li class="{{ ($currentPage == $i) ? 'active' : '' }}">
                                 <button class="page" type="button" wire:click="gotoPage({{ $i }})">{{ $i }}</button>
                             </li>
                         @endfor
                     </ul>
 
-                    <button class="page-link {{ ($currentPage == ceil($totalPostCount / $perPage)) ? 'disabled' : '' }}" wire:click="nextPage" {{ ($currentPage == ceil($totalPostCount / $perPage)) ? 'disabled' : '' }}>
+                    <button class="page-link {{ ($currentPage == ceil($totalPageCount / $perPage)) ? 'disabled' : '' }}" wire:click="nextPage" {{ ($currentPage == ceil($totalPageCount / $perPage)) ? 'disabled' : '' }}>
                         <svg class="svg-inline--fa fa-chevron-right" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
                             <path fill="currentColor" d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"></path>
                         </svg>
                     </button>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PostCategory extends Model
+class Terms extends Model
 {
     use HasFactory;
 
-    protected $table = 'post_categories';
+    protected $table = 'terms';
 
     protected $primaryKey = 'term_id';   
 

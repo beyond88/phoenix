@@ -12,9 +12,9 @@ class PagesController extends Controller
         return view('backend.pages.pages');
     }
 
-    public function pageDetails()
+    public function pageDetails($id)
     {
-        return view('backend.pages.details');
+        return view('backend.pages.details', compact('id'));
     }
 
     public function addNewPage()

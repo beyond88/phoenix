@@ -13,15 +13,15 @@ class CreatePostCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('post_categories', function (Blueprint $table) {
+        Schema::create('terms', function (Blueprint $table) {
             $table->bigIncrements('term_id');
             $table->string('name', 200)->default('');
             $table->string('slug', 200)->default('');
         });
 
         // Add indexes with length specification using raw SQL
-        DB::statement('ALTER TABLE post_categories ADD INDEX slug_index (slug(191))');
-        DB::statement('ALTER TABLE post_categories ADD INDEX name_index (name(191))');
+        DB::statement('ALTER TABLE terms ADD INDEX slug_index (slug(191))');
+        DB::statement('ALTER TABLE terms ADD INDEX name_index (name(191))');
     }
 
     /**
@@ -31,6 +31,6 @@ class CreatePostCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('post_categories');
+        Schema::dropIfExists('terms');
     }
 }

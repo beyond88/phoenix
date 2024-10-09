@@ -7,123 +7,33 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Services\PostService;
 use App\Services\categoryService;
-use App\Models\PostCategory;
+use App\Models\Terms;
 use Carbon\Carbon;
 
 class Posts extends Component
 {
     use WithPagination;
 
-     /**
-     * Array to hold category items.
-     *
-     * @var array
-     */
     public $cats;
-
-    /**
-     * Array to hold post items.
-     *
-     * @var array
-     */
     public $postItems = [];
-
-    /**
-     * Current page for media pagination.
-     *
-     * @var int
-     */
-    public $page = 1;
-
-    /**
-     * Number of posts per page.
-     *
-     * @var int
-     */
-    public $perPage = 2;
-
-    /**
-     * Total number of post items.
-     *
-     * @var int
-     */
+    public $perPage = 20;
+    public $currentPage = 1;
     public $totalPostCount = 0;
-
-    /**
-     * Boolean flag indicating if more pages are available.
-     *
-     * @var bool
-     */
     public $hasMorePages = true;
-
-    /**
-     * Total number of publish post items.
-     *
-     * @var int
-     */
     public $publish = 0;
-
-    /**
-     * Total number of draft post items.
-     *
-     * @var int
-     */
     public $draft = 0;
-
-    /**
-     * Search query for filtering posts.
-     *
-     * @var string
-     */
     public string $search = '';
-
-    /**
-     * Flag to select or deselect all media items.
-     *
-     * @var bool
-     */
     public $selectAll = false;
-
-    /**
-     * Array of selected media IDs.
-     *
-     * @var array
-     */
     public $selectedPosts = [];
-
-    /**
-     * Selected bulk action.
-     *
-     * @var string
-     */
     public $bulkAction = '';
-
-    /**
-     * Collection of months for filtering by date.
-     *
-     * @var mixed
-     */
     public $months;
-
-    /**
-     * Service for handling post-related operations.
-     *
-     * @var PostService
-     */
+    public $selectedCategoryName = 'Category';
+    public $selectedCategoryId = 0;
+    public $selectedDateName = 'All Dates';
+    public $selectedDate = 'all';
+    public $postStatus = 'all';
     protected $postService;
-
-    /**
-     * Service for handling category-related operations.
-     *
-     * @var CategoryService
-     */
     protected $categoryService;
-
-    /**
-     * Service for handling message-related operations.
-     *
-     * @var MessageService
-     */
     protected $messageService;
 
     /**
@@ -156,7 +66,7 @@ class Posts extends Component
     }    
 
     /**
-     * Updates the 'Select All' flag based on selected media.
+     * Updates the 'Select All' flag based on selected post.
      *
      * @return void
      */
@@ -199,6 +109,8 @@ class Posts extends Component
         $this->handlePostDeletionState();
         $this->dispatch('postDeleted');
         $this->bulkAction = '';
+        $this->loadPosts();
+
     }
 
     public function deletePostById($postId){
@@ -283,6 +195,11 @@ class Posts extends Component
         $filters = [
             'perPage' => $this->perPage,
             'search' => $this->search,
+            'category_id' => $this->selectedCategoryId,
+            'selected_date' => $this->selectedDate,
+            'post_status' => $this->postStatus,
+            'page' => $this->currentPage,
+            'post_type' => 'post',
         ];
 
         $postsData = $this->postService->getAllPosts($filters);
@@ -304,10 +221,11 @@ class Posts extends Component
         })->toArray();
 
         $this->totalPostCount = $postsData['total'];
-        $this->draft = $postsData['draft'];
         $this->publish = $postsData['publish'];
-        $this->hasMorePages = $postsData['has_more_pages'];
-        $this->paginator = $postsData['paginator'];
+        $this->draft = $postsData['draft'];
+
+        $this->currentPage = (int)$postsData['current_page'];
+        $this->lastPage = (int)$postsData['last_page'];
     }
 
     /**
@@ -366,7 +284,7 @@ class Posts extends Component
     {
         $this->postItems = collect($this->postItems)->filter(function($item) use ($id) {
             return $item['id'] != $id;
-        })->toArray(); // Make sure to convert the collection back to an array
+        })->toArray();
     }
     
     /**
@@ -376,8 +294,8 @@ class Posts extends Component
      */
     protected function handlePostDeletionState()
     {
-        if (collect($this->postItems)->isEmpty() && $this->page > 1) {
-            $this->page--;
+        if (collect($this->postItems)->isEmpty() && $this->currentPage > 1) {
+            $this->currentPage--;
         }
     }
 
@@ -430,14 +348,105 @@ class Posts extends Component
     }
 
     /**
+     * Advances to the next page.
+     *
+     * @return void
+     */
+    public function nextPage()
+    {
+        if ($this->currentPage < ceil($this->totalPostCount / $this->perPage)) {
+            $this->currentPage++;
+            $this->loadPosts();
+        }
+    }
+
+    /**
+     * Returns to the previous page.
+     *
+     * @return void
+     */
+    public function previousPage()
+    {
+        if ($this->currentPage > 1) {
+            $this->currentPage--;
+            $this->loadPosts();
+        }
+    }
+
+    /**
+     * Navigates to a specified page.
+     *
+     * @param int $page The page number to navigate to.
+     * @return void
+     */
+    public function gotoPage($page)
+    {
+        if ($page >= 1 && $page <= ceil($this->totalPostCount / $this->perPage)) {
+            $this->currentPage = $page;
+            $this->loadPosts();
+        }
+    }
+
+    /**
+     * Performs a search query and reloads the post items.
+     *
+     * @return void
+     */
+    public function performSearch()
+    {
+        $this->page = 1;
+        $this->loadPosts();
+    }
+
+    /**
+     * Selects a category and reloads the associated posts.
+     *
+     * @param string $name The name of the category to select.
+     * @param int $id The ID of the category to select.
+     * @return void
+     */
+    public function selectCategory($name, $id)
+    {
+        $this->selectedCategoryName = $name;
+        $this->selectedCategoryId = $id;
+        $this->loadPosts();
+    }
+
+    /**
+     * Selects a date and reloads the associated posts.
+     *
+     * @param string $name The name of the category to select.
+     * @param int $id The ID of the category to select.
+     * @return void
+     */
+    public function selectDate($name, $date)
+    {
+        $this->selectedDateName = $name;
+        $this->selectedDate = $date;
+        $this->loadPosts();
+    }
+
+    public function getPostByStatus($status)
+    {
+        $this->postStatus = $status;
+        $this->loadPosts();
+    }
+
+    /**
      * Livewire render method.
      *
      * @return \Illuminate\View\View
      */
     public function render()
     {
-        return view('livewire.posts.posts', []);
-    }
 
+        $this->loadMonths();
+        return view('livewire.posts.posts', [
+            'posts' => $this->postItems,
+            'total' => $this->totalPostCount,
+            'page' => $this->currentPage,
+            'lastPage' => ceil($this->totalPostCount / $this->perPage),
+        ]);
+    }
 
 }

@@ -5,8 +5,9 @@ use App\Services\PostService;
 use App\Services\CategoryService;
 use App\Services\MessageService;
 use Livewire\Component;
-use App\Models\PostCategory;
+use App\Models\Terms;
 use App\Livewire\Quill;
+use Illuminate\Support\Facades\Log;
 
 class AddNew extends Component
 {
@@ -27,23 +28,24 @@ class AddNew extends Component
         'postTitle' => 'required|string|max:255',
         'postContent' => 'required|string',
         'postStatus' => 'in:draft,publish',
-        'categoryId' => 'required|exists:post_categories,term_id',
+        'categoryId' => 'required|exists:terms,term_id',
         'mediaId' => 'nullable|exists:media,id',
         'userId' => 'nullable|exists:users,id',
     ];
 
-    protected $postService;
-    protected $categoryService;
-    protected $messageService;
+    private $postService;
+    private $categoryService;
+    private $messageService;
 
-    public function __construct()
+    public function boot(PostService $postService, CategoryService $categoryService, MessageService $messageService): void
     {
-        $this->postService = app(PostService::class);
-        $this->categoryService = app(CategoryService::class);
-        $this->messageService = app(MessageService::class);
+        $this->postService = $postService;
+        $this->categoryService = $categoryService;
+        $this->messageService = $messageService;
     }
 
-    public function quill_value_updated($value){
+    public function quill_value_updated($value): void
+    {
         $this->postContent = $value;
     }
 
@@ -52,12 +54,12 @@ class AddNew extends Component
         $this->cats = $this->categoryService->getAllCategories();
     }
 
-    public function mount()
+    public function mount(): void
     {
         $this->loadCategories();
     }
 
-    public function setStatusAndSave($status)
+    public function setStatusAndSave($status): void
     {
         $this->postStatus = $status;
     
@@ -71,21 +73,33 @@ class AddNew extends Component
         }
     }
 
-    public function savePost($validatedData)
+    public function savePost($validatedData): void
     {
         $data = array_merge($validatedData, [
             'post_title' => $this->postTitle,
             'post_status' => $this->postStatus,
             'post_content' => $this->postContent,
-            'category_id' => $this->categoryId,
             'media_id' => $this->mediaId,
         ]);
-        $this->postService->create($data);
+
+        $postId = $this->postService->create($data);
+        $termTaxonomy = $this->postService->getTermTaxonomy($this->categoryId);
+        
+        if ($termTaxonomy) {
+            // Log::info('TermTaxonomy found', ['TermTaxonomy' => $termTaxonomy->term_taxonomy_id]);
+            $termRelationships = [
+                'object_id' => $postId,
+                'term_taxonomy_id' => $termTaxonomy->term_taxonomy_id,
+            ];
+            $this->postService->addTermRelationships($termRelationships);
+            $this->postService->increementTermTaxonomyCount($termTaxonomy->term_taxonomy_id);
+        }
+
         $this->messageService->message('success', 'Post saved successfully.');
         $this->resetForm();
     }
 
-    public function resetForm()
+    public function resetForm(): void
     {
         $this->postTitle = '';
         $this->postContent = '';
