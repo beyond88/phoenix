@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -17,9 +16,15 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'user_login',       // Login username
+        'user_pass',        // Password (hashed)
+        'user_nicename',    // URL-friendly name
+        'user_email',       // Email address
+        'user_url',         // User's website URL
+        'user_registered',  // Registration date
+        'user_activation_key',  // Activation key (for password resets, etc.)
+        'user_status',      // Status (e.g., for custom status management)
+        'display_name',     // Display name (public name)
     ];
 
     /**
@@ -28,8 +33,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
-        'remember_token',
+        'user_pass',         // Password should be hidden
+        'remember_token',    // Remember me token
     ];
 
     /**
@@ -40,8 +45,17 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'user_registered' => 'datetime', // Cast the registration date as a datetime
         ];
+    }
+
+    /**
+     * Override the password attribute.
+     *
+     * @param string $password
+     */
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['user_pass'] = bcrypt($password); // Hash the password and store it in user_pass
     }
 }
