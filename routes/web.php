@@ -20,3 +20,8 @@ require __DIR__.'/client/product.php';
 require __DIR__.'/client/cart.php';
 require __DIR__.'/client/my-account.php';
 require __DIR__.'/client/auth.php';
+
+// web.php
+Route::post('/generate-password', function () {
+    return response()->json(generate_password( 24 ));
+})->name('password.generate');

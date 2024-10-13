@@ -29,7 +29,7 @@ if (!function_exists('delete_option')) {
     }
 }
 
-if (!function_exists('ph_rand')) :
+if (!function_exists('generate_password')) :
 
     function generate_password( $length = 12, $special_chars = true, $extra_special_chars = false ) {
         $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
