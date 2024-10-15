@@ -13,11 +13,6 @@ use Carbon\Carbon;
 class MediaUploader extends Controller
 {
 
-    /**
-     * Upload media file.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function uploadMedia(Request $request)
     {
        
@@ -45,14 +40,6 @@ class MediaUploader extends Controller
         }
     }
 
-    /**
-     * Check for duplicate filename in media table and storage.
-     *
-     * @param  string  $fileName
-     * @param  string  $extension
-     * @param  string  $newFileName  (optional)
-     * @return bool
-     */
     private function checkForDuplicate($fileName, $extension, $newFileName = null)
     {
         $existingMedia = Media::where('media_name', $fileName.'.'.$extension)->first();
@@ -68,12 +55,6 @@ class MediaUploader extends Controller
         return Storage::disk('public')->exists("media/$fileName.$extension");
     }
 
-    /**
-     * Delete media file.
-     *
-     * @param  Request  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function deleteMedia($id)
     {
         try {
@@ -112,23 +93,19 @@ class MediaUploader extends Controller
             $media = Media::findOrFail($mediaId);
             $filePath = "media/{$media->media_name}";
     
-            // Verify if the file exists
             if (Storage::disk('public')->exists($filePath)) {
-                // Return file for download
                 return response()->download(storage_path("app/public/{$filePath}"));
             } else {
-                // Handle the case where file does not exist
                 return response()->json(['error' => 'File not found.'], 404);
             }
         } catch (\Exception $e) {
-            // Handle other exceptions
             return response()->json(['error' => 'Download failed: ' . $e->getMessage()], 500);
         }
     }
 
     public function getMediaPlaceholderIcon($mediaFileName)
     {
-        // Define supported file types and their corresponding icons
+
         $mediaTypes = [
             'pdf' => 'document.svg',
             'doc' => 'document.svg',
@@ -159,16 +136,12 @@ class MediaUploader extends Controller
             '7z' => 'archive.svg',
         ];
 
-        // Get the file extension
         $extension = strtolower(pathinfo($mediaFileName, PATHINFO_EXTENSION));
-
-        // If the media type is an image (jpg, jpeg, png, gif), return the original media path
         $imageTypes = ['jpg', 'jpeg', 'png', 'gif'];
         if (in_array($extension, $imageTypes)) {
             return $mediaFileName;
         }
 
-        // Otherwise, return the corresponding placeholder icon
         return asset('img/placeholders/' . ($mediaTypes[$extension] ?? 'default.svg'));
     }
 
@@ -192,20 +165,16 @@ class MediaUploader extends Controller
 
     public function humanTimeDiff($from, $to = null)
     {
-        // Set the default value of $to to the current time if it's not provided
+
         if (is_null($to)) {
             $to = Carbon::now();
         } else {
             $to = Carbon::parse($to);
         }
         
-        // Parse the $from value into a Carbon instance
         $from = Carbon::parse($from);
-        
-        // Calculate the difference between the two dates
         $diffInSeconds = $to->diffInSeconds($from);
-        
-        // Determine the appropriate unit of time and format the output
+
         if ($diffInSeconds < 60) {
             $secs = max($diffInSeconds, 1);
             return sprintf(__('%s second|%s seconds'), $secs, $secs);
