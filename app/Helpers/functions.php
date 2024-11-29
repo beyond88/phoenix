@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Support\Facades\Validator;
 use App\Models\Option;
 
 if (!function_exists('add_option')) {
@@ -29,7 +30,7 @@ if (!function_exists('delete_option')) {
     }
 }
 
-if (!function_exists('ph_rand')) :
+if (!function_exists('generate_password')) :
 
     function generate_password( $length = 12, $special_chars = true, $extra_special_chars = false ) {
         $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -119,3 +120,11 @@ if (!function_exists('ph_rand')) :
 		return abs( (int) $value );
 	}
 endif;
+
+function is_email($email) {
+	$validator = Validator::make(['email' => $email], [
+		'email' => 'required|email'
+	]);
+
+	return !$validator->fails();
+}

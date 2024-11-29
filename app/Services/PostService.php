@@ -17,13 +17,6 @@ use Illuminate\Support\Facades\Log;
 class PostService extends Controller
 {
 
-    /**
-     * Formats a timestamp into a human-readable date string.
-     *
-     * @param string $timestamp The timestamp to format (e.g., 'Y-m-d H:i:s').
-     * @param string|null $timezone Optional timezone for formatting. Defaults to the application's timezone if null.
-     * @return string Formatted date string in 'M d, h:i A' format.
-     */
     public function formatDate($timestamp = null, $timezone = null)
     {
         try {
@@ -49,25 +42,12 @@ class PostService extends Controller
         }
     }
 
-    /**
-     * Create a new post.
-     *
-     * @param array $data
-     * @return \App\Models\Post
-     */
     public function create(array $data)
     {
         $post = Post::create($data);
         return $post->id;
     }
 
-    /**
-     * Update an existing post.
-     *
-     * @param \App\Models\Post $post
-     * @param array $data
-     * @return \App\Models\Post
-     */
     public function update(array $data)
     {
         $post = Post::findOrFail($data['id']);
@@ -77,15 +57,6 @@ class PostService extends Controller
         return $post;
     }    
 
-    /**
-     * Deletes a post by its ID.
-     *
-     * This method checks if the provided ID is a valid integer and whether
-     * a post with that ID exists before attempting to delete it.
-     *
-     * @param int $id The ID of the post to delete.
-     * @return bool True if the post was deleted, false otherwise.
-     */
     public function delete($id)
     {
         try {
@@ -101,14 +72,11 @@ class PostService extends Controller
                 $termTaxonomies = TermRelationship::where('object_id', $id)->get();
             }
             
-            // Delete the post
             $post->delete();
             
             if ($post->post_type === 'post') {
-                // delete term relationships with post
                 $this->deleteTermRelationships($id);
                 foreach ($termTaxonomies as $termRelationship) {
-                    // update total post count
                     $this->decreementTermTaxonomyCount($termRelationship->term_taxonomy_id);
                 }
             }
@@ -127,13 +95,6 @@ class PostService extends Controller
         }
     }
 
-    /**
-     * Get all posts with optional search, pagination, and ordering.
-     * Also returns total post count and current page number if paginated.
-     *
-     * @param array $filters Filters like 'perPage', 'page', 'search', and 'orderBy'
-     * @return array Contains posts, total post count, and current page number
-     */
     public function getAllPosts(array $filters = [])
     {
 
@@ -146,7 +107,6 @@ class PostService extends Controller
         }
 
         if (!empty($filters['post_type']) && $filters['post_type'] == "post") {
-            // Join `term_relationships` before joining `terms`.
             $query->join('term_relationships', 'posts.id', '=', 'term_relationships.object_id')
                 ->join('terms', 'term_relationships.term_taxonomy_id', '=', 'terms.term_id')
                 ->addSelect('terms.name as category_name');
@@ -197,15 +157,6 @@ class PostService extends Controller
 
     }
 
-    /**
-     * Get a specific post by its ID, including related media and category details.
-     * Merges post information, media details (if available), and category details into a single array.
-     *
-     * @param int $id The ID of the post to retrieve
-     * @return array|null Returns a merged array of post, media, and category details or null if the post is not found
-     * 
-     * @throws \InvalidArgumentException if the post ID is invalid
-     */
     public function getPostById($id)
     {
 
@@ -244,11 +195,6 @@ class PostService extends Controller
         ];
     }
 
-    /**
-     * Loads distinct months from the media records.
-     *
-     * @return void
-     */
     public function loadMonths()
     {
         return Post::select(DB::raw('YEAR(created_at) as year, MONTH(created_at) as month'))
@@ -259,12 +205,6 @@ class PostService extends Controller
         ->get();
     }
 
-    /**
-     * Get term taxonomy by term_id
-     *
-     * @param integer
-     * @return array
-     */
     public function getTermTaxonomy($termId) {
         return TermTaxonomy::select('term_taxonomy_id', 'term_id', 'taxonomy', 'description', 'count')
                 ->where('term_id', $termId)
