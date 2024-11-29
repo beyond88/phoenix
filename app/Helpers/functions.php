@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Support\Facades\Validator;
 use App\Models\Option;
 
 if (!function_exists('add_option')) {
@@ -119,3 +120,11 @@ if (!function_exists('ph_rand')) :
 		return abs( (int) $value );
 	}
 endif;
+
+function is_email($email) {
+	$validator = Validator::make(['email' => $email], [
+		'email' => 'required|email'
+	]);
+
+	return !$validator->fails();
+}

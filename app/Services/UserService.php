@@ -26,6 +26,20 @@ class UserService extends Controller
         return $exists;
     }
 
+    public function emailExists($email)
+    {
+        $cacheKey = 'email_exists_' . strtolower($email);
+        
+        if (Cache::has($cacheKey)) {
+            return Cache::get($cacheKey);
+        }
+    
+        $exists = User::where('user_email', $email)->exists();
+        Cache::put($cacheKey, $exists, 300);
+    
+        return $exists;
+    }
+
     public function create( array $data )
     {
 
